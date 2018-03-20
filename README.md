@@ -1,2 +1,2 @@
-# Retravel
+# Retravel - Shooter
 -Exécuter le launcher
