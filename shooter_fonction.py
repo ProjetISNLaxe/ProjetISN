@@ -93,7 +93,7 @@ def shooter(fenetre, glitch):
 
 
      while 1 : # les deplacements
-      while perso.vie != 0:
+      while perso.vie != -1:
         for event in pygame.event.get():
             if event.type == QUIT : # quitter le jeux en cliquant sur la croix
                 pygame.quit()
@@ -253,21 +253,45 @@ def shooter(fenetre, glitch):
             miniboss.increment_boule1=0
             perso.inexplosion=True
             perso.explosion_rect=Rect(perso.rect.x-25, perso.rect.y-25, 192,192)
-
-
             if perso.immortel==False:
 
                  perso.vie-=1               #On perd une vie si on est pas immortel
                  perso.immortel=True
+        if perso.mask.overlap(miniboss.boulemask2,(miniboss.boulerect2.x-perso.rect.x,miniboss.boulerect2.y-perso.rect.y)) and miniboss.laser==True and miniboss.canonalive==False:# colision boule miniboss perso
+            perso.inexplosion=True
+            perso.explosion_rect=Rect(perso.rect.x-25, perso.rect.y-25, 192,192)
+            if perso.immortel==False:
+                 perso.vie-=1               #On perd une vie si on est pas immortel
+                 perso.immortel=True
+        if perso.mask.overlap(miniboss.lasermask,(miniboss.laserrect.x-perso.rect.x,miniboss.laserrect.y-perso.rect.y)) and miniboss.laseer==True and miniboss.canonalive==False:# colision boule miniboss perso  
+            print("yess")
+            if perso.immortel==False:
+                 perso.inexplosion=True
+                 perso.explosion_rect=Rect(perso.rect.x-25, perso.rect.y-25, 192,192)
+                 perso.vie-=1               #On perd une vie si on est pas immortel
+                 perso.immortel=True
         ennemi_1.explosionanim()
         ennemi_2.explosionanim()
+
         perso.explosionanim()
         if fond.deplacement1==True:
              fenetre.blit(fond.image1, fond.rect1) #On fais apparaitre le fond
         if fond.deplacement2==True:
              fenetre.blit(fond.image2, fond.rect2)
-
-        fenetre.blit(perso.image,perso.rect)
+        if perso.vie>0:   
+             fenetre.blit(perso.image,perso.rect)
+        if perso.immortel==True and perso.vie>0:
+            position_bulle=Rect(perso.rect.x-12.5, perso.rect.y-12.5,125,125)
+            fenetre.blit(bulle, position_bulle)
+            h+=1
+            if h>280:
+                perso.immortel=False
+                h=0
+        if perso.vie==0:
+                perso.death()
+                fenetre.blit(self.persodeath[0],self.persodeathrect[0])
+                fenetre.blit(self.persodeath[1],self.persodeathrect[1])
+                fenetre.blit(self.persodeath[2],self.persodeathrect[2])
         miniboss.attaque1(score)
         miniboss.attaque3(score)
 
@@ -277,6 +301,11 @@ def shooter(fenetre, glitch):
         elif perso.rect.x>=400+perso.size[0]/2:
             miniboss.persoinzone=False
             miniboss.persoinzone1=True
+
+        if miniboss.laseer==True:
+            fenetre.blit(miniboss.laserimage, (miniboss.boulerect2[0]-4,miniboss.boulerect2[1]+10))
+        if miniboss.laser==True and miniboss.attaque1_moveinvert==False and miniboss.attaque1_movevert==False:
+            fenetre.blit(miniboss.bouleimage2, miniboss.boulerect2)
 
         if score>=SCORE_MINIBOSS and miniboss.alive==True:
             fenetre.blit(miniboss.image, miniboss.rect)
@@ -289,13 +318,7 @@ def shooter(fenetre, glitch):
             fenetre.blit(miniboss.imgcanoncasse, miniboss.rectcanon)
 
 
-        if perso.immortel==True:
-            position_bulle=Rect(perso.rect.x-12.5, perso.rect.y-12.5,125,125)
-            fenetre.blit(bulle, position_bulle)
-            h+=1
-            if h>280:
-                perso.immortel=False
-                h=0
+        
         if ennemi_2.nbrTir>0 and ennemi_2.tir_ok==True and score<SCORE_MINIBOSS:  #On affiche tous les tirs ennemis si ils existent
             for i in range(ennemi_2.nbrTir):
                 ennemi_2.tiry[i]+=6
@@ -336,10 +359,8 @@ def shooter(fenetre, glitch):
         if perso.explosionact==True:
             fenetre.blit(perso.explosion, perso.explosion_rect)
 
-        if miniboss.laseer==True:
-            fenetre.blit(miniboss.laserimage, (miniboss.boulerect2[0]-4,miniboss.boulerect2[1]+10))    
-        if miniboss.laser==True:
-            fenetre.blit(miniboss.bouleimage2, miniboss.boulerect2)
+         
+        
 
         
 
@@ -363,6 +384,7 @@ def shooter(fenetre, glitch):
 
         pygame.display.flip()  #On raffraichis l'ecran
         clock.tick(60)         #60 FPS
-
+        
+      
       pygame.display.flip()
       return

@@ -11,7 +11,7 @@ from constantes import*
 
 
 class personnage(pygame.sprite.Sprite):
-    def __init__(self,fenetre_taille, glitch, nbrVie=5):
+    def __init__(self,fenetre_taille, glitch, nbrVie=1):
         self.glitch=glitch
         super().__init__()
         self.image = pygame.image.load("perso\\N-Ship.png").convert_alpha()
@@ -37,14 +37,28 @@ class personnage(pygame.sprite.Sprite):
             self.maxtir=1000
         self.inexplosion=False
         self.explosionim=[]
+        self.persodeath=[]
+        self.persodeathsize=[]
 
         for i in range (9):
             explosionnom="explosion\\regularExplosion0"+str(i)+".png"
             self.explosionim.append(pygame.image.load(explosionnom).convert_alpha())
+        for i in range (3):
+            anim="perso\\brokennship"+str(i+1)+".png"
+            self.persodeath.append(pygame.image.load(anim).convert_alpha())
+            self.persodeathsize.append(self.persodeath[i].get_size())
+            
+        self.persodeathrect0=self.persodeath[0].get_rect()
+        self.persodeathrect1=self.persodeath[1].get_rect()
+        self.persodeathrect2=self.persodeath[2].get_rect()   
+        self.persodeathrect0=Rect(self.rect.x/2,self.rect.y,self.persodeathsize[0][0],self.persodeathsize[0][1])
+        self.persodeathrect1=(self.rect.x, self.rect.y ,self.persodeathsize[1][0],self.persodeathsize[1][1])
+        self.persodeathrect2=(self.rect.x/3, self.rect.y, self.persodeathsize[2][0],self.persodeathsize[2][1])
         self.explosion=self.explosionim[0]
         self.explosion_rect=self.explosion.get_rect
         self.explosionact=False
         self.p=0
+        self.inc=0
         self.test=False
         self.immortel=False
 
@@ -144,6 +158,16 @@ class personnage(pygame.sprite.Sprite):
                 self.p=0
                 self.explosionact=False
                 self.test=False
+    def death(self):
+        self.inc+=1
+        self.persodeathrect0[0]+=3
+        self.persodeathrect1[0]-=3
+        self.persodeathrect2[0]+=0.5
+        self.persodeathrect0[1]+=2
+        self.persodeathrect1[1]+=1
+        self.persodeathrect2[1]-=3
+        if self.inc==100:
+            self.vie-=1
 
 
 
@@ -305,6 +329,10 @@ class ennemi2(ennemi):
                 self.p=0
                 self.explosionact=False
                 self.test=False
+   
+        
+        
+        
 
 
 
@@ -460,7 +488,7 @@ class clminiboss(pygame.sprite.Sprite):
             self.eclairsizeli.append(self.eclairimageli[i].get_size())
             self.eclairrectli[i]=Rect(253,180,self.eclairsizeli[i][0],self.eclairsizeli[i][1])
             self.eclairmaskli.append(pygame.mask.from_surface(self.eclairimageli[i]))
-
+        
         self.increment_eclair=0
         self.eclairimage=self.eclairimageli[0]
         self.eclairrect=self.eclairrectli[0]
@@ -469,19 +497,22 @@ class clminiboss(pygame.sprite.Sprite):
         self.timea=time.time()
         #LASERRRRR
         self.laserimage=pygame.image.load("ennemi\miniboss\Boss_lazor2.png").convert_alpha()
+        self.laserrect=self.laserimage.get_rect()
+        self.lasermask=pygame.mask.from_surface(self.laserimage)
         self.laser=False
         self.laserload=False
         self.laserattak=False
         self.laserdep=False
         self.test5=True
         self.laseer=False
-        self.timeb=time.time() 
+        self.timeb=time.time()
+        self.timec=0
 
 
     def perdvie(self):
         self.ptVie-=1
     def attaque1(self, score):
-        if score==85 and self.test==True:
+        if score==SCORE_MINIBOSS+5 and self.test==True:
             self.attaque1_movevert=True
             self.test=False
             self.unlimitedpoweer=False
@@ -516,7 +547,7 @@ class clminiboss(pygame.sprite.Sprite):
         if self.nbrTir==15:
             self.rafale=False
 
-        if time.time()-self.timea>5:
+        if time.time()-self.timea>5 and self.laseer==False:
             self.test1=True
             self.tirx=[]
             self.tiry=[]
@@ -660,10 +691,21 @@ class clminiboss(pygame.sprite.Sprite):
                 self.boulerect2.x+=self.boulemove2x
             if time.time()-self.timeb>5:
                 self.boulemove2x=0
-                if self.boulerect2.y>40:
+                if self.boulerect2.y>35:
                    self.boulerect2.y-=1
                 else:
-                   self.laseer=True
+                    if self.attaque1_moveinvert==False and self.attaque1_movevert==False:
+                       self.laseer=True
+                       self.timec=time.time()
+                       self.laserdep=False
+        if self.laseer==True:
+            self.laserrect=self.boulerect2
+            if time.time()-self.timec>4:
+                self.laseer=False
+                self.laserdep=False
+                self.laser=False
+                self.test5=True
+                   
                    
 
         
