@@ -5,7 +5,7 @@
 import pygame
 from pygame.locals import *
 from shooter_fonction import*
-devmode=True
+devmode=False
 from pygame import*
 
 pygame.init()

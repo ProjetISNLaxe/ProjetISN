@@ -264,16 +264,16 @@ def shooter(fenetre, glitch):
                  perso.vie-=1               #On perd une vie si on est pas immortel
                  perso.immortel=True
         if perso.mask.overlap(miniboss.lasermask,(miniboss.laserrect.x-perso.rect.x,miniboss.laserrect.y-perso.rect.y)) and miniboss.laseer==True and miniboss.canonalive==False:# colision boule miniboss perso  
-            print("yess")
             if perso.immortel==False:
                  perso.inexplosion=True
                  perso.explosion_rect=Rect(perso.rect.x-25, perso.rect.y-25, 192,192)
                  perso.vie-=1               #On perd une vie si on est pas immortel
                  perso.immortel=True
+        #On verifie les explosions
         ennemi_1.explosionanim()
         ennemi_2.explosionanim()
-
         perso.explosionanim()
+
         if fond.deplacement1==True:
              fenetre.blit(fond.image1, fond.rect1) #On fais apparaitre le fond
         if fond.deplacement2==True:
@@ -288,10 +288,11 @@ def shooter(fenetre, glitch):
                 perso.immortel=False
                 h=0
         if perso.vie==0:
+                perso.inideath()
                 perso.death()
-                fenetre.blit(self.persodeath[0],self.persodeathrect[0])
-                fenetre.blit(self.persodeath[1],self.persodeathrect[1])
-                fenetre.blit(self.persodeath[2],self.persodeathrect[2])
+                fenetre.blit(perso.persodeath[0],perso.persodeathrect0)
+                fenetre.blit(perso.persodeath[1],perso.persodeathrect1)
+                fenetre.blit(perso.persodeath[2],perso.persodeathrect2)
         miniboss.attaque1(score)
         miniboss.attaque3(score)
 
@@ -380,6 +381,34 @@ def shooter(fenetre, glitch):
         if perso.surchauffe>0:       #On  si on surchauffe ou pas
             perso.surchauffe=surchauffer(perso.surchauffe, surchauffed, fenetre)
 
+        if score>SCORE_MINIBOSS and miniboss.mask.overlap(perso.mask,(perso.rect.x-miniboss.rect.x,perso.rect.y-miniboss.rect.y)) and perso.rect.top<miniboss.rect.bottom and perso.rect.left<miniboss.rect.right and perso.rect.right>miniboss.rect.left and perso.rect.x+perso.size[0]<miniboss.rect.right and perso.rect.x>miniboss.rect.left:
+            perso.rect.y+=VITESSE_PERSO
+            if perso.immortel==False:
+                 perso.inexplosion=True
+                 perso.explosion_rect=Rect(perso.rect.x-25, perso.rect.y-25, 192,192)
+                 perso.vie-=1               #On perd une vie si on est pas immortel
+                 perso.immortel=True
+        if score>SCORE_MINIBOSS and miniboss.maskcanon.overlap(perso.mask,(perso.rect.x-miniboss.rectcanon.x,perso.rect.y-miniboss.rectcanon.y)) and perso.rect.top<miniboss.rectcanon.bottom and perso.rect.left<miniboss.rectcanon.right and perso.rect.right>miniboss.rectcanon.left and perso.rect.x+perso.size[0]<miniboss.rectcanon.right and perso.rect.x>miniboss.rectcanon.left :
+            perso.rect.y+=VITESSE_PERSO
+            if perso.immortel==False:
+                 perso.inexplosion=True
+                 perso.explosion_rect=Rect(perso.rect.x-25, perso.rect.y-25, 192,192)
+                 perso.vie-=1               #On perd une vie si on est pas immortel
+                 perso.immortel=True
+        elif score>SCORE_MINIBOSS and miniboss.maskcanon.overlap(perso.mask,(perso.rect.x-miniboss.rectcanon.x,perso.rect.y-miniboss.rectcanon.y)) and perso.rect.top<miniboss.rectcanon.bottom and perso.rect.x+perso.size[0]>miniboss.rectcanon.right:
+            perso.rect.x+=VITESSE_PERSO
+            if perso.immortel==False:
+                 perso.inexplosion=True
+                 perso.explosion_rect=Rect(perso.rect.x-25, perso.rect.y-25, 192,192)
+                 perso.vie-=1               #On perd une vie si on est pas immortel
+                 perso.immortel=True
+        elif score>SCORE_MINIBOSS and miniboss.maskcanon.overlap(perso.mask,(perso.rect.x-miniboss.rectcanon.x,perso.rect.y-miniboss.rectcanon.y)) and perso.rect.top<miniboss.rectcanon.bottom and perso.rect.x<miniboss.rectcanon.left:
+            perso.rect.x-=VITESSE_PERSO
+            if perso.immortel==False:
+                 perso.inexplosion=True
+                 perso.explosion_rect=Rect(perso.rect.x-25, perso.rect.y-25, 192,192)
+                 perso.vie-=1               #On perd une vie si on est pas immortel
+                 perso.immortel=True
         increment+=1           #On augmente l'incremnent pour les tirs ennemis
 
         pygame.display.flip()  #On raffraichis l'ecran

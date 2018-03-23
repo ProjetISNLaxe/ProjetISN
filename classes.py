@@ -11,7 +11,7 @@ from constantes import*
 
 
 class personnage(pygame.sprite.Sprite):
-    def __init__(self,fenetre_taille, glitch, nbrVie=1):
+    def __init__(self,fenetre_taille, glitch, nbrVie=VIE_PERSO):
         self.glitch=glitch
         super().__init__()
         self.image = pygame.image.load("perso\\N-Ship.png").convert_alpha()
@@ -52,14 +52,15 @@ class personnage(pygame.sprite.Sprite):
         self.persodeathrect1=self.persodeath[1].get_rect()
         self.persodeathrect2=self.persodeath[2].get_rect()   
         self.persodeathrect0=Rect(self.rect.x/2,self.rect.y,self.persodeathsize[0][0],self.persodeathsize[0][1])
-        self.persodeathrect1=(self.rect.x, self.rect.y ,self.persodeathsize[1][0],self.persodeathsize[1][1])
-        self.persodeathrect2=(self.rect.x/3, self.rect.y, self.persodeathsize[2][0],self.persodeathsize[2][1])
+        self.persodeathrect1=Rect(self.rect.x, self.rect.y ,self.persodeathsize[1][0],self.persodeathsize[1][1])
+        self.persodeathrect2=Rect(self.rect.x/3, self.rect.y, self.persodeathsize[2][0],self.persodeathsize[2][1])
         self.explosion=self.explosionim[0]
         self.explosion_rect=self.explosion.get_rect
         self.explosionact=False
         self.p=0
         self.inc=0
         self.test=False
+        self.test1=True
         self.immortel=False
 
 
@@ -158,14 +159,28 @@ class personnage(pygame.sprite.Sprite):
                 self.p=0
                 self.explosionact=False
                 self.test=False
+    def inideath(self):
+        if self.test1==True:
+            self.persodeathrect0=Rect(self.rect.x,self.rect.y,self.persodeathsize[0][0],self.persodeathsize[0][1])
+            self.persodeathrect1=Rect(self.rect.x, self.rect.y ,self.persodeathsize[1][0],self.persodeathsize[1][1])
+            self.persodeathrect2=Rect(self.rect.x, self.rect.y, self.persodeathsize[2][0],self.persodeathsize[2][1])
+            self.test1=False
     def death(self):
         self.inc+=1
-        self.persodeathrect0[0]+=3
-        self.persodeathrect1[0]-=3
-        self.persodeathrect2[0]+=0.5
-        self.persodeathrect0[1]+=2
-        self.persodeathrect1[1]+=1
-        self.persodeathrect2[1]-=3
+        if self.inc<50:
+            self.persodeathrect0.x+=1.5
+            self.persodeathrect1.x-=1.5
+            self.persodeathrect2.x+=0.25
+            self.persodeathrect0.y+=1
+            self.persodeathrect1.y+=0.5
+            self.persodeathrect2.y-=1.5
+        elif self.inc>50:
+            self.persodeathrect0.x+=1.5
+            self.persodeathrect1.x-=0.75
+            self.persodeathrect2.x+=0.125
+            self.persodeathrect0.y+=1
+            self.persodeathrect1.y+=0.25
+            self.persodeathrect2.y-=0.75
         if self.inc==100:
             self.vie-=1
 
@@ -356,7 +371,6 @@ class imfond(pygame.sprite.Sprite):
             self.rect1.y+=VITESSE_FOND
             self.nombreavancement+=VITESSE_FOND
             if self.nombreavancement==3000:
-                print("ok")
                 self.rect1.y-=3000
                 self.deplacement2=True
                 self.deplacement1=False
