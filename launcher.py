@@ -19,6 +19,8 @@ pygame.display.set_icon(icon)
 manoir=pygame.image.load("manoir.png").convert_alpha()
 manoir_obstacles=pygame.image.load("manoir_obstacle.png").convert_alpha()
 perso1=Personnage()
+rectmap=manoir.get_rect()
+rectmap=Rect(-580,-1320,1920,1920)
 fond = []
 for i in range(0, 19):
     if i < 10:
@@ -59,7 +61,7 @@ while 1:
             y = event.pos[1]
         if event.type == MOUSEBUTTONDOWN and event.button == 1:
             if clique == 1:
-                map(fenetre, manoir, manoir_obstacles, perso1)
+                map(fenetre, manoir, manoir_obstacles, perso1, rectmap)
 
     if nfond < 30:
         fenetre.blit(fond[0], (0, 0))
@@ -110,9 +112,11 @@ while 1:
     offset_y0 = 300 - y
     offset_y1 = 400 - y
     offset_y2 = 500 - y
+
     if mask.overlap(bouton0mask, (offset_x, offset_y0)):
         fenetre.blit(lisere, (246, 297))
         clique = 1
+
     elif mask.overlap(bouton1mask, (offset_x, offset_y1)):
         fenetre.blit(lisere, (246, 397))
         clique = 2
