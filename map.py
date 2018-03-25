@@ -18,22 +18,30 @@ def map(fenetre, image, image_obstales, perso):
                     pygame.quit()
                     exit()
         perso.eventkey()
-        if masque.overlap(perso.mask, (perso.rect.x-position.x, perso.rect.y+perso.size[1]-position.y)):
-            perso.allowedT=False
-        else:
-            perso.allowedT=True
-        if masque.overlap(perso.mask, (perso.rect.x-position.x, perso.rect.y-perso.size[1]*2-position.y)):
-            perso.allowedB=False
-        else:
-            perso.allowedB=True
-        if masque.overlap(perso.mask, (perso.rect.x+perso.size[0]*2-position.x, perso.rect.y-position.y)):
-            perso.allowedR=False
-        else:
-            perso.allowedR=True
-        if masque.overlap(perso.mask, (perso.rect.x-perso.size[0]-position.x, perso.rect.y-position.y)):
-            perso.allowedL=False
-        else:
-            perso.allowedL=True
+        for i in range (perso.size[1]):
+            if masque.overlap(perso.mask, (perso.rect.x-position.x, perso.rect.y+i-position.y)):
+                perso.allowedT=False
+                break
+            else:
+                perso.allowedT=True
+        for i in range(perso.size[1]):
+            if masque.overlap(perso.mask, (perso.rect.x-position.x, perso.rect.y-i-position.y)):
+                perso.allowedD=False
+                break
+            else:
+                perso.allowedD=True
+        for i in range (perso.size[0]):
+            if masque.overlap(perso.mask, (perso.rect.x+i-position.x, perso.rect.y-position.y)):
+                perso.allowedR=False
+                break
+            else:
+                perso.allowedR=True
+        for i in range (perso.size[0]):
+            if masque.overlap(perso.mask, (perso.rect.x-i-position.x, perso.rect.y-position.y)):
+                perso.allowedL=False
+                break
+            else:
+                perso.allowedL=True
         fenetre.blit(image, position)
         fenetre.blit(image_obstales, position)
         fenetre.blit(perso.imageperso, perso.rect)
