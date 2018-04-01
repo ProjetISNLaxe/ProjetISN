@@ -170,21 +170,21 @@ class Personnage(pygame.sprite.Sprite):
     def eventkey(self, position, masque, taille):
         self.mask=pygame.mask.from_surface(self.imageperso)
         tkey = pygame.key.get_pressed()
-        if tkey[K_UP] and position.y>=0:
+        if tkey[K_UP] and position.y>=0 or  tkey[K_UP] and self.rect.y>300:
             for i in range(int(self.size[1]/3+5)):
-                if masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - i - position.y)):
+                if masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - i - position.y)) or self.rect.y <=0:
                     break
                 elif i==self.size[1]/3+2:
                     self.moveTop()
-        elif tkey[K_UP] and position.y<0:
+        elif tkey[K_UP] and position.y<=0:
             for i in range(int(self.size[1]/3+5)):
                 if masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y-i)):
                     break
                 elif i==self.size[1]/3+2:
                     self.mapTop(position)
-        if tkey[K_DOWN] and position.y<-taille[1]+600:
+        if tkey[K_DOWN] and position.y<=-taille[1]+600 or tkey[K_DOWN] and self.rect.y<200:
             for i in range(int(self.size[1]/3+5)):
-                if masque.overlap(self.mask, (self.rect.x  - position.x, self.rect.y + 1 - position.y)):
+                if masque.overlap(self.mask, (self.rect.x  - position.x, self.rect.y + 1 - position.y)) or self.rect.y>=600-self.size[1] :
                     break
                 if i==int(self.size[1]/3+2):
                     self.moveDown()
@@ -195,9 +195,9 @@ class Personnage(pygame.sprite.Sprite):
                 if i==int(self.size[1]/3+2):
                     self.mapDown(position)
 
-        if tkey[K_LEFT] and position.x>0:
+        if tkey[K_LEFT] and position.x>=0 or tkey[K_LEFT] and self.rect.x> 400:
             for i in range(int(self.size[0]/3+5)):
-                if masque.overlap(self.mask, (self.rect.x - i - position.x, self.rect.y - position.y)):
+                if masque.overlap(self.mask, (self.rect.x - i - position.x, self.rect.y - position.y)) or self.rect.x <=0:
                     break
                 if i==int(self.size[0]/3+2):
                     self.moveLeft()
@@ -208,9 +208,9 @@ class Personnage(pygame.sprite.Sprite):
                 if i==int(self.size[0]/3+2):
                     self.mapLeft(position)
 
-        if tkey[K_RIGHT] and position.x<-taille[0]+800:
+        if tkey[K_RIGHT] and position.x<=-taille[0]+800 or tkey[K_RIGHT] and self.rect.x<400:
             for i in range(int(self.size[0]/3+5)):
-                if masque.overlap(self.mask, (self.rect.x + i - position.x, self.rect.y - position.y)):
+                if masque.overlap(self.mask, (self.rect.x + i - position.x, self.rect.y - position.y)) or self.rect.x>=800-self.size[0]:
                     break
                 if i==int(self.size[0]/3+2):
                     self.moveRight()
@@ -220,6 +220,30 @@ class Personnage(pygame.sprite.Sprite):
                     break
                 if i==int(self.size[0]/3+2):
                     self.mapRight(position)
+
+        if masque.overlap(self.mask, (self.rect.x-position.x, self.rect.y-position.y)):
+            try:
+                if ((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[0]+position.x-self.rect.x) >= 0:
+                    self.rect.x+=((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[0]+position.x-self.rect.x)
+                elif ((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[0]+position.x-self.rect.x) <= 0:
+                    self.rect.x-=((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[0]+position.x-self.rect.x)
+                if ((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[1]+position.y-self.rect.y) >= 0:
+                    self.rect.y-=((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[1]+position.y-self.rect.y)
+                elif ((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[1]+position.y-self.rect.y) <= 0:
+                    self.rect.y+=((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[1]+position.y-self.rect.y)
+            except:
+                0
+        if position.y<-taille[1]+600:
+            position.y=-taille[1]+600
+        if position.y>0:
+            position.y=0
+        if position.x>0:
+            position.x=0
+        if position.x<-taille[0]+800:
+            position.x=-taille[0]+800
+
+
+
 
 
 

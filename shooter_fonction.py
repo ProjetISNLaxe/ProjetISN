@@ -8,6 +8,7 @@ from math import cos
 from classes import *
 from pygame import *
 from constantes import *
+from sys import exit
 
 
 def surchauffer(surchauffe, surchauffed, fenetre):

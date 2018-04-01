@@ -8,8 +8,9 @@ from shooter_fonction import *
 from perso_classes import *
 from map import *
 from pygame import *
-from option import option
-import sys
+from option import *
+from sys import exit
+
 
 devmode = False
 
@@ -61,11 +62,11 @@ while 1:
     for event in pygame.event.get():
         if event.type == QUIT:  # pour pouvoir quitter le jeux
             pygame.quit()
-            sys.exit()
+            exit()
         if event.type == KEYDOWN:  # les deplacements
             if event.key == K_ESCAPE:
                 pygame.quit()
-                sys.exit()
+                exit()
         if event.type == MOUSEMOTION:  # Si mouvement de souris
             x = event.pos[0]
             y = event.pos[1]

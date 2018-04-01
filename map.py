@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from perso_classes import Personnage
+from sys import exit
 
 
 def map(fenetre):
