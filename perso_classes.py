@@ -8,20 +8,20 @@ class Personnage(pygame.sprite.Sprite):
     def __init__(self):
 
         self.B1 = pygame.image.load("perso/B1.png")
-        self.B2 = pygame.image.load("perso/B2.png")
-        self.B3 = pygame.image.load("perso/B3.png")
+        self.B2 = pygame.image.load("perso/B1.png")
+        self.B3 = pygame.image.load("perso/B1.png")
 
         self.F1 = pygame.image.load("perso/F1.png")
-        self.F2 = pygame.image.load("perso/F2.png")
-        self.F3 = pygame.image.load("perso/F3.png")
+        self.F2 = pygame.image.load("perso/F1.png")
+        self.F3 = pygame.image.load("perso/F1.png")
 
         self.R1 = pygame.image.load("perso/R1.png")
-        self.R2 = pygame.image.load("perso/R2.png")
-        self.R3 = pygame.image.load("perso/R3.png")
+        self.R2 = pygame.image.load("perso/R1.png")
+        self.R3 = pygame.image.load("perso/R1.png")
 
         self.L1 = pygame.image.load("perso/L1.png")
-        self.L2 = pygame.image.load("perso/L2.png")
-        self.L3 = pygame.image.load("perso/L3.png")
+        self.L2 = pygame.image.load("perso/L1.png")
+        self.L3 = pygame.image.load("perso/L1.png")
 
         self.imageperso = self.B1
 
@@ -29,6 +29,9 @@ class Personnage(pygame.sprite.Sprite):
         self.rect = self.imageperso.get_rect()
         self.rect=Rect(400-self.size[0]+16,600-self.size[0],self.size[0], self.size[1])
         self.mask = pygame.mask.from_surface(self.imageperso)
+        goldf=open("save1\\invent\\cpic")
+        self.gold=int(goldf.read())
+        goldf.close()
         self.inc = 0
         self.moveD=False
         self.moveR=False
@@ -52,13 +55,13 @@ class Personnage(pygame.sprite.Sprite):
         if self.inc ==1:
             self.imageperso = self.B1
             self.rect.y -= self.size[1] / 6
-        if self.inc==5:
+        if self.inc==3:
             self.imageperso = self.B2
             self.rect.y -= self.size[1] / 6
-        if self.inc==10:
+        if self.inc==6:
             self.imageperso = self.B3
             self.rect.y -= self.size[1] / 6
-        if self.inc == 15:
+        if self.inc == 9:
             self.inc = 0
             self.moveT=False
 
@@ -67,13 +70,13 @@ class Personnage(pygame.sprite.Sprite):
         if self.inc==1:
             self.imageperso = self.R1
             self.rect.x += self.size[0] / 6
-        if self.inc==5:
+        if self.inc==3:
             self.imageperso = self.R2
             self.rect.x += self.size[0] / 6
-        if self.inc==10:
+        if self.inc==6:
             self.imageperso = self.R3
             self.rect.x += self.size[0] / 6
-        if self.inc == 15:
+        if self.inc == 9:
             self.inc = 0
             self.moveR= False
 
@@ -82,13 +85,13 @@ class Personnage(pygame.sprite.Sprite):
         if self.inc ==1:
             self.imageperso = self.L1
             self.rect.x -= self.size[0] / 6
-        if self.inc==5:
+        if self.inc==3:
             self.imageperso = self.L2
             self.rect.x -= self.size[0] / 6
-        if self.inc==10:
+        if self.inc==6:
             self.imageperso = self.L3
             self.rect.x -= self.size[0] / 6
-        if self.inc == 15:
+        if self.inc == 9:
             self.inc = 0
             self.moveL=False
 
@@ -97,13 +100,13 @@ class Personnage(pygame.sprite.Sprite):
         if self.inc == 1:
             self.imageperso = self.F1
             self.rect.y += self.size[1] / 6
-        if self.inc==5:
+        if self.inc==3:
             self.imageperso = self.F2
             self.rect.y += self.size[1] / 6
-        if self.inc==10:
+        if self.inc==6:
             self.imageperso = self.F3
             self.rect.y += self.size[1] / 6
-        if self.inc ==15:
+        if self.inc ==9:
             self.inc = 0
             self.moveD=False
     def mapDown(self, position):
@@ -111,13 +114,13 @@ class Personnage(pygame.sprite.Sprite):
         if self.inc == 1:
             self.imageperso = self.F1
             position.y -= self.size[1] / 6
-        if self.inc == 5:
+        if self.inc == 3:
             self.imageperso = self.F2
             position.y -= self.size[1] / 6
-        if self.inc == 10:
+        if self.inc == 6:
             self.imageperso = self.F3
             position.y -= self.size[1] / 6
-        if self.inc == 15:
+        if self.inc == 9:
             self.inc = 0
             self.moveDmap = False
 
@@ -126,13 +129,13 @@ class Personnage(pygame.sprite.Sprite):
         if self.inc == 1:
             self.imageperso = self.L1
             position.x += self.size[0] / 6
-        if self.inc == 5:
+        if self.inc == 3:
             self.imageperso = self.L2
             position.x += self.size[0] / 6
-        if self.inc == 10:
+        if self.inc == 6:
             self.imageperso = self.L3
             position.x += self.size[0] / 6
-        if self.inc == 15:
+        if self.inc == 9:
             self.inc = 0
             self.moveLmap = False
 
@@ -141,13 +144,13 @@ class Personnage(pygame.sprite.Sprite):
         if self.inc == 1:
             self.imageperso = self.R1
             position.x -= self.size[0] / 6
-        if self.inc == 5:
+        if self.inc == 3:
             self.imageperso = self.R2
             position.x -= self.size[0] / 6
-        if self.inc == 10:
+        if self.inc == 6:
             self.imageperso = self.R3
             position.x -= self.size[0] / 6
-        if self.inc == 15:
+        if self.inc == 9:
             self.inc = 0
             self.moveRmap = False
 
@@ -156,13 +159,13 @@ class Personnage(pygame.sprite.Sprite):
         if self.inc == 1:
             self.imageperso = self.B1
             position.y += self.size[1] / 6
-        if self.inc == 5:
+        if self.inc == 3:
             self.imageperso = self.B2
             position.y += self.size[1] / 6
-        if self.inc == 10:
+        if self.inc == 6:
             self.imageperso = self.B3
             position.y += self.size[1] / 6
-        if self.inc == 15:
+        if self.inc == 9:
             self.inc = 0
             self.moveTmap = False
 
@@ -224,13 +227,13 @@ class Personnage(pygame.sprite.Sprite):
         if masque.overlap(self.mask, (self.rect.x-position.x, self.rect.y-position.y)):
             try:
                 if ((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[0]+position.x-self.rect.x) >= 0:
-                    self.rect.x+=((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[0]+position.x-self.rect.x)
+                    self.rect.x+=int((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[0]+position.x-self.rect.x)/5
                 elif ((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[0]+position.x-self.rect.x) <= 0:
-                    self.rect.x-=((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[0]+position.x-self.rect.x)
+                    self.rect.x-=int((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[0]+position.x-self.rect.x)/5
                 if ((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[1]+position.y-self.rect.y) >= 0:
-                    self.rect.y-=((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[1]+position.y-self.rect.y)
+                    self.rect.y-=int((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[1]+position.y-self.rect.y)/5
                 elif ((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[1]+position.y-self.rect.y) <= 0:
-                    self.rect.y+=((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[1]+position.y-self.rect.y)
+                    self.rect.y+=int((masque.overlap(self.mask, (self.rect.x - position.x, self.rect.y - position.y)))[1]+position.y-self.rect.y)/5
             except:
                 0
         if position.y<-taille[1]+600:
