@@ -15,7 +15,6 @@ fenetre = pygame.display.set_mode((800, 600))
 
 
 
-
 def menubase(choix, c):
     if choix == 1 and c == True:
         attaque.menu_ = 1
@@ -26,6 +25,8 @@ def menubase(choix, c):
         base.menu_ = 0
         c = False
         choix = 1
+    elif choix == 3 and c == True:
+        combat.etat = "fuite"
     return choix, c
 
 
@@ -47,6 +48,8 @@ def menuobjet(choix, perso, a, c):
         base.menu_ = 1
         objet.menu_ = 0
         a = 1
+    elif choix == 2 and soin.quantite == 0 and a == 0 and c == True:
+        c = False
     elif choix == 1 and resurection.quantite > 0 and a == 0 and c == True:
         if perso == "david":
             if sinatra.active == True and sinatra.vie == 0:
@@ -75,6 +78,8 @@ def menuobjet(choix, perso, a, c):
         base.menu_ = 1
         objet.menu_ = 0
         a = 1
+    elif choix == 2 and resurection.quantite == 0 and a == 0 and c == True:
+        c = False
     return choix, a, c
 
 
@@ -111,7 +116,7 @@ def tourpartour(fenetre):  # fonction principale avec variables
 
     adversaire = "loup"
 
-    while 1:  # la boucle principal
+    while combat.etat=="combatencour":  # la boucle principal
         for event in pygame.event.get():
             if event.type == QUIT:  # pour pouvoir quitter le jeux
                 pygame.quit()
@@ -195,6 +200,7 @@ def tourpartour(fenetre):  # fonction principale avec variables
             if loup.vie <= 0:
                 perso_joueur.xp += 50
                 fermeture_plus_save()
+                combat.etat = "victoire"
 
             if a == 1:
                 affichageanim(d, tour, variableanim)
@@ -249,6 +255,7 @@ def tourpartour(fenetre):  # fonction principale avec variables
             if loup.vie <= 0:
                 david.xp += 50
                 fermeture_plus_save()
+                combat.etat = "victoire"
             if a == 1 or david.taunt > 0:
                 if a == 1:
                     affichageanim(d, tour, variableanim)
@@ -297,6 +304,7 @@ def tourpartour(fenetre):  # fonction principale avec variables
             if loup.vie <= 0:
                 sinatra.xp += 50
                 fermeture_plus_save()
+                combat.etat = "victoire"
             if a == 1:
                 affichageanim(d, tour, variableanim)
                 d = 0
@@ -328,5 +336,6 @@ def tourpartour(fenetre):  # fonction principale avec variables
 
         if david.alive == False and perso_joueur.alive == False and sinatra.alive == False:
             fermeture_plus_save()
+            combat.etat = "mort"
 
         clock.tick(60)
