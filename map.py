@@ -194,7 +194,7 @@ def capitale(fenetre):
                             activefich = open("quetes/pnjrencontre", "w")
                             activefich.write(pnjli[i])
                             activefich.close()
-                        quete.quetes()
+                        quete.quetes(fenetre)
                         break
         except:
             None
@@ -222,7 +222,7 @@ def capitale(fenetre):
                     litransifi = open("quetes/visitelieu", "w")
                     litransifi.write(transili[i])
                     litransifi.close()
-                    quete.quetes()
+                    quete.quetes(fenetre)
                     if transili[i] == "maison_1":
                         maison_1(fenetre)
                         testtime = time.time()
@@ -394,7 +394,7 @@ def maison_1(fenetre):
                         activefich = open("quetes/pnjrencontre", "w")
                         activefich.write(pnjli[i])
                         activefich.close()
-                    quete.quetes()
+                    quete.quetes(fenetre)
                     break
 
         fenetre.blit(perso.imageperso, perso.rect)
@@ -421,7 +421,7 @@ def maison_1(fenetre):
                     litransifi = open("quetes/visitelieu", "w")
                     litransifi.write(transili[i])
                     litransifi.close()
-                    quete.quetes()
+                    quete.quetes(fenetre)
                     global capitaleload
                     if transili[i] == "capitale":
                         if capitaleload:
@@ -582,7 +582,7 @@ def maison_2(fenetre):
                             activefich = open("quetes/pnjrencontre", "w")
                             activefich.write(pnjli[i])
                             activefich.close()
-                        quete.quetes()
+                        quete.quetes(fenetre)
                         break
         except:
             None
@@ -610,7 +610,7 @@ def maison_2(fenetre):
                     litransifi = open("quetes/visitelieu", "w")
                     litransifi.write(transili[i])
                     litransifi.close()
-                    quete.quetes()
+                    quete.quetes(fenetre)
                     global capitaleload
                     if transili[i] == "capitale":
                         if capitaleload:
@@ -774,7 +774,7 @@ def auberge_1F(fenetre):
                             activefich = open("quetes/pnjrencontre", "w")
                             activefich.write(pnjli[i])
                             activefich.close()
-                        quete.quetes()
+                        quete.quetes(fenetre)
                         break
         except:
             None
@@ -802,7 +802,7 @@ def auberge_1F(fenetre):
                     litransifi = open("quetes/visitelieu", "w")
                     litransifi.write(transili[i])
                     litransifi.close()
-                    quete.quetes()
+                    quete.quetes(fenetre)
                     global capitaleload
                     if transili[i] == "capitale":
                         if capitaleload:
@@ -971,7 +971,7 @@ def auberge_2F(fenetre):
                             activefich = open("quetes/pnjrencontre", "w")
                             activefich.write(pnjli[i])
                             activefich.close()
-                        quete.quetes()
+                        quete.quetes(fenetre)
                         break
         except:
             None
@@ -999,7 +999,7 @@ def auberge_2F(fenetre):
                     litransifi = open("quetes/visitelieu", "w")
                     litransifi.write(transili[i])
                     litransifi.close()
-                    quete.quetes()
+                    quete.quetes(fenetre)
                     global auberge_1Fload
                     if transili[i] == "auberge_1F":
                         if auberge_1Fload:
@@ -1162,7 +1162,7 @@ def chateau_1F(fenetre):
                             activefich = open("quetes/pnjrencontre", "w")
                             activefich.write(pnjli[i])
                             activefich.close()
-                        quete.quetes()
+                        quete.quetes(fenetre)
                         break
         except:
             None
@@ -1190,7 +1190,7 @@ def chateau_1F(fenetre):
                     litransifi = open("quetes/visitelieu", "w")
                     litransifi.write(transili[i])
                     litransifi.close()
-                    quete.quetes()
+                    quete.quetes(fenetre)
                     global capitaleload
                     if transili[i] == "capitale":
                         if capitaleload:
@@ -1355,7 +1355,7 @@ def chateau_2F(fenetre):
                             activefich = open("quetes/pnjrencontre", "w")
                             activefich.write(pnjli[i])
                             activefich.close()
-                        quete.quetes()
+                        quete.quetes(fenetre)
                         break
         except:
             None
@@ -1380,7 +1380,7 @@ def chateau_2F(fenetre):
                     litransifi = open("quetes/visitelieu", "w")
                     litransifi.write(transili[i])
                     litransifi.close()
-                    quete.quetes()
+                    quete.quetes(fenetre)
                     global chateau_1Fload
                     if transili[i] == "chateau_1F":
                         if chateau_1Fload:
@@ -1544,7 +1544,7 @@ def chateau_3F(fenetre):
                             activefich = open("quetes/pnjrencontre", "w")
                             activefich.write(pnjli[i])
                             activefich.close()
-                        quete.quetes()
+                        quete.quetes(fenetre)
                         break
         except:
             None
@@ -1572,7 +1572,7 @@ def chateau_3F(fenetre):
                     litransifi = open("quetes/visitelieu", "w")
                     litransifi.write(transili[i])
                     litransifi.close()
-                    quete.quetes()
+                    quete.quetes(fenetre)
                     global chateau_2Fload
                     if transili[i] == "chateau_2F":
                         if chateau_2Fload:
