@@ -41,6 +41,7 @@ def printinvent(fenetre):
     stror=orfi.read()
     orfi.close()
     lior=list(stror)
+    lior.reverse()
     while 1:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -79,12 +80,12 @@ def printinvent(fenetre):
                                     fi.write(str(inventaire[i][1]))
                                     fi.close()
                                     objetinventaireimage[i]=pygame.image.load("inventory/objetinventaire.png").convert_alpha()
-                if event.button==4:
+                if event.button==5:
                     if 287<=testrect.x and 160<=testrect.y and curseurrect.y<558:
                         curseurrect.y += (99/1.5)
                         for i in range (len(objetinventairerect)):
                             objetinventairerect[i][1]-=98
-                if event.button == 5 :
+                if event.button == 4 :
                     if 287 <= testrect.x and 160<=testrect.y and  objetinventairerect[0][1]<160:
                         curseurrect.y -= (98/1.5)
                         for i in range(len(objetinventairerect)):
