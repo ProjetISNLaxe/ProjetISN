@@ -63,7 +63,7 @@ def capitale(fenetre):
     person = persof.read()
     if person == "1":
         perso = persobase()
-    persof.close
+    persof.close()
     mapactives = str("save1\\posmap\\posmapcapitale")
     rectf = open(mapactives, "r")
     carect = rectf.read()
@@ -143,6 +143,15 @@ def capitale(fenetre):
                 if event.key == K_i:
                     pygame.image.save(fenetre, "inventory\\fond.jpg")
                     printinvent(fenetre)
+            if event.type == KEYUP:
+                if event.key == K_DOWN:
+                    perso.imageperso = perso.F1
+                if event.key == K_UP:
+                    perso.imageperso = perso.B1
+                if event.key == K_RIGHT:
+                    perso.imageperso = perso.R1
+                if event.key == K_LEFT:
+                    perso.imageperso = perso.L1
         perso.eventkey(position, masque, taille)
         tkey = pygame.key.get_pressed()
 
@@ -252,7 +261,7 @@ def maison_1(fenetre):
     person = persof.read()
     if person == "1":
         perso = persobase()
-    persof.close
+    persof.close()
     mapactives = str("save1\\posmap\\posmapmaison_1")
     rectf = open(mapactives, "r")
     carect = rectf.read()
@@ -329,6 +338,15 @@ def maison_1(fenetre):
                 if event.key == K_i:
                     pygame.image.save(fenetre, "inventory\\fond.jpg")
                     printinvent(fenetre)
+            if event.type == KEYUP:
+                if event.key == K_DOWN:
+                    perso.imageperso = perso.F1
+                if event.key == K_UP:
+                    perso.imageperso = perso.B1
+                if event.key == K_RIGHT:
+                    perso.imageperso = perso.R1
+                if event.key == K_LEFT:
+                    perso.imageperso = perso.L1
         perso.eventkey(position, masque, taille)
         tkey = pygame.key.get_pressed()
 
@@ -429,7 +447,7 @@ def maison_2(fenetre):
     person = persof.read()
     if person == "1":
         perso = persobase()
-    persof.close
+    persof.close()
     mapactives = str("save1\\posmap\\posmapmaison_2")
     rectf = open(mapactives, "r")
     carect = rectf.read()
@@ -508,6 +526,15 @@ def maison_2(fenetre):
                 if event.key == K_i:
                     pygame.image.save(fenetre, "inventory\\fond.jpg")
                     printinvent(fenetre)
+            if event.type == KEYUP:
+                if event.key == K_DOWN:
+                    perso.imageperso = perso.F1
+                if event.key == K_UP:
+                    perso.imageperso = perso.B1
+                if event.key == K_RIGHT:
+                    perso.imageperso = perso.R1
+                if event.key == K_LEFT:
+                    perso.imageperso = perso.L1
         perso.eventkey(position, masque, taille)
         tkey = pygame.key.get_pressed()
 
@@ -612,7 +639,7 @@ def auberge_1F(fenetre):
     person = persof.read()
     if person == "1":
         perso = persobase()
-    persof.close
+    persof.close()
     mapactives = str("save1\\posmap\\posmapauberge_1F")
     rectf = open(mapactives, "r")
     carect = rectf.read()
@@ -692,6 +719,15 @@ def auberge_1F(fenetre):
                 if event.key == K_i:
                     pygame.image.save(fenetre, "inventory\\fond.jpg")
                     printinvent(fenetre)
+            if event.type == KEYUP:
+                if event.key == K_DOWN:
+                    perso.imageperso = perso.F1
+                if event.key == K_UP:
+                    perso.imageperso = perso.B1
+                if event.key == K_RIGHT:
+                    perso.imageperso = perso.R1
+                if event.key == K_LEFT:
+                    perso.imageperso = perso.L1
         perso.eventkey(position, masque, taille)
         tkey = pygame.key.get_pressed()
 
@@ -801,7 +837,7 @@ def auberge_2F(fenetre):
     person = persof.read()
     if person == "1":
         perso = persobase()
-    persof.close
+    persof.close()
     mapactives = str("save1\\posmap\\posmapauberge_2F")
     rectf = open(mapactives, "r")
     carect = rectf.read()
@@ -880,6 +916,15 @@ def auberge_2F(fenetre):
                 if event.key == K_i:
                     pygame.image.save(fenetre, "inventory\\fond.jpg")
                     printinvent(fenetre)
+            if event.type == KEYUP:
+                if event.key == K_DOWN:
+                    perso.imageperso = perso.F1
+                if event.key == K_UP:
+                    perso.imageperso = perso.B1
+                if event.key == K_RIGHT:
+                    perso.imageperso = perso.R1
+                if event.key == K_LEFT:
+                    perso.imageperso = perso.L1
         perso.eventkey(position, masque, taille)
         tkey = pygame.key.get_pressed()
 
@@ -983,7 +1028,7 @@ def chateau_1F(fenetre):
     person = persof.read()
     if person == "1":
         perso = persobase()
-    persof.close
+    persof.close()
     mapactives = str("save1\\posmap\\posmapchateau_1F")
     rectf = open(mapactives, "r")
     carect = rectf.read()
@@ -1062,6 +1107,15 @@ def chateau_1F(fenetre):
                 if event.key == K_i:
                     pygame.image.save(fenetre, "inventory\\fond.jpg")
                     printinvent(fenetre)
+            if event.type == KEYUP:
+                if event.key == K_DOWN:
+                    perso.imageperso = perso.F1
+                if event.key == K_UP:
+                    perso.imageperso = perso.B1
+                if event.key == K_RIGHT:
+                    perso.imageperso = perso.R1
+                if event.key == K_LEFT:
+                    perso.imageperso = perso.L1
         perso.eventkey(position, masque, taille)
         tkey = pygame.key.get_pressed()
 
@@ -1167,7 +1221,7 @@ def chateau_2F(fenetre):
     person = persof.read()
     if person == "1":
         perso = persobase()
-    persof.close
+    persof.close()
     mapactives = str("save1\\posmap\\posmapchateau_2F")
     rectf = open(mapactives, "r")
     carect = rectf.read()
@@ -1246,6 +1300,15 @@ def chateau_2F(fenetre):
                 if event.key == K_i:
                     pygame.image.save(fenetre, "inventory\\fond.jpg")
                     printinvent(fenetre)
+            if event.type == KEYUP:
+                if event.key == K_DOWN:
+                    perso.imageperso = perso.F1
+                if event.key == K_UP:
+                    perso.imageperso = perso.B1
+                if event.key == K_RIGHT:
+                    perso.imageperso = perso.R1
+                if event.key == K_LEFT:
+                    perso.imageperso = perso.L1
         perso.eventkey(position, masque, taille)
         tkey = pygame.key.get_pressed()
 
@@ -1294,7 +1357,6 @@ def chateau_2F(fenetre):
             None
         fenetre.blit(perso.imageperso, perso.rect)
         fenetre.blit(image_dessus, position)
-
 
         if tkey[K_e] and time.time() - testtime > 0.5:
             for i in range(len(transili)):
@@ -1348,7 +1410,7 @@ def chateau_3F(fenetre):
     person = persof.read()
     if person == "1":
         perso = persobase()
-    persof.close
+    persof.close()
     mapactives = str("save1\\posmap\\posmapchateau_3F")
     rectf = open(mapactives, "r")
     carect = rectf.read()
@@ -1427,6 +1489,15 @@ def chateau_3F(fenetre):
                 if event.key == K_i:
                     pygame.image.save(fenetre, "\\screenshot.jpg")
                     printinvent(fenetre)
+                if event.type == KEYUP:
+                    if event.key == K_DOWN:
+                        perso.imageperso = perso.F1
+                    if event.key == K_UP:
+                        perso.imageperso = perso.B1
+                    if event.key == K_RIGHT:
+                        perso.imageperso = perso.R1
+                    if event.key == K_LEFT:
+                        perso.imageperso = perso.L1
         perso.eventkey(position, masque, taille)
         tkey = pygame.key.get_pressed()
 
