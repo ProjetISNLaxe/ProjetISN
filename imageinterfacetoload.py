@@ -15,4 +15,9 @@ curseurmask=pygame.mask.from_surface(curseur)
 
 police=pygame.font.SysFont("monospace", 15)
 objetinventairerect = []
+listechiffre = []
+taillechiffre=[]
+for i in range (10):
+    listechiffre.append(pygame.image.load("inventory\\chiffre\\chiffre0"+str(i)+".png").convert_alpha())
+consommable=["pomme","nbsoin", "mana", "nbresurect"]
 
