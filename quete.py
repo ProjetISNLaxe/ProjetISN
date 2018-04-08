@@ -86,6 +86,7 @@ def snake(fenetre):
         clock.tick(10)
         for event in pygame.event.get():
             if event.type == QUIT:
+                pygame.quit()
                 sys.exit(0)
             elif event.type == KEYDOWN:
                 if event.key == K_UP and direction != 0:
