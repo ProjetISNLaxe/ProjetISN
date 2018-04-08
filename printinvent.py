@@ -8,10 +8,30 @@ def printinvent(fenetre):
     follow = False
     curseurrect.x=769
     curseurrect.y=145
-    objetinventairerect = []
+    inventairefi=open("save1\\inventaire", "r")
+    objetinventaireimage = []
+    inventairestr=inventairefi.read().split(",")
+    for i in range(10):
+        objetinventaireimage.append(pygame.image.load("inventory\\objetinventaire.png").convert_alpha())
+        objetinventairerect.append(Rect(287, 160 + 99 * i, 461,98 ))
+    bandeauhaut = pygame.image.load("inventory\\bandeaumoney+quete.png").convert_alpha()
+    inventairefi.close()
+    inventaire=[]
+    for i in range (len(inventairestr)):
+        inventaire.append([inventairestr[i]])
+        for i in range (len(inventaire)):
+            fi=open("save1\\objet\\"+inventaire[i][0], "r")
+            inventaire[i].append(int(fi.read()))
+            fi.close()
+    for i in range (len(inventaire)):
+        inventaire[i][0]=pygame.image.load("inventory\\objets\\"+inventaire[i][0]+".png").convert_alpha()
     quetefi = open("quetes\\active", "r")
     queteactive=quetefi.read()
     queteactive =queteactive.capitalize()
+    inventairemask=[]
+    inventairerect=[]
+    for i in range (len(inventaire)):
+        inventairemask.append(pygame.mask.from_surface(inventaire[i][0]))
     quetefi.close()
     if queteactive != "":
         missionfi=open("quetes\\"+queteactive+"\\toprint")
@@ -35,15 +55,27 @@ def printinvent(fenetre):
                     curseurrect.y -= 98/1.5
                     for i in range(len(objetinventairerect)):
                         objetinventairerect[i][1] +=98
-
-            if event.type == MOUSEBUTTONDOWN:
-                if testmask.overlap(curseurmask,(curseurrect.x-testrect.x, curseurrect.x-testrect.x)):
-                    follow=True
-            if event.type == MOUSEBUTTONUP:
-                follow=False
             if event.type==MOUSEMOTION:
                 testrect.x=event.pos[0]
                 testrect.y=event.pos[1]
+            if event.type == MOUSEBUTTONDOWN:
+                if testmask.overlap(curseurmask,(curseurrect.x-testrect.x, curseurrect.y-testrect.y)):
+                    follow=True
+                if event.button==3:
+                    if 287<=testrect.x<360:
+                        for i in range (len (objetinventairerect)):
+                            if testrect.colliderect(objetinventairerect[i]) and inventaire[i][1]>0:
+                                inventaire[i][1]-=1
+                                inventairefi = open("save1\\inventaire", "r")
+                                inventairestr = inventairefi.read().split(",")
+                                inventairefi.close()
+                                fi=open("save1\\objet\\"+inventairestr[i], "w")
+                                fi.write(str(inventaire[i][1]))
+                                fi.close()
+                                objetinventaireimage[i]=pygame.image.load("inventory\\objetinventaire.png").convert_alpha()
+            if event.type == MOUSEBUTTONUP:
+                follow=False
+
 
 
 
@@ -54,9 +86,8 @@ def printinvent(fenetre):
         fenetre.blit(interfaceinvent,(288,70))
         fenetre.blit(stuff_actuel,(0,263))
         for i in range (10):
-            objetinventairerect.append([287, 160+99*i])
             if objetinventairerect[i][1]>=150:
-                fenetre.blit(objetinventaire, objetinventairerect[i])
+                fenetre.blit(objetinventaireimage[i], objetinventairerect[i])
         if follow==True:
             if 558>=curseurrect.y>=145:
                 savecurseur=curseurrect.y
@@ -70,6 +101,9 @@ def printinvent(fenetre):
             curseurrect.y=145
         if queteactive!="":
            bandeauhaut.blit(police.render(queteactive + " : "+ mission, False, (53,255,251)), (10,10))
+        for i in range (len(inventaire)):
+            objetinventaireimage[i].blit(inventaire[i][0], (10,8))
+            objetinventaireimage[i].blit(police.render("Quantitée : "+str(inventaire[i][1]), False, (40, 191, 188)), (95, 10))
 
         fenetre.blit(curseur, curseurrect)
         clock.tick()
