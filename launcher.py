@@ -17,7 +17,7 @@ devmode = False
 
 pygame.init()
 clock = pygame.time.Clock()
-fullscreen=open("option\\fullscreen", "r")
+fullscreen=open("option/fullscreen", "r")
 fullscreenread=fullscreen.read()
 fullscreen.close()
 if fullscreenread == "0":
@@ -57,7 +57,7 @@ if devmode:
 clique = 0
 
 while 1:
-    save = open("save1\\save", "r")
+    save = open("save1/save", "r")
     passshooter = int(save.read())
     save.close()
     for event in pygame.event.get():

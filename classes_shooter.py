@@ -14,7 +14,7 @@ class personnage(pygame.sprite.Sprite):
     def __init__(self,fenetre_taille, glitch, nbrVie=VIE_PERSO):
         self.glitch=glitch
         super().__init__()
-        self.image = pygame.image.load("shooter\\perso\\N-Ship.png").convert_alpha()
+        self.image = pygame.image.load("shooter/perso/N-Ship.png").convert_alpha()
         self.rect = self.image.get_rect()
         self.mask=pygame.mask.from_surface(self.image)
         self.size=self.image.get_size()
@@ -41,10 +41,10 @@ class personnage(pygame.sprite.Sprite):
         self.persodeathsize=[]
 
         for i in range (9):
-            explosionnom="shooter\\explosion\\regularExplosion0"+str(i)+".png"
+            explosionnom="shooter/explosion/regularExplosion0"+str(i)+".png"
             self.explosionim.append(pygame.image.load(explosionnom).convert_alpha())
         for i in range (3):
-            anim="shooter\\perso\\brokennship"+str(i+1)+".png"
+            anim="shooter/perso/brokennship"+str(i+1)+".png"
             self.persodeath.append(pygame.image.load(anim).convert_alpha())
             self.persodeathsize.append(self.persodeath[i].get_size())
             
@@ -203,14 +203,14 @@ class ennemi(pygame.sprite.Sprite):
 
 class ennemi1(ennemi):
     def __init__(self, fenetre_taille):
-        ennemi.__init__(self, "shooter\\ennemi\ennemi_1.png")
+        ennemi.__init__(self, "shooter/ennemi\ennemi_1.png")
         self.alive=False
         self.rect.x = fenetre_taille[0]/2-self.size[0]/2   #Position initiale du Premier ennemi
         self.alive==True
         self.inexplosion=False
         self.explosionim=[]
         for i in range (9):
-            explosionnom="shooter\\explosion\\regularExplosion0"+str(i)+".png"
+            explosionnom="shooter/explosion/regularExplosion0"+str(i)+".png"
             self.explosionim.append(pygame.image.load(explosionnom).convert_alpha())
         self.explosion=self.explosionim[0]
         self.explosion_rect=self.explosion.get_rect
@@ -266,7 +266,7 @@ class ennemi1(ennemi):
 
 class ennemi2(ennemi):
     def __init__(self, fenetre_taille):
-        ennemi.__init__(self, "shooter\\ennemi\ennemi_2.png")
+        ennemi.__init__(self, "shooter/ennemi\ennemi_2.png")
         self.alive=False
         self.rect=Rect(75,-self.size[1],self.size[0],self.size[1])      #Position initiale du deuxieme ennemi
         self.tir_ok=False
@@ -277,7 +277,7 @@ class ennemi2(ennemi):
         self.inexplosion=False
         self.explosionim=[]
         for i in range (9):
-            explosionnom="shooter\\explosion\\regularExplosion0"+str(i)+".png"
+            explosionnom="shooter/explosion/regularExplosion0"+str(i)+".png"
             self.explosionim.append(pygame.image.load(explosionnom).convert_alpha())
         self.explosion=self.explosionim[0]
         self.explosion_rect=self.explosion.get_rect
@@ -348,8 +348,8 @@ class ennemi2(ennemi):
 class imfond(pygame.sprite.Sprite):
     def __init__(self, fenetre_taille, *groups):
         super().__init__(*groups)
-        self.image1=pygame.image.load("shooter\\HUD\space.png").convert()
-        self.image2=pygame.image.load("shooter\\HUD\space.png").convert()
+        self.image1=pygame.image.load("shooter/HUD\space.png").convert()
+        self.image2=pygame.image.load("shooter/HUD\space.png").convert()
         self.rect1=self.image1.get_rect()
         self.rect2=self.image2.get_rect()
         self.rect1.y=-3000
@@ -382,7 +382,7 @@ class imfond(pygame.sprite.Sprite):
 class clminiboss(pygame.sprite.Sprite):
     def __init__(self, fenetre_taille):
         super().__init__()
-        self.image = pygame.image.load("shooter\\ennemi\miniboss\mini_boss.png").convert_alpha()
+        self.image = pygame.image.load("shooter/ennemi\miniboss\mini_boss.png").convert_alpha()
         self.rect = self.image.get_rect()
         self.size=self.image.get_size()
         self.rect.x+=fenetre_taille[0]/2-self.size[0]/2
@@ -406,8 +406,8 @@ class clminiboss(pygame.sprite.Sprite):
         self.tirx=[]
         self.tiry=[]
         self.nbrTir=0
-        self.imgcanon=pygame.image.load("shooter\\ennemi\miniboss\miniboss_ailes.png").convert_alpha()
-        self.imgcanoncasse=pygame.image.load("shooter\\ennemi\miniboss\Boss wings broken.png").convert_alpha()
+        self.imgcanon=pygame.image.load("shooter/ennemi\miniboss\miniboss_ailes.png").convert_alpha()
+        self.imgcanoncasse=pygame.image.load("shooter/ennemi\miniboss\Boss wings broken.png").convert_alpha()
         self.maskcanon=pygame.mask.from_surface(self.imgcanon)
         self.maskcanoncasse=pygame.mask.from_surface(self.imgcanoncasse)
         self.rectcanon=self.imgcanon.get_rect()
@@ -420,7 +420,7 @@ class clminiboss(pygame.sprite.Sprite):
         self.boulemaskli=[]
         self.persoinzone=False
         for k in range (3):
-            bouleimage="shooter\\ennemi\\miniboss\\sprite_energyball"+str(k)+".png"
+            bouleimage="shooter/ennemi/miniboss/sprite_energyball"+str(k)+".png"
             self.bouleimageli.append(pygame.image.load(bouleimage).convert_alpha())
             self.boulerectli.append(self.bouleimageli[k].get_rect())
             self.boulesizeli.append(self.bouleimageli[k].get_size())
@@ -447,14 +447,14 @@ class clminiboss(pygame.sprite.Sprite):
         self.boulesizeli2=[]
         self.boulemaskli2=[]
         for m in range (3):
-            bouleimage="shooter\\ennemi\\miniboss\\sprite_energyball"+str(m)+".png"
+            bouleimage="shooter/ennemi/miniboss/sprite_energyball"+str(m)+".png"
             self.bouleimageli1.append(pygame.image.load(bouleimage).convert_alpha())
             self.boulerectli1.append(self.bouleimageli1[m].get_rect())
             self.boulesizeli1.append(self.bouleimageli1[m].get_size())
             self.boulerectli1[m]=Rect(515,110,self.boulesizeli1[m][0],self.boulesizeli1[m][1])
             self.boulemaskli1.append(pygame.mask.from_surface(self.bouleimageli1[m]))
         for m in range (3):
-            bouleimage="shooter\\ennemi\\miniboss\\sprite_energyball"+str(m)+".png"
+            bouleimage="shooter/ennemi/miniboss/sprite_energyball"+str(m)+".png"
             self.bouleimageli2.append(pygame.image.load(bouleimage).convert_alpha())
             self.boulerectli2.append(self.bouleimageli2[m].get_rect())
             self.boulesizeli2.append(self.bouleimageli2[m].get_size())
@@ -488,7 +488,7 @@ class clminiboss(pygame.sprite.Sprite):
         self.eclairsizeli=[]
         self.eclairmaskli=[]
         for i in range(5):
-            eclairnom="shooter\\ennemi\\miniboss\\eclair\\eclair_"+str(i+1)+".png"
+            eclairnom="shooter/ennemi/miniboss/eclair/eclair_"+str(i+1)+".png"
             self.eclairimageli.append(pygame.image.load(eclairnom).convert_alpha())
             self.eclairrectli.append(self.eclairimageli[i].get_rect())
             self.eclairsizeli.append(self.eclairimageli[i].get_size())
@@ -502,7 +502,7 @@ class clminiboss(pygame.sprite.Sprite):
 
         self.timea=time.time()
         #LASERRRRR
-        self.laserimage=pygame.image.load("shooter\\ennemi\miniboss\Boss_lazor2.png").convert_alpha()
+        self.laserimage=pygame.image.load("shooter/ennemi\miniboss\Boss_lazor2.png").convert_alpha()
         self.laserrect=self.laserimage.get_rect()
         self.lasermask=pygame.mask.from_surface(self.laserimage)
         self.laser=False

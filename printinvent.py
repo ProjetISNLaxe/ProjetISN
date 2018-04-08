@@ -4,28 +4,28 @@ from sys import exit
 from imageinterfacetoload import *
 def printinvent(fenetre):
     clock = pygame.time.Clock()
-    fond = pygame.image.load("inventory\\fond.jpg").convert()
+    fond = pygame.image.load("inventory/fond.jpg").convert()
     follow = False
     curseurrect.x=769
     curseurrect.y=145
-    inventairefi=open("save1\\inventaire", "r")
+    inventairefi=open("save1/inventaire", "r")
     objetinventaireimage = []
     inventairestr=inventairefi.read().split(",")
     for i in range(10):
-        objetinventaireimage.append(pygame.image.load("inventory\\objetinventaire.png").convert_alpha())
+        objetinventaireimage.append(pygame.image.load("inventory/objetinventaire.png").convert_alpha())
         objetinventairerect.append(Rect(287, 160 + 99 * i, 461,98 ))
-    bandeauhaut = pygame.image.load("inventory\\bandeaumoney+quete.png").convert_alpha()
+    bandeauhaut = pygame.image.load("inventory/bandeaumoney+quete.png").convert_alpha()
     inventairefi.close()
     inventaire=[]
     for i in range (len(inventairestr)):
         inventaire.append([inventairestr[i]])
         for j in range (len(inventaire)):
-            fi=open("save1\\objet\\"+inventaire[i][0], "r")
+            fi=open("save1/objet/"+inventaire[i][0], "r")
             inventaire[i].append(int(fi.read()))
             fi.close()
     for i in range (len(inventaire)):
-        inventaire[i][0]=pygame.image.load("inventory\\objets\\"+inventaire[i][0]+".png").convert_alpha()
-    quetefi = open("quetes\\active", "r")
+        inventaire[i][0]=pygame.image.load("inventory/objets/"+inventaire[i][0]+".png").convert_alpha()
+    quetefi = open("quetes/active", "r")
     queteactive=quetefi.read()
     queteactive =queteactive.capitalize()
     inventairemask=[]
@@ -34,10 +34,10 @@ def printinvent(fenetre):
         inventairemask.append(pygame.mask.from_surface(inventaire[i][0]))
     quetefi.close()
     if queteactive != "":
-        missionfi=open("quetes\\"+queteactive+"\\toprint")
+        missionfi=open("quetes/"+queteactive+"/toprint")
         mission=missionfi.read()
         missionfi.close()
-    orfi=open("save1\\invent\\cpic", "r")
+    orfi=open("save1/invent/cpic", "r")
     stror=orfi.read()
     orfi.close()
     lior=list(stror)
@@ -65,20 +65,20 @@ def printinvent(fenetre):
             if event.type == MOUSEBUTTONDOWN:
                 if testmask.overlap(curseurmask,(curseurrect.x-testrect.x, curseurrect.y-testrect.y)):
                     follow=True
-                if event.button==3:
+                if event.button==2:
                     if 287<=testrect.x<360:
                         for i in range (len (objetinventairerect)):
                             if testrect.colliderect(objetinventairerect[i]) and inventaire[i][1]>0:
 
-                                inventairefi = open("save1\\inventaire", "r")
+                                inventairefi = open("save1/inventaire", "r")
                                 inventairestr = inventairefi.read().split(",")
                                 inventairefi.close()
                                 if inventairestr[i] in consommable:
                                     inventaire[i][1] -= 1
-                                    fi=open("save1\\objet\\"+inventairestr[i], "w")
+                                    fi=open("save1/objet/"+inventairestr[i], "w")
                                     fi.write(str(inventaire[i][1]))
                                     fi.close()
-                                    objetinventaireimage[i]=pygame.image.load("inventory\\objetinventaire.png").convert_alpha()
+                                    objetinventaireimage[i]=pygame.image.load("inventory/objetinventaire.png").convert_alpha()
                 if event.button==4:
                     if 287<=testrect.x and 160<=testrect.y and curseurrect.y<558:
                         curseurrect.y += (99/1.5)

@@ -7,36 +7,33 @@ import time
 from classes_tpt import *
 from save import *
 
-
 pygame.init()
 
 fenetre = pygame.display.set_mode((800, 600))
 
 
-
-
 def menubase(choix, c):
-    if choix == 1 and c == True:
+    if choix == 1 and c:
         attaque.menu_ = 1
         base.menu_ = 0
         c = False
-    elif choix == 2 and c == True:
+    elif choix == 2 and c:
         objet.menu_ = 1
         base.menu_ = 0
         c = False
         choix = 1
-    elif choix == 3 and c == True:
+    elif choix == 3 and c:
         combat.etat = "fuite"
     return choix, c
 
 
 def menuobjet(choix, perso, a, c):
-    if choix == 3 and c == True:
+    if choix == 3 and c:
         c = False
         base.menu_ = 1
         objet.menu_ = 0
         attaque.menu_ = 0
-    elif choix == 2 and soin.quantite > 0 and a == 0 and c == True:
+    elif choix == 2 and soin.quantite > 0 and a == 0 and c:
         if perso == "david":
             david.vie += 50
         elif perso == "joueur":
@@ -48,18 +45,18 @@ def menuobjet(choix, perso, a, c):
         base.menu_ = 1
         objet.menu_ = 0
         a = 1
-    elif choix == 2 and soin.quantite == 0 and a == 0 and c == True:
+    elif choix == 2 and soin.quantite == 0 and a == 0 and c:
         c = False
-    elif choix == 1 and resurection.quantite > 0 and a == 0 and c == True:
+    elif choix == 1 and resurection.quantite > 0 and a == 0 and c:
         if perso == "david":
-            if sinatra.active == True and sinatra.vie == 0:
+            if sinatra.active and sinatra.vie == 0:
                 sinatra.vie = 50
                 sinatra.alive = True
             if perso_joueur.vie == 0:
                 perso_joueur.vie = 75
                 perso_joueur.alive = True
         elif perso == "joueur":
-            if sinatra.active == True and sinatra.vie == 0:
+            if sinatra.active and sinatra.vie == 0:
                 sinatra.vie = 50
                 sinatra.alive = True
             if david.vie == 0:
@@ -78,7 +75,7 @@ def menuobjet(choix, perso, a, c):
         base.menu_ = 1
         objet.menu_ = 0
         a = 1
-    elif choix == 2 and resurection.quantite == 0 and a == 0 and c == True:
+    elif choix == 2 and resurection.quantite == 0 and a == 0 and c:
         c = False
     return choix, a, c
 
@@ -113,10 +110,10 @@ def tourpartour(fenetre):  # fonction principale avec variables
 
     base.menu_ = 1
     sinatra.active = False
-
+    perso_joueur.sortdefeu=True
     adversaire = "loup"
 
-    while combat.etat=="combatencour":  # la boucle principal
+    while combat.etat == "combatencour":  # la boucle principal
         for event in pygame.event.get():
             if event.type == QUIT:  # pour pouvoir quitter le jeux
                 pygame.quit()
@@ -140,20 +137,20 @@ def tourpartour(fenetre):  # fonction principale avec variables
 
         if tour == 1:
             perso = "joueur"
-            if c == True:
-                if choix == 4 and attaque.menu_ == 1 and c == True:
+            if c:
+                if choix == 4 and attaque.menu_ == 1 and c:
                     attaque.menu_ = 0
                     base.menu_ = 1
                     choix = 1
                     c = False
-                if choix == 1 and attaque.menu_ == 1 and c == True:
+                if choix == 1 and attaque.menu_ == 1 and c:
                     d = randint(1, 5) + 10
                     a = 1
                     c = False
                     attaque.menu_ = 0
                     base.menu_ = 1
-                if choix == 3 and attaque.menu_ == 1 and c == True:
-                    if perso_joueur.sortdefeu == True and perso_joueur.mana > 14:
+                if choix == 3 and attaque.menu_ == 1 and c:
+                    if perso_joueur.sortdefeu==True and perso_joueur.mana > 14:
                         d = 15 + perso_joueur.bonusmagique
                         perso_joueur.mana -= 15
                         a = 1
@@ -162,24 +159,24 @@ def tourpartour(fenetre):  # fonction principale avec variables
                         attaque.menu_ = 0
                         base.menu_ = 1
                         variableanim = 1
-                    elif perso_joueur.sortdefeu == True and perso_joueur.mana < 15:
+                    elif perso_joueur.sortdefeu==True and perso_joueur.mana < 15:
                         c = False
                         choix = 1
                         attaque.menu_ = 0
                         base.menu_ = 1
                         a = 1
                         variableanim = 2
-                        perso_joueur.mana =0
+                        perso_joueur.mana = 0
                     else:
                         c = False
                         choix = 1
                         attaque.menu_ = 0
                         base.menu_ = 1
-                        a=1
+                        a = 1
                         variableanim = 2
                         perso_joueur.mana -= 15
 
-                if choix == 2 and attaque.menu_ == 1 and c == True and perso_joueur.fleche > 0:
+                if choix == 2 and attaque.menu_ == 1 and c and perso_joueur.fleche > 0:
                     d = 13
                     perso_joueur.fleche -= 1
                     a = 1
@@ -187,7 +184,9 @@ def tourpartour(fenetre):  # fonction principale avec variables
                     choix = 1
                     attaque.menu_ = 0
                     base.menu_ = 1
-                if choix == 2 and attaque.menu_ == 1 and c == True and perso_joueur.fleche == 0:
+                    variableanim = 3
+
+                if choix == 2 and attaque.menu_ == 1 and c and perso_joueur.fleche == 0:
                     c = False
                     choix = 1
                     attaque.menu_ = 0
@@ -206,8 +205,8 @@ def tourpartour(fenetre):  # fonction principale avec variables
                 affichageanim(d, tour, variableanim)
                 variableanim = 0
                 d = 0
-                if david.alive == False:
-                    if sinatra.alive == True and sinatra.active == True:
+                if not david.alive:
+                    if sinatra.alive and sinatra.active:
                         tour = 3
                     else:
                         tour = 0
@@ -216,7 +215,7 @@ def tourpartour(fenetre):  # fonction principale avec variables
                 c = False
                 a = 0
             if attaque.menu_ == 1:
-                if perso_joueur.sortdefeu == True:
+                if perso_joueur.sortdefeu==True:
                     action = ["l'epee", "arc", "sort de feu", "retour"]
                 else:
                     action = ["l'epee", "arc", "Vous ne savez pas lancer de sort", "retour"]
@@ -228,25 +227,26 @@ def tourpartour(fenetre):  # fonction principale avec variables
 
         elif tour == 2:
             perso = "david"
-            if c == True and david.taunt == 0:
-                if choix == 3 and attaque.menu_ == 1 and c == True:
+            if c and david.taunt == 0:
+                if choix == 3 and attaque.menu_ == 1 and c:
                     attaque.menu_ = 0
                     base.menu_ = 1
                     choix = 1
                     c = False
-                if choix == 1 and attaque.menu_ == 1 and c == True:
+                if choix == 1 and attaque.menu_ == 1 and c:
                     d = randint(10, 20)
                     a = 1
                     c = False
                     attaque.menu_ = 0
                     base.menu_ = 1
-                if choix == 2 and attaque.menu_ == 1 and c == True:
+                if choix == 2 and attaque.menu_ == 1 and c:
                     david.taunt = 3
                     a = 1
                     c = False
                     choix = 1
                     attaque.menu_ = 0
                     base.menu_ = 1
+                    variableanim = 4
                 if objet.menu_ == 1:
                     choix, a, c = menuobjet(choix, perso, a, c)
                 elif base.menu_ == 1:
@@ -260,7 +260,7 @@ def tourpartour(fenetre):  # fonction principale avec variables
                 if a == 1:
                     affichageanim(d, tour, variableanim)
                     d = 0
-                if sinatra.alive == True and sinatra.active == True:
+                if sinatra.alive and sinatra.active:
                     tour = 3
                 else:
                     tour = 0
@@ -277,19 +277,19 @@ def tourpartour(fenetre):  # fonction principale avec variables
 
         elif tour == 3:
             perso = "sinatra"
-            if c == True:
-                if choix == 3 and attaque.menu_ == 1 and c == True:
+            if c:
+                if choix == 3 and attaque.menu_ == 1 and c:
                     attaque.menu_ = 0
                     base.menu_ = 1
                     choix = 1
                     c = False
-                if choix == 1 and attaque.menu_ == 1 and c == True:
+                if choix == 1 and attaque.menu_ == 1 and c:
                     d = 20
                     a = 1
                     c = False
                     attaque.menu_ = 0
                     base.menu_ = 1
-                if choix == 2 and attaque.menu_ == 1 and c == True:
+                if choix == 2 and attaque.menu_ == 1 and c:
                     sinatra.poison = True
                     a = 1
                     c = False
@@ -321,11 +321,11 @@ def tourpartour(fenetre):  # fonction principale avec variables
         elif tour == 0:
             if adversaire == "loup":
                 ennemiloup()
-            if perso_joueur.alive == False:
+            if not perso_joueur.alive:
                 tour = 2
             else:
                 tour = 1
-            if sinatra.poison == True:
+            if sinatra.poison:
                 loup.vie -= 10
 
         if adversaire == "loup":
@@ -334,8 +334,9 @@ def tourpartour(fenetre):  # fonction principale avec variables
 
         affichage(action, tour, choix)
 
-        if david.alive == False and perso_joueur.alive == False and sinatra.alive == False:
+        if not david.alive and not perso_joueur.alive and not sinatra.alive:
             fermeture_plus_save()
             combat.etat = "mort"
+
 
         clock.tick(60)

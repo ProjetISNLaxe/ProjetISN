@@ -12,7 +12,7 @@ class Personnage(pygame.sprite.Sprite):
         self.rect = self.imageperso.get_rect()
         self.rect = Rect(400 - self.size[0] + 16, 600 - self.size[1], self.size[0], self.size[1])
         self.mask = pygame.mask.from_surface(self.imageperso)
-        goldf = open("save1\\invent\\cpic")
+        goldf = open("save1/invent/cpic")
         self.gold = int(goldf.read())
         goldf.close()
         self.inc = 0

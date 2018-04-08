@@ -3,18 +3,19 @@ from pygame.locals import *
 from perso_classes import *
 import sys
 from combatV3 import *
+from shop import *
 import quete
 import time
 from printinvent import printinvent
 
-listequetefi = open("quetes\\liste", "r")
+listequetefi = open("quetes/liste", "r")
 listequete = listequetefi.read().split("\'")
 listequetefi.close()
 
 
 def selecmap(fenetre):
     chargement()
-    fichier = open("save1\\map", "r")
+    fichier = open("save1/map", "r")
     mapactive = fichier.read()
     fichier.close()
     if mapactive == "capitale":
@@ -52,24 +53,24 @@ def capitale(fenetre):
 
     pygame.key.set_repeat(200, 100)  # Répétition des touches
     clock = pygame.time.Clock()
-    image = pygame.image.load("imgmap\\capitale\\capitale.png").convert_alpha()
-    image_obstacles = pygame.image.load("imgmap\\capitale\\capitale_obstacle.png").convert_alpha()
+    image = pygame.image.load("imgmap/capitale/capitale.png").convert_alpha()
+    image_obstacles = pygame.image.load("imgmap/capitale/capitale_obstacle.png").convert_alpha()
     try:
-        image_dessus = pygame.image.load("imgmap\\capitale\\capitale_dessus").convert_alpha()
+        image_dessus = pygame.image.load("imgmap/capitale/capitale_dessus").convert_alpha()
     except:
         None
     position = image.get_rect()
-    persof = open("save1\\perso", "r")
+    persof = open("save1/perso", "r")
     person = persof.read()
     if person == "1":
         perso = persobase()
     persof.close()
-    mapactives = str("save1\\posmap\\posmapcapitale")
+    mapactives = str("save1/posmap/posmapcapitale")
     rectf = open(mapactives, "r")
     carect = rectf.read()
     rectf.close()
     if carect == "":
-        mapactives = str("imgmap\\capitale\\spawncapitale")
+        mapactives = str("imgmap/capitale/spawncapitale")
         rectf = open(mapactives, "r")
         carect = rectf.read()
         rectf.close()
@@ -77,7 +78,7 @@ def capitale(fenetre):
     position.x = int(lirect[0])
     position.y = int(lirect[1])
 
-    rectpersoactif = str("save1\\pospeso\\pospesocapitale")
+    rectpersoactif = str("save1/pospeso/pospesocapitale")
     rectpersof = open(rectpersoactif, "r")
     shaperso = rectpersof.read()
     rectpersof.close()
@@ -92,7 +93,7 @@ def capitale(fenetre):
     masque = pygame.mask.from_surface(image_obstacles)
     taille = image.get_size()
 
-    transi = open("imgmap\\capitale\\transicapitale", "r")
+    transi = open("imgmap/capitale/transicapitale", "r")
     transition = transi.read()
     transi.close()
     transili = transition.split(",")
@@ -101,10 +102,10 @@ def capitale(fenetre):
     testtime = 0
     for i in range(len(transili)):
         imagetransi.append(
-            pygame.image.load("imgmap\\capitale\\capitale_" + transili[i] + ".png"))
+            pygame.image.load("imgmap/capitale/capitale_" + transili[i] + ".png"))
         masktransi.append(pygame.mask.from_surface(imagetransi[i]))
     try:
-        pnji = open("imgmap\\capitale\\pnjcapitale", "r")
+        pnji = open("imgmap/capitale/pnjcapitale", "r")
         pnj = pnji.read()
         pnji.close()
         pnjli = pnj.split(",")
@@ -113,35 +114,35 @@ def capitale(fenetre):
 
         for i in range(len(pnjli)):
             imagepnj.append(
-                pygame.image.load("imgmap\\capitale\\capitale_" + pnjli[i] + ".png"))
+                pygame.image.load("imgmap/capitale/capitale_" + pnjli[i] + ".png"))
             maskpnj.append(pygame.mask.from_surface(imagepnj[i]))
     except:
         None
     myfont = pygame.font.SysFont("monospace", 20)
-    grandemap = pygame.image.load("imgmap\\map.png").convert_alpha()
+    grandemap = pygame.image.load("imgmap/map.png").convert_alpha()
 
     while 1:
         for event in pygame.event.get():
             if event.type == QUIT:  # quitter le jeux en cliquant sur la croix
-                pospeso = open("save1\\pospeso\\pospesocapitale", "w")
+                pospeso = open("save1/pospeso/pospesocapitale", "w")
                 pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                 pospeso.close()
-                posmap = open("save1\\posmap\\posmapcapitale", "w")
+                posmap = open("save1/posmap/Zposmapcapitale", "w")
                 posmap.write(str(position.x) + "," + str(position.y))
                 posmap.close()
                 pygame.quit()
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:  # Echap pour quitter
-                    pospeso = open("save1\\pospeso\\pospesocapitale", "w")
+                    pospeso = open("save1/pospeso/pospesocapitale", "w")
                     pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                     pospeso.close()
-                    posmap = open("save1\\posmap\\posmapcapitale", "w")
+                    posmap = open("save1/posmap/posmapcapitale", "w")
                     posmap.write(str(position.x) + "," + str(position.y))
                     posmap.close()
                     return
                 if event.key == K_i:
-                    pygame.image.save(fenetre, "inventory\\fond.jpg")
+                    pygame.image.save(fenetre, "inventory/fond.jpg")
                     printinvent(fenetre)
             if event.type == KEYUP:
                 if event.key == K_DOWN:
@@ -162,7 +163,7 @@ def capitale(fenetre):
             else:
                 affichetext = False
 
-        goldf = open("save1\\invent\\cpic")
+        goldf = open("save1/invent/cpic")
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
@@ -174,23 +175,23 @@ def capitale(fenetre):
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
 
-                        listequetefi = open("quetes\\liste", "r")
+                        listequetefi = open("quetes/liste", "r")
                         listequete = listequetefi.read().split("\'")
                         listequetefi.close()
 
                         if pnjli[i] in listequete:
-                            activefich = open("quetes\\active", "r")
+                            activefich = open("quetes/active", "r")
                             activeque = activefich.read()
                             activefich.close()
                             if activeque == "":
-                                activefich = open("quetes\\active", "w")
+                                activefich = open("quetes/active", "w")
                                 activefich.write(pnjli[i])
                                 activefich.close()
-                        activefich = open("quetes\\pnjrencontre", "r")
+                        activefich = open("quetes/pnjrencontre", "r")
                         activeque = activefich.read()
                         activefich.close()
                         if activeque != pnjli[i]:
-                            activefich = open("quetes\\pnjrencontre", "w")
+                            activefich = open("quetes/pnjrencontre", "w")
                             activefich.write(pnjli[i])
                             activefich.close()
                         quete.quetes()
@@ -207,18 +208,18 @@ def capitale(fenetre):
             for i in range(len(transili)):
                 if masktransi[i].overlap(perso.mask,
                                          (perso.rect.x - position.x, perso.rect.y - position.y)):
-                    maptransi = open("save1\\map", "w")
+                    maptransi = open("save1/map", "w")
                     maptransi.write(transili[i])
                     maptransi.close()
-                    pospeso = open("save1\\pospeso\\pospesocapitale", "w")
+                    pospeso = open("save1/pospeso/pospesocapitale", "w")
                     pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                     pospeso.close()
-                    posmap = open("save1\\posmap\\posmapcapitale", "w")
+                    posmap = open("save1/posmap/posmapcapitale", "w")
                     posmap.write(str(position.x) + "," + str(position.y))
                     posmap.close()
                     fenetre.blit(myfont.render("CHARGEMENT...", False, (1, 44, 166)), (500, 50))
                     pygame.display.flip()
-                    litransifi = open("quetes\\visitelieu", "w")
+                    litransifi = open("quetes/visitelieu", "w")
                     litransifi.write(transili[i])
                     litransifi.close()
                     quete.quetes()
@@ -250,24 +251,24 @@ def capitale(fenetre):
 def maison_1(fenetre):
     pygame.key.set_repeat(200, 100)  # Répétition des touches
     clock = pygame.time.Clock()
-    image = pygame.image.load("imgmap\\maison_1\\maison_1.png").convert_alpha()
-    image_obstacles = pygame.image.load("imgmap\\maison_1\\maison_1_obstacle.png").convert_alpha()
+    image = pygame.image.load("imgmap/maison_1/maison_1.png").convert_alpha()
+    image_obstacles = pygame.image.load("imgmap/maison_1/maison_1_obstacle.png").convert_alpha()
     try:
-        image_dessus = pygame.image.load("imgmap\\maison_1\\maison_1_dessus").convert_alpha()
+        image_dessus = pygame.image.load("imgmap/maison_1/maison_1_dessus").convert_alpha()
     except:
         None
     position = image.get_rect()
-    persof = open("save1\\perso", "r")
+    persof = open("save1/perso", "r")
     person = persof.read()
     if person == "1":
         perso = persobase()
     persof.close()
-    mapactives = str("save1\\posmap\\posmapmaison_1")
+    mapactives = str("save1/posmap/posmapmaison_1")
     rectf = open(mapactives, "r")
     carect = rectf.read()
     rectf.close()
     if carect == "":
-        mapactives = str("imgmap\\maison_1\\spawnmaison_1")
+        mapactives = str("imgmap/maison_1/spawnmaison_1")
         rectf = open(mapactives, "r")
         carect = rectf.read()
         rectf.close()
@@ -275,7 +276,7 @@ def maison_1(fenetre):
     position.x = int(lirect[0])
     position.y = int(lirect[1])
 
-    rectpersoactif = str("save1\\pospeso\\pospesomaison_1")
+    rectpersoactif = str("save1/pospeso/pospesomaison_1")
     rectpersof = open(rectpersoactif, "r")
     shaperso = rectpersof.read()
     rectpersof.close()
@@ -290,7 +291,7 @@ def maison_1(fenetre):
     masque = pygame.mask.from_surface(image_obstacles)
     taille = image.get_size()
 
-    transi = open("imgmap\\maison_1\\transimaison_1", "r")
+    transi = open("imgmap/maison_1/transimaison_1", "r")
     transition = transi.read()
     transi.close()
     transili = transition.split(",")
@@ -298,9 +299,9 @@ def maison_1(fenetre):
     masktransi = []
     for i in range(len(transili)):
         imagetransi.append(
-            pygame.image.load("imgmap\\maison_1\\maison_1_" + transili[i] + ".png"))
+            pygame.image.load("imgmap/maison_1/maison_1_" + transili[i] + ".png"))
         masktransi.append(pygame.mask.from_surface(imagetransi[i]))
-    pnji = open("imgmap\\maison_1\\pnjmaison_1", "r")
+    pnji = open("imgmap/maison_1/pnjmaison_1", "r")
     pnj = pnji.read()
     pnji.close()
     pnjli = pnj.split(",")
@@ -309,35 +310,38 @@ def maison_1(fenetre):
 
     for i in range(len(pnjli)):
         imagepnj.append(
-            pygame.image.load("imgmap\\maison_1\\maison_1_" + pnjli[i] + ".png"))
+            pygame.image.load("imgmap/maison_1/maison_1_" + pnjli[i] + ".png"))
         maskpnj.append(pygame.mask.from_surface(imagepnj[i]))
 
     myfont = pygame.font.SysFont("monospace", 20)
-    grandemap = pygame.image.load("imgmap\\map.png").convert_alpha()
+    grandemap = pygame.image.load("imgmap/map.png").convert_alpha()
 
     while 1:
         for event in pygame.event.get():
             if event.type == QUIT:  # quitter le jeux en cliquant sur la croix
-                pospeso = open("save1\\pospeso\\pospesomaison_1", "w")
+                pospeso = open("save1/pospeso/pospesomaison_1", "w")
                 pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                 pospeso.close()
-                posmap = open("save1\\posmap\\posmapmaison_1", "w")
+                posmap = open("save1/posmap/posmapmaison_1", "w")
                 posmap.write(str(position.x) + "," + str(position.y))
                 posmap.close()
                 pygame.quit()
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:  # Echap pour quitter
-                    pospeso = open("save1\\pospeso\\pospesomaison_1", "w")
+                    pospeso = open("save1/pospeso/pospesomaison_1", "w")
                     pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                     pospeso.close()
-                    posmap = open("save1\\posmap\\posmapmaison_1", "w")
+                    posmap = open("save1/posmap/posmapmaison_1", "w")
                     posmap.write(str(position.x) + "," + str(position.y))
                     posmap.close()
                     return
                 if event.key == K_i:
-                    pygame.image.save(fenetre, "inventory\\fond.jpg")
+                    pygame.image.save(fenetre, "inventory/fond.jpg")
                     printinvent(fenetre)
+                if event.key == K_p:
+                    pygame.image.save(fenetre, "inventory/fond.jpg")
+                    shop(fenetre)
             if event.type == KEYUP:
                 if event.key == K_DOWN:
                     perso.imageperso = perso.F1
@@ -357,7 +361,7 @@ def maison_1(fenetre):
             else:
                 affichetext = False
 
-        goldf = open("save1\\invent\\cpic")
+        goldf = open("save1/invent/cpic")
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
@@ -368,26 +372,26 @@ def maison_1(fenetre):
 
                 if maskpnj[i].overlap(perso.mask, (perso.rect.x - position.x, perso.rect.y - position.y)):
 
-                    listequetefi = open("quetes\\liste", "r")
+                    listequetefi = open("quetes/liste", "r")
                     listequete = listequetefi.read().split("\'")
                     listequetefi.close()
 
                     if pnjli[i] in listequete:
 
-                        activefich = open("quetes\\active", "r")
+                        activefich = open("quetes/active", "r")
                         activeque = activefich.read()
                         activefich.close()
 
                         if activeque == "":
-                            activefich = open("quetes\\active", "w")
+                            activefich = open("quetes/active", "w")
                             activefich.write(pnjli[i])
                             activefich.close()
 
-                    activefich = open("quetes\\pnjrencontre", "r")
+                    activefich = open("quetes/pnjrencontre", "r")
                     activeque = activefich.read()
                     activefich.close()
                     if activeque != pnjli[i]:
-                        activefich = open("quetes\\pnjrencontre", "w")
+                        activefich = open("quetes/pnjrencontre", "w")
                         activefich.write(pnjli[i])
                         activefich.close()
                     quete.quetes()
@@ -403,18 +407,18 @@ def maison_1(fenetre):
             for i in range(len(transili)):
                 if masktransi[i].overlap(perso.mask,
                                          (perso.rect.x - position.x, perso.rect.y - position.y)):
-                    maptransi = open("save1\\map", "w")
+                    maptransi = open("save1/map", "w")
                     maptransi.write(transili[i])
                     maptransi.close()
-                    pospeso = open("save1\\pospeso\\pospesomaison_1", "w")
+                    pospeso = open("save1/pospeso/pospesomaison_1", "w")
                     pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                     pospeso.close()
-                    posmap = open("save1\\posmap\\posmapmaison_1", "w")
+                    posmap = open("save1/posmap/posmapmaison_1", "w")
                     posmap.write(str(position.x) + "," + str(position.y))
                     posmap.close()
                     fenetre.blit(myfont.render("CHARGEMENT...", False, (1, 44, 166)), (500, 50))
                     pygame.display.flip()
-                    litransifi = open("quetes\\visitelieu", "w")
+                    litransifi = open("quetes/visitelieu", "w")
                     litransifi.write(transili[i])
                     litransifi.close()
                     quete.quetes()
@@ -436,24 +440,24 @@ def maison_1(fenetre):
 def maison_2(fenetre):
     pygame.key.set_repeat(200, 100)  # Répétition des touches
     clock = pygame.time.Clock()
-    image = pygame.image.load("imgmap\\maison_2\\maison_2.png").convert_alpha()
-    image_obstacles = pygame.image.load("imgmap\\maison_2\\maison_2_obstacle.png").convert_alpha()
+    image = pygame.image.load("imgmap/maison_2/maison_2.png").convert_alpha()
+    image_obstacles = pygame.image.load("imgmap/maison_2/maison_2_obstacle.png").convert_alpha()
     try:
-        image_dessus = pygame.image.load("imgmap\\maison_2\\maison_2_dessus").convert_alpha()
+        image_dessus = pygame.image.load("imgmap/maison_2/maison_2_dessus").convert_alpha()
     except:
         None
     position = image.get_rect()
-    persof = open("save1\\perso", "r")
+    persof = open("save1/perso", "r")
     person = persof.read()
     if person == "1":
         perso = persobase()
     persof.close()
-    mapactives = str("save1\\posmap\\posmapmaison_2")
+    mapactives = str("save1/posmap/posmapmaison_2")
     rectf = open(mapactives, "r")
     carect = rectf.read()
     rectf.close()
     if carect == "":
-        mapactives = str("imgmap\\maison_2\\spawnmaison_2")
+        mapactives = str("imgmap/maison_2/spawnmaison_2")
         rectf = open(mapactives, "r")
         carect = rectf.read()
         rectf.close()
@@ -461,7 +465,7 @@ def maison_2(fenetre):
     position.x = int(lirect[0])
     position.y = int(lirect[1])
 
-    rectpersoactif = str("save1\\pospeso\\pospesomaison_2")
+    rectpersoactif = str("save1/pospeso/pospesomaison_2")
     rectpersof = open(rectpersoactif, "r")
     shaperso = rectpersof.read()
     rectpersof.close()
@@ -476,7 +480,7 @@ def maison_2(fenetre):
     masque = pygame.mask.from_surface(image_obstacles)
     taille = image.get_size()
 
-    transi = open("imgmap\\maison_2\\transimaison_2", "r")
+    transi = open("imgmap/maison_2/transimaison_2", "r")
     transition = transi.read()
     transi.close()
     transili = transition.split(",")
@@ -484,10 +488,10 @@ def maison_2(fenetre):
     masktransi = []
     for i in range(len(transili)):
         imagetransi.append(
-            pygame.image.load("imgmap\\maison_2\\maison_2_" + transili[i] + ".png"))
+            pygame.image.load("imgmap/maison_2/maison_2_" + transili[i] + ".png"))
         masktransi.append(pygame.mask.from_surface(imagetransi[i]))
     try:
-        pnji = open("imgmap\\maison_2\\pnjmaison_2", "r")
+        pnji = open("imgmap/maison_2/pnjmaison_2", "r")
         pnj = pnji.read()
         pnji.close()
         pnjli = pnj.split(",")
@@ -496,35 +500,35 @@ def maison_2(fenetre):
 
         for i in range(len(pnjli)):
             imagepnj.append(
-                pygame.image.load("imgmap\\maison_2\\maison_2_" + pnjli[i] + ".png"))
+                pygame.image.load("imgmap/maison_2/maison_2_" + pnjli[i] + ".png"))
             maskpnj.append(pygame.mask.from_surface(imagepnj[i]))
     except:
         None
     myfont = pygame.font.SysFont("monospace", 20)
-    grandemap = pygame.image.load("imgmap\\map.png").convert_alpha()
+    grandemap = pygame.image.load("imgmap/map.png").convert_alpha()
 
     while 1:
         for event in pygame.event.get():
             if event.type == QUIT:  # quitter le jeux en cliquant sur la croix
-                pospeso = open("save1\\pospeso\\pospesomaison_2", "w")
+                pospeso = open("save1/pospeso/pospesomaison_2", "w")
                 pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                 pospeso.close()
-                posmap = open("save1\\posmap\\posmapmaison_2", "w")
+                posmap = open("save1/posmap/posmapmaison_2", "w")
                 posmap.write(str(position.x) + "," + str(position.y))
                 posmap.close()
                 pygame.quit()
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:  # Echap pour quitter
-                    pospeso = open("save1\\pospeso\\pospesomaison_2", "w")
+                    pospeso = open("save1/pospeso/pospesomaison_2", "w")
                     pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                     pospeso.close()
-                    posmap = open("save1\\posmap\\posmapmaison_2", "w")
+                    posmap = open("save1/posmap/posmapmaison_2", "w")
                     posmap.write(str(position.x) + "," + str(position.y))
                     posmap.close()
                     return
                 if event.key == K_i:
-                    pygame.image.save(fenetre, "inventory\\fond.jpg")
+                    pygame.image.save(fenetre, "inventory/fond.jpg")
                     printinvent(fenetre)
             if event.type == KEYUP:
                 if event.key == K_DOWN:
@@ -545,7 +549,7 @@ def maison_2(fenetre):
             else:
                 affichetext = False
 
-        goldf = open("save1\\invent\\cpic")
+        goldf = open("save1/invent/cpic")
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
@@ -558,24 +562,24 @@ def maison_2(fenetre):
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
 
-                        listequetefi = open("quetes\\liste", "r")
+                        listequetefi = open("quetes/liste", "r")
                         listequete = listequetefi.read().split("\'")
                         listequetefi.close()
 
                         if pnjli[i] in listequete:
-                            activefich = open("quetes\\active", "r")
+                            activefich = open("quetes/active", "r")
                             activeque = activefich.read()
                             activefich.close()
                             if activeque == "":
-                                activefich = open("quetes\\active", "w")
+                                activefich = open("quetes/active", "w")
                                 activefich.write(pnjli[i])
                                 activefich.close()
 
-                        activefich = open("quetes\\pnjrencontre", "r")
+                        activefich = open("quetes/pnjrencontre", "r")
                         activeque = activefich.read()
                         activefich.close()
                         if activeque != pnjli[i]:
-                            activefich = open("quetes\\pnjrencontre", "w")
+                            activefich = open("quetes/pnjrencontre", "w")
                             activefich.write(pnjli[i])
                             activefich.close()
                         quete.quetes()
@@ -592,18 +596,18 @@ def maison_2(fenetre):
             for i in range(len(transili)):
                 if masktransi[i].overlap(perso.mask,
                                          (perso.rect.x - position.x, perso.rect.y - position.y)):
-                    maptransi = open("save1\\map", "w")
+                    maptransi = open("save1/map", "w")
                     maptransi.write(transili[i])
                     maptransi.close()
-                    pospeso = open("save1\\pospeso\\pospesomaison_2", "w")
+                    pospeso = open("save1/pospeso/pospesomaison_2", "w")
                     pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                     pospeso.close()
-                    posmap = open("save1\\posmap\\posmapmaison_2", "w")
+                    posmap = open("save1/posmap/posmapmaison_2", "w")
                     posmap.write(str(position.x) + "," + str(position.y))
                     posmap.close()
                     fenetre.blit(myfont.render("CHARGEMENT...", False, (1, 44, 166)), (500, 50))
                     pygame.display.flip()
-                    litransifi = open("quetes\\visitelieu", "w")
+                    litransifi = open("quetes/visitelieu", "w")
                     litransifi.write(transili[i])
                     litransifi.close()
                     quete.quetes()
@@ -628,25 +632,25 @@ def auberge_1F(fenetre):
 
     pygame.key.set_repeat(200, 100)  # Répétition des touches
     clock = pygame.time.Clock()
-    image = pygame.image.load("imgmap\\auberge_1F\\auberge_1F.png").convert_alpha()
-    image_obstacles = pygame.image.load("imgmap\\auberge_1F\\auberge_1F_obstacle.png").convert_alpha()
+    image = pygame.image.load("imgmap/auberge_1F/auberge_1F.png").convert_alpha()
+    image_obstacles = pygame.image.load("imgmap/auberge_1F/auberge_1F_obstacle.png").convert_alpha()
     try:
-        image_dessus = pygame.image.load("imgmap\\auberge_1F\\auberge_1F_dessus").convert_alpha()
+        image_dessus = pygame.image.load("imgmap/auberge_1F/auberge_1F_dessus").convert_alpha()
     except:
         None
     position = image.get_rect()
-    persof = open("save1\\perso", "r")
+    persof = open("save1/perso", "r")
     person = persof.read()
     if person == "1":
         perso = persobase()
     persof.close()
-    mapactives = str("save1\\posmap\\posmapauberge_1F")
+    mapactives = str("save1/posmap/posmapauberge_1F")
     rectf = open(mapactives, "r")
     carect = rectf.read()
     rectf.close()
     testtime = 0
     if carect == "":
-        mapactives = str("imgmap\\auberge_1F\\spawnauberge_1F")
+        mapactives = str("imgmap/auberge_1F/spawnauberge_1F")
         rectf = open(mapactives, "r")
         carect = rectf.read()
         rectf.close()
@@ -654,7 +658,7 @@ def auberge_1F(fenetre):
     position.x = int(lirect[0])
     position.y = int(lirect[1])
 
-    rectpersoactif = str("save1\\pospeso\\pospesoauberge_1F")
+    rectpersoactif = str("save1/pospeso/pospesoauberge_1F")
     rectpersof = open(rectpersoactif, "r")
     shaperso = rectpersof.read()
     rectpersof.close()
@@ -669,7 +673,7 @@ def auberge_1F(fenetre):
     masque = pygame.mask.from_surface(image_obstacles)
     taille = image.get_size()
 
-    transi = open("imgmap\\auberge_1F\\transiauberge_1F", "r")
+    transi = open("imgmap/auberge_1F/transiauberge_1F", "r")
     transition = transi.read()
     transi.close()
     transili = transition.split(",")
@@ -677,10 +681,10 @@ def auberge_1F(fenetre):
     masktransi = []
     for i in range(len(transili)):
         imagetransi.append(
-            pygame.image.load("imgmap\\auberge_1F\\auberge_1F_" + transili[i] + ".png"))
+            pygame.image.load("imgmap/auberge_1F/auberge_1F_" + transili[i] + ".png"))
         masktransi.append(pygame.mask.from_surface(imagetransi[i]))
     try:
-        pnji = open("imgmap\\auberge_1F\\pnjauberge_1F", "r")
+        pnji = open("imgmap/auberge_1F/pnjauberge_1F", "r")
         pnj = pnji.read()
         pnji.close()
         pnjli = pnj.split(",")
@@ -689,35 +693,35 @@ def auberge_1F(fenetre):
 
         for i in range(len(pnjli)):
             imagepnj.append(
-                pygame.image.load("imgmap\\auberge_1F\\auberge_1F_" + pnjli[i] + ".png"))
+                pygame.image.load("imgmap/auberge_1F/auberge_1F_" + pnjli[i] + ".png"))
             maskpnj.append(pygame.mask.from_surface(imagepnj[i]))
     except:
         None
     myfont = pygame.font.SysFont("monospace", 20)
-    grandemap = pygame.image.load("imgmap\\map.png").convert_alpha()
+    grandemap = pygame.image.load("imgmap/map.png").convert_alpha()
 
     while 1:
         for event in pygame.event.get():
             if event.type == QUIT:  # quitter le jeux en cliquant sur la croix
-                pospeso = open("save1\\pospeso\\pospesoauberge_1F", "w")
+                pospeso = open("save1/pospeso/pospesoauberge_1F", "w")
                 pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                 pospeso.close()
-                posmap = open("save1\\posmap\\posmapauberge_1F", "w")
+                posmap = open("save1/posmap/posmapauberge_1F", "w")
                 posmap.write(str(position.x) + "," + str(position.y))
                 posmap.close()
                 pygame.quit()
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:  # Echap pour quitter
-                    pospeso = open("save1\\pospeso\\pospesoauberge_1F", "w")
+                    pospeso = open("save1/pospeso/pospesoauberge_1F", "w")
                     pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                     pospeso.close()
-                    posmap = open("save1\\posmap\\posmapauberge_1F", "w")
+                    posmap = open("save1/posmap/posmapauberge_1F", "w")
                     posmap.write(str(position.x) + "," + str(position.y))
                     posmap.close()
                     return
                 if event.key == K_i:
-                    pygame.image.save(fenetre, "inventory\\fond.jpg")
+                    pygame.image.save(fenetre, "inventory/fond.jpg")
                     printinvent(fenetre)
             if event.type == KEYUP:
                 if event.key == K_DOWN:
@@ -738,7 +742,7 @@ def auberge_1F(fenetre):
             else:
                 affichetext = False
 
-        goldf = open("save1\\invent\\cpic")
+        goldf = open("save1/invent/cpic")
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
@@ -750,24 +754,24 @@ def auberge_1F(fenetre):
 
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        listequetefi = open("quetes\\liste", "r")
+                        listequetefi = open("quetes/liste", "r")
                         listequete = listequetefi.read().split("\'")
                         listequetefi.close()
 
                         if pnjli[i] in listequete:
-                            activefich = open("quetes\\active", "r")
+                            activefich = open("quetes/active", "r")
                             activeque = activefich.read()
                             activefich.close()
                             if activeque == "":
-                                activefich = open("quetes\\active", "w")
+                                activefich = open("quetes/active", "w")
                                 activefich.write(pnjli[i])
                                 activefich.close()
 
-                        activefich = open("quetes\\pnjrencontre", "r")
+                        activefich = open("quetes/pnjrencontre", "r")
                         activeque = activefich.read()
                         activefich.close()
                         if activeque != pnjli[i]:
-                            activefich = open("quetes\\pnjrencontre", "w")
+                            activefich = open("quetes/pnjrencontre", "w")
                             activefich.write(pnjli[i])
                             activefich.close()
                         quete.quetes()
@@ -784,18 +788,18 @@ def auberge_1F(fenetre):
             for i in range(len(transili)):
                 if masktransi[i].overlap(perso.mask,
                                          (perso.rect.x - position.x, perso.rect.y - position.y)):
-                    maptransi = open("save1\\map", "w")
+                    maptransi = open("save1/map", "w")
                     maptransi.write(transili[i])
                     maptransi.close()
-                    pospeso = open("save1\\pospeso\\pospesoauberge_1F", "w")
+                    pospeso = open("save1/pospeso/pospesoauberge_1F", "w")
                     pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                     pospeso.close()
-                    posmap = open("save1\\posmap\\posmapauberge_1F", "w")
+                    posmap = open("save1/posmap/posmapauberge_1F", "w")
                     posmap.write(str(position.x) + "," + str(position.y))
                     posmap.close()
                     fenetre.blit(myfont.render("CHARGEMENT...", False, (1, 44, 166)), (500, 50))
                     pygame.display.flip()
-                    litransifi = open("quetes\\visitelieu", "w")
+                    litransifi = open("quetes/visitelieu", "w")
                     litransifi.write(transili[i])
                     litransifi.close()
                     quete.quetes()
@@ -826,24 +830,24 @@ def auberge_1F(fenetre):
 def auberge_2F(fenetre):
     pygame.key.set_repeat(200, 100)  # Répétition des touches
     clock = pygame.time.Clock()
-    image = pygame.image.load("imgmap\\auberge_2F\\auberge_2F.png").convert_alpha()
-    image_obstacles = pygame.image.load("imgmap\\auberge_2F\\auberge_2F_obstacle.png").convert_alpha()
+    image = pygame.image.load("imgmap/auberge_2F/auberge_2F.png").convert_alpha()
+    image_obstacles = pygame.image.load("imgmap/auberge_2F/auberge_2F_obstacle.png").convert_alpha()
     try:
-        image_dessus = pygame.image.load("imgmap\\auberge_2F\\auberge_2F_dessus").convert_alpha()
+        image_dessus = pygame.image.load("imgmap/auberge_2F/auberge_2F_dessus").convert_alpha()
     except:
         None
     position = image.get_rect()
-    persof = open("save1\\perso", "r")
+    persof = open("save1/perso", "r")
     person = persof.read()
     if person == "1":
         perso = persobase()
     persof.close()
-    mapactives = str("save1\\posmap\\posmapauberge_2F")
+    mapactives = str("save1/posmap/posmapauberge_2F")
     rectf = open(mapactives, "r")
     carect = rectf.read()
     rectf.close()
     if carect == "":
-        mapactives = str("imgmap\\auberge_2F\\spawnauberge_2F")
+        mapactives = str("imgmap/auberge_2F/spawnauberge_2F")
         rectf = open(mapactives, "r")
         carect = rectf.read()
         rectf.close()
@@ -851,7 +855,7 @@ def auberge_2F(fenetre):
     position.x = int(lirect[0])
     position.y = int(lirect[1])
 
-    rectpersoactif = str("save1\\pospeso\\pospesoauberge_2F")
+    rectpersoactif = str("save1/pospeso/pospesoauberge_2F")
     rectpersof = open(rectpersoactif, "r")
     shaperso = rectpersof.read()
     rectpersof.close()
@@ -866,7 +870,7 @@ def auberge_2F(fenetre):
     masque = pygame.mask.from_surface(image_obstacles)
     taille = image.get_size()
 
-    transi = open("imgmap\\auberge_2F\\transiauberge_2F", "r")
+    transi = open("imgmap/auberge_2F/transiauberge_2F", "r")
     transition = transi.read()
     transi.close()
     transili = transition.split(",")
@@ -874,10 +878,10 @@ def auberge_2F(fenetre):
     masktransi = []
     for i in range(len(transili)):
         imagetransi.append(
-            pygame.image.load("imgmap\\auberge_2F\\auberge_2F_" + transili[i] + ".png"))
+            pygame.image.load("imgmap/auberge_2F/auberge_2F_" + transili[i] + ".png"))
         masktransi.append(pygame.mask.from_surface(imagetransi[i]))
     try:
-        pnji = open("imgmap\\auberge_2F\\pnjauberge_2F", "r")
+        pnji = open("imgmap/auberge_2F/pnjauberge_2F", "r")
         pnj = pnji.read()
         pnji.close()
         pnjli = pnj.split(",")
@@ -886,35 +890,35 @@ def auberge_2F(fenetre):
 
         for i in range(len(pnjli)):
             imagepnj.append(
-                pygame.image.load("imgmap\\auberge_2F\\auberge_2F_" + pnjli[i] + ".png"))
+                pygame.image.load("imgmap/auberge_2F/auberge_2F_" + pnjli[i] + ".png"))
             maskpnj.append(pygame.mask.from_surface(imagepnj[i]))
     except:
         None
     myfont = pygame.font.SysFont("monospace", 20)
-    grandemap = pygame.image.load("imgmap\\map.png").convert_alpha()
+    grandemap = pygame.image.load("imgmap/map.png").convert_alpha()
 
     while 1:
         for event in pygame.event.get():
             if event.type == QUIT:  # quitter le jeux en cliquant sur la croix
-                pospeso = open("save1\\pospeso\\pospesoauberge_2F", "w")
+                pospeso = open("save1/pospeso/pospesoauberge_2F", "w")
                 pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                 pospeso.close()
-                posmap = open("save1\\posmap\\posmapauberge_2F", "w")
+                posmap = open("save1/posmap/posmapauberge_2F", "w")
                 posmap.write(str(position.x) + "," + str(position.y))
                 posmap.close()
                 pygame.quit()
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:  # Echap pour quitter
-                    pospeso = open("save1\\pospeso\\pospesoauberge_2F", "w")
+                    pospeso = open("save1/pospeso/pospesoauberge_2F", "w")
                     pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                     pospeso.close()
-                    posmap = open("save1\\posmap\\posmapauberge_2F", "w")
+                    posmap = open("save1/posmap/posmapauberge_2F", "w")
                     posmap.write(str(position.x) + "," + str(position.y))
                     posmap.close()
                     return
                 if event.key == K_i:
-                    pygame.image.save(fenetre, "inventory\\fond.jpg")
+                    pygame.image.save(fenetre, "inventory/fond.jpg")
                     printinvent(fenetre)
             if event.type == KEYUP:
                 if event.key == K_DOWN:
@@ -935,7 +939,7 @@ def auberge_2F(fenetre):
             else:
                 affichetext = False
 
-        goldf = open("save1\\invent\\cpic")
+        goldf = open("save1/invent/cpic")
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
@@ -947,24 +951,24 @@ def auberge_2F(fenetre):
 
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        listequetefi = open("quetes\\liste", "r")
+                        listequetefi = open("quetes/liste", "r")
                         listequete = listequetefi.read().split("\'")
                         listequetefi.close()
 
                         if pnjli[i] in listequete:
-                            activefich = open("quetes\\active", "r")
+                            activefich = open("quetes/active", "r")
                             activeque = activefich.read()
                             activefich.close()
                             if activeque == "":
-                                activefich = open("quetes\\active", "w")
+                                activefich = open("quetes/active", "w")
                                 activefich.write(pnjli[i])
                                 activefich.close()
 
-                        activefich = open("quetes\\pnjrencontre", "r")
+                        activefich = open("quetes/pnjrencontre", "r")
                         activeque = activefich.read()
                         activefich.close()
                         if activeque != pnjli[i]:
-                            activefich = open("quetes\\pnjrencontre", "w")
+                            activefich = open("quetes/pnjrencontre", "w")
                             activefich.write(pnjli[i])
                             activefich.close()
                         quete.quetes()
@@ -981,18 +985,18 @@ def auberge_2F(fenetre):
             for i in range(len(transili)):
                 if masktransi[i].overlap(perso.mask,
                                          (perso.rect.x - position.x, perso.rect.y - position.y)):
-                    maptransi = open("save1\\map", "w")
+                    maptransi = open("save1/map", "w")
                     maptransi.write(transili[i])
                     maptransi.close()
-                    pospeso = open("save1\\pospeso\\pospesoauberge_2F", "w")
+                    pospeso = open("save1/pospeso/pospesoauberge_2F", "w")
                     pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                     pospeso.close()
-                    posmap = open("save1\\posmap\\posmapauberge_2F", "w")
+                    posmap = open("save1/posmap/posmapauberge_2F", "w")
                     posmap.write(str(position.x) + "," + str(position.y))
                     posmap.close()
                     fenetre.blit(myfont.render("CHARGEMENT...", False, (1, 44, 166)), (500, 50))
                     pygame.display.flip()
-                    litransifi = open("quetes\\visitelieu", "w")
+                    litransifi = open("quetes/visitelieu", "w")
                     litransifi.write(transili[i])
                     litransifi.close()
                     quete.quetes()
@@ -1017,24 +1021,24 @@ def chateau_1F(fenetre):
 
     pygame.key.set_repeat(200, 100)  # Répétition des touches
     clock = pygame.time.Clock()
-    image = pygame.image.load("imgmap\\chateau_1F\\chateau_1F.png").convert_alpha()
-    image_obstacles = pygame.image.load("imgmap\\chateau_1F\\chateau_1F_obstacle.png").convert_alpha()
+    image = pygame.image.load("imgmap/chateau_1F/chateau_1F.png").convert_alpha()
+    image_obstacles = pygame.image.load("imgmap/chateau_1F/chateau_1F_obstacle.png").convert_alpha()
     try:
-        image_dessus = pygame.image.load("imgmap\\chateau_1F\\chateau_1F_dessus").convert_alpha()
+        image_dessus = pygame.image.load("imgmap/chateau_1F/chateau_1F_dessus").convert_alpha()
     except:
         None
     position = image.get_rect()
-    persof = open("save1\\perso", "r")
+    persof = open("save1/perso", "r")
     person = persof.read()
     if person == "1":
         perso = persobase()
     persof.close()
-    mapactives = str("save1\\posmap\\posmapchateau_1F")
+    mapactives = str("save1/posmap/posmapchateau_1F")
     rectf = open(mapactives, "r")
     carect = rectf.read()
     rectf.close()
     if carect == "":
-        mapactives = str("imgmap\\chateau_1F\\spawnchateau_1F")
+        mapactives = str("imgmap/chateau_1F/spawnchateau_1F")
         rectf = open(mapactives, "r")
         carect = rectf.read()
         rectf.close()
@@ -1042,7 +1046,7 @@ def chateau_1F(fenetre):
     position.x = int(lirect[0])
     position.y = int(lirect[1])
     testtime = 0
-    rectpersoactif = str("save1\\pospeso\\pospesochateau_1F")
+    rectpersoactif = str("save1/pospeso/pospesochateau_1F")
     rectpersof = open(rectpersoactif, "r")
     shaperso = rectpersof.read()
     rectpersof.close()
@@ -1057,7 +1061,7 @@ def chateau_1F(fenetre):
     masque = pygame.mask.from_surface(image_obstacles)
     taille = image.get_size()
 
-    transi = open("imgmap\\chateau_1F\\transichateau_1F", "r")
+    transi = open("imgmap/chateau_1F/transichateau_1F", "r")
     transition = transi.read()
     transi.close()
     transili = transition.split(",")
@@ -1065,10 +1069,10 @@ def chateau_1F(fenetre):
     masktransi = []
     for i in range(len(transili)):
         imagetransi.append(
-            pygame.image.load("imgmap\\chateau_1F\\chateau_1F_" + transili[i] + ".png"))
+            pygame.image.load("imgmap/chateau_1F/chateau_1F_" + transili[i] + ".png"))
         masktransi.append(pygame.mask.from_surface(imagetransi[i]))
     try:
-        pnji = open("imgmap\\chateau_1F\\pnjchateau_1F", "r")
+        pnji = open("imgmap/chateau_1F/pnjchateau_1F", "r")
         pnj = pnji.read()
         pnji.close()
         pnjli = pnj.split(",")
@@ -1077,35 +1081,35 @@ def chateau_1F(fenetre):
 
         for i in range(len(pnjli)):
             imagepnj.append(
-                pygame.image.load("imgmap\\chateau_1F\\chateau_1F_" + pnjli[i] + ".png"))
+                pygame.image.load("imgmap/chateau_1F/chateau_1F_" + pnjli[i] + ".png"))
             maskpnj.append(pygame.mask.from_surface(imagepnj[i]))
     except:
         None
     myfont = pygame.font.SysFont("monospace", 20)
-    grandemap = pygame.image.load("imgmap\\map.png").convert_alpha()
+    grandemap = pygame.image.load("imgmap/map.png").convert_alpha()
 
     while 1:
         for event in pygame.event.get():
             if event.type == QUIT:  # quitter le jeux en cliquant sur la croix
-                pospeso = open("save1\\pospeso\\pospesochateau_1F", "w")
+                pospeso = open("save1/pospeso/pospesochateau_1F", "w")
                 pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                 pospeso.close()
-                posmap = open("save1\\posmap\\posmapchateau_1F", "w")
+                posmap = open("save1/posmap/posmapchateau_1F", "w")
                 posmap.write(str(position.x) + "," + str(position.y))
                 posmap.close()
                 pygame.quit()
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:  # Echap pour quitter
-                    pospeso = open("save1\\pospeso\\pospesochateau_1F", "w")
+                    pospeso = open("save1/pospeso/pospesochateau_1F", "w")
                     pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                     pospeso.close()
-                    posmap = open("save1\\posmap\\posmapchateau_1F", "w")
+                    posmap = open("save1/posmap/posmapchateau_1F", "w")
                     posmap.write(str(position.x) + "," + str(position.y))
                     posmap.close()
                     return
                 if event.key == K_i:
-                    pygame.image.save(fenetre, "inventory\\fond.jpg")
+                    pygame.image.save(fenetre, "inventory/fond.jpg")
                     printinvent(fenetre)
             if event.type == KEYUP:
                 if event.key == K_DOWN:
@@ -1126,7 +1130,7 @@ def chateau_1F(fenetre):
             else:
                 affichetext = False
 
-        goldf = open("save1\\invent\\cpic")
+        goldf = open("save1/invent/cpic")
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
@@ -1138,24 +1142,24 @@ def chateau_1F(fenetre):
 
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        listequetefi = open("quetes\\liste", "r")
+                        listequetefi = open("quetes/liste", "r")
                         listequete = listequetefi.read().split("\'")
                         listequetefi.close()
 
                         if pnjli[i] in listequete:
-                            activefich = open("quetes\\active", "r")
+                            activefich = open("quetes/active", "r")
                             activeque = activefich.read()
                             activefich.close()
                             if activeque == "":
-                                activefich = open("quetes\\active", "w")
+                                activefich = open("quetes/active", "w")
                                 activefich.write(pnjli[i])
                                 activefich.close()
 
-                        activefich = open("quetes\\pnjrencontre", "r")
+                        activefich = open("quetes/pnjrencontre", "r")
                         activeque = activefich.read()
                         activefich.close()
                         if activeque != pnjli[i]:
-                            activefich = open("quetes\\pnjrencontre", "w")
+                            activefich = open("quetes/pnjrencontre", "w")
                             activefich.write(pnjli[i])
                             activefich.close()
                         quete.quetes()
@@ -1172,18 +1176,18 @@ def chateau_1F(fenetre):
             for i in range(len(transili)):
                 if masktransi[i].overlap(perso.mask,
                                          (perso.rect.x - position.x, perso.rect.y - position.y)):
-                    maptransi = open("save1\\map", "w")
+                    maptransi = open("save1/map", "w")
                     maptransi.write(transili[i])
                     maptransi.close()
-                    pospeso = open("save1\\pospeso\\pospesochateau_1F", "w")
+                    pospeso = open("save1/pospeso/pospesochateau_1F", "w")
                     pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                     pospeso.close()
-                    posmap = open("save1\\posmap\\posmapchateau_1F", "w")
+                    posmap = open("save1/posmap/posmapchateau_1F", "w")
                     posmap.write(str(position.x) + "," + str(position.y))
                     posmap.close()
                     fenetre.blit(myfont.render("CHARGEMENT...", False, (1, 44, 166)), (500, 50))
                     pygame.display.flip()
-                    litransifi = open("quetes\\visitelieu", "w")
+                    litransifi = open("quetes/visitelieu", "w")
                     litransifi.write(transili[i])
                     litransifi.close()
                     quete.quetes()
@@ -1213,21 +1217,21 @@ def chateau_2F(fenetre):
     testtime = 0
     pygame.key.set_repeat(200, 100)  # Répétition des touches
     clock = pygame.time.Clock()
-    image = pygame.image.load("imgmap\\chateau_2F\\chateau_2F.png").convert_alpha()
-    image_obstacles = pygame.image.load("imgmap\\chateau_2F\\chateau_2F_obstacle.png").convert_alpha()
-    image_dessus = pygame.image.load("imgmap\\chateau_2F\\chateau_2F_dessus.png").convert_alpha()
+    image = pygame.image.load("imgmap/chateau_2F/chateau_2F.png").convert_alpha()
+    image_obstacles = pygame.image.load("imgmap/chateau_2F/chateau_2F_obstacle.png").convert_alpha()
+    image_dessus = pygame.image.load("imgmap/chateau_2F/chateau_2F_dessus.png").convert_alpha()
     position = image.get_rect()
-    persof = open("save1\\perso", "r")
+    persof = open("save1/perso", "r")
     person = persof.read()
     if person == "1":
         perso = persobase()
     persof.close()
-    mapactives = str("save1\\posmap\\posmapchateau_2F")
+    mapactives = str("save1/posmap/posmapchateau_2F")
     rectf = open(mapactives, "r")
     carect = rectf.read()
     rectf.close()
     if carect == "":
-        mapactives = str("imgmap\\chateau_2F\\spawnchateau_2F")
+        mapactives = str("imgmap/chateau_2F/spawnchateau_2F")
         rectf = open(mapactives, "r")
         carect = rectf.read()
         rectf.close()
@@ -1235,7 +1239,7 @@ def chateau_2F(fenetre):
     position.x = int(lirect[0])
     position.y = int(lirect[1])
 
-    rectpersoactif = str("save1\\pospeso\\pospesochateau_2F")
+    rectpersoactif = str("save1/pospeso/pospesochateau_2F")
     rectpersof = open(rectpersoactif, "r")
     shaperso = rectpersof.read()
     rectpersof.close()
@@ -1250,7 +1254,7 @@ def chateau_2F(fenetre):
     masque = pygame.mask.from_surface(image_obstacles)
     taille = image.get_size()
 
-    transi = open("imgmap\\chateau_2F\\transichateau_2F", "r")
+    transi = open("imgmap/chateau_2F/transichateau_2F", "r")
     transition = transi.read()
     transi.close()
     transili = transition.split(",")
@@ -1258,10 +1262,10 @@ def chateau_2F(fenetre):
     masktransi = []
     for i in range(len(transili)):
         imagetransi.append(
-            pygame.image.load("imgmap\\chateau_2F\\chateau_2F_" + transili[i] + ".png"))
+            pygame.image.load("imgmap/chateau_2F/chateau_2F_" + transili[i] + ".png"))
         masktransi.append(pygame.mask.from_surface(imagetransi[i]))
     try:
-        pnji = open("imgmap\\chateau_2F\\pnjchateau_2F", "r")
+        pnji = open("imgmap/chateau_2F/pnjchateau_2F", "r")
         pnj = pnji.read()
         pnji.close()
         pnjli = pnj.split(",")
@@ -1270,35 +1274,35 @@ def chateau_2F(fenetre):
 
         for i in range(len(pnjli)):
             imagepnj.append(
-                pygame.image.load("imgmap\\chateau_2F\\chateau_2F_" + pnjli[i] + ".png"))
+                pygame.image.load("imgmap/chateau_2F/chateau_2F_" + pnjli[i] + ".png"))
             maskpnj.append(pygame.mask.from_surface(imagepnj[i]))
     except:
         None
     myfont = pygame.font.SysFont("monospace", 20)
-    grandemap = pygame.image.load("imgmap\\map.png").convert_alpha()
+    grandemap = pygame.image.load("imgmap/map.png").convert_alpha()
 
     while 1:
         for event in pygame.event.get():
             if event.type == QUIT:  # quitter le jeux en cliquant sur la croix
-                pospeso = open("save1\\pospeso\\pospesochateau_2F", "w")
+                pospeso = open("save1/pospeso/pospesochateau_2F", "w")
                 pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                 pospeso.close()
-                posmap = open("save1\\posmap\\posmapchateau_2F", "w")
+                posmap = open("save1/posmap/posmapchateau_2F", "w")
                 posmap.write(str(position.x) + "," + str(position.y))
                 posmap.close()
                 pygame.quit()
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:  # Echap pour quitter
-                    pospeso = open("save1\\pospeso\\pospesochateau_2F", "w")
+                    pospeso = open("save1/pospeso/pospesochateau_2F", "w")
                     pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                     pospeso.close()
-                    posmap = open("save1\\posmap\\posmapchateau_2F", "w")
+                    posmap = open("save1/posmap/posmapchateau_2F", "w")
                     posmap.write(str(position.x) + "," + str(position.y))
                     posmap.close()
                     return
                 if event.key == K_i:
-                    pygame.image.save(fenetre, "inventory\\fond.jpg")
+                    pygame.image.save(fenetre, "inventory/fond.jpg")
                     printinvent(fenetre)
             if event.type == KEYUP:
                 if event.key == K_DOWN:
@@ -1319,7 +1323,7 @@ def chateau_2F(fenetre):
             else:
                 affichetext = False
 
-        goldf = open("save1\\invent\\cpic")
+        goldf = open("save1/invent/cpic")
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
@@ -1331,24 +1335,24 @@ def chateau_2F(fenetre):
 
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        listequetefi = open("quetes\\liste", "r")
+                        listequetefi = open("quetes/liste", "r")
                         listequete = listequetefi.read().split("\'")
                         listequetefi.close()
 
                         if pnjli[i] in listequete:
-                            activefich = open("quetes\\active", "r")
+                            activefich = open("quetes/active", "r")
                             activeque = activefich.read()
                             activefich.close()
                             if activeque == "":
-                                activefich = open("quetes\\active", "w")
+                                activefich = open("quetes/active", "w")
                                 activefich.write(pnjli[i])
                                 activefich.close()
 
-                        activefich = open("quetes\\pnjrencontre", "r")
+                        activefich = open("quetes/pnjrencontre", "r")
                         activeque = activefich.read()
                         activefich.close()
                         if activeque != pnjli[i]:
-                            activefich = open("quetes\\pnjrencontre", "w")
+                            activefich = open("quetes/pnjrencontre", "w")
                             activefich.write(pnjli[i])
                             activefich.close()
                         quete.quetes()
@@ -1362,18 +1366,18 @@ def chateau_2F(fenetre):
             for i in range(len(transili)):
                 if masktransi[i].overlap(perso.mask,
                                          (perso.rect.x - position.x, perso.rect.y - position.y)):
-                    maptransi = open("save1\\map", "w")
+                    maptransi = open("save1/map", "w")
                     maptransi.write(transili[i])
                     maptransi.close()
-                    pospeso = open("save1\\pospeso\\pospesochateau_2F", "w")
+                    pospeso = open("save1/pospeso/pospesochateau_2F", "w")
                     pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                     pospeso.close()
-                    posmap = open("save1\\posmap\\posmapchateau_2F", "w")
+                    posmap = open("save1/posmap/posmapchateau_2F", "w")
                     posmap.write(str(position.x) + "," + str(position.y))
                     posmap.close()
                     fenetre.blit(myfont.render("CHARGEMENT...", False, (1, 44, 166)), (500, 50))
                     pygame.display.flip()
-                    litransifi = open("quetes\\visitelieu", "w")
+                    litransifi = open("quetes/visitelieu", "w")
                     litransifi.write(transili[i])
                     litransifi.close()
                     quete.quetes()
@@ -1399,24 +1403,24 @@ def chateau_2F(fenetre):
 def chateau_3F(fenetre):
     pygame.key.set_repeat(200, 100)  # Répétition des touches
     clock = pygame.time.Clock()
-    image = pygame.image.load("imgmap\\chateau_3F\\chateau_3F.png").convert_alpha()
-    image_obstacles = pygame.image.load("imgmap\\chateau_3F\\chateau_3F_obstacle.png").convert_alpha()
+    image = pygame.image.load("imgmap/chateau_3F/chateau_3F.png").convert_alpha()
+    image_obstacles = pygame.image.load("imgmap/chateau_3F/chateau_3F_obstacle.png").convert_alpha()
     try:
-        image_dessus = pygame.image.load("imgmap\\chateau_3F\\chateau_3F_dessus").convert_alpha()
+        image_dessus = pygame.image.load("imgmap/chateau_3F/chateau_3F_dessus").convert_alpha()
     except:
         None
     position = image.get_rect()
-    persof = open("save1\\perso", "r")
+    persof = open("save1/perso", "r")
     person = persof.read()
     if person == "1":
         perso = persobase()
     persof.close()
-    mapactives = str("save1\\posmap\\posmapchateau_3F")
+    mapactives = str("save1/posmap/posmapchateau_3F")
     rectf = open(mapactives, "r")
     carect = rectf.read()
     rectf.close()
     if carect == "":
-        mapactives = str("imgmap\\chateau_3F\\spawnchateau_3F")
+        mapactives = str("imgmap/chateau_3F/spawnchateau_3F")
         rectf = open(mapactives, "r")
         carect = rectf.read()
         rectf.close()
@@ -1424,7 +1428,7 @@ def chateau_3F(fenetre):
     position.x = int(lirect[0])
     position.y = int(lirect[1])
 
-    rectpersoactif = str("save1\\pospeso\\pospesochateau_3F")
+    rectpersoactif = str("save1/pospeso/pospesochateau_3F")
     rectpersof = open(rectpersoactif, "r")
     shaperso = rectpersof.read()
     rectpersof.close()
@@ -1439,7 +1443,7 @@ def chateau_3F(fenetre):
     masque = pygame.mask.from_surface(image_obstacles)
     taille = image.get_size()
 
-    transi = open("imgmap\\chateau_3F\\transichateau_3F", "r")
+    transi = open("imgmap/chateau_3F/transichateau_3F", "r")
     transition = transi.read()
     transi.close()
     transili = transition.split(",")
@@ -1447,10 +1451,10 @@ def chateau_3F(fenetre):
     masktransi = []
     for i in range(len(transili)):
         imagetransi.append(
-            pygame.image.load("imgmap\\chateau_3F\\chateau_3F_" + transili[i] + ".png"))
+            pygame.image.load("imgmap/chateau_3F/chateau_3F_" + transili[i] + ".png"))
         masktransi.append(pygame.mask.from_surface(imagetransi[i]))
     try:
-        pnji = open("imgmap\\chateau_3F\\pnjchateau_3F", "r")
+        pnji = open("imgmap/chateau_3F/pnjchateau_3F", "r")
         pnj = pnji.read()
         pnji.close()
         pnjli = pnj.split(",")
@@ -1459,35 +1463,35 @@ def chateau_3F(fenetre):
 
         for i in range(len(pnjli)):
             imagepnj.append(
-                pygame.image.load("imgmap\\chateau_3F\\chateau_3F_" + pnjli[i] + ".png"))
+                pygame.image.load("imgmap/chateau_3F/chateau_3F_" + pnjli[i] + ".png"))
             maskpnj.append(pygame.mask.from_surface(imagepnj[i]))
     except:
         None
     myfont = pygame.font.SysFont("monospace", 20)
-    grandemap = pygame.image.load("imgmap\\map.png").convert_alpha()
+    grandemap = pygame.image.load("imgmap/map.png").convert_alpha()
 
     while 1:
         for event in pygame.event.get():
             if event.type == QUIT:  # quitter le jeux en cliquant sur la croix
-                pospeso = open("save1\\pospeso\\pospesochateau_3F", "w")
+                pospeso = open("save1/pospeso/pospesochateau_3F", "w")
                 pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                 pospeso.close()
-                posmap = open("save1\\posmap\\posmapchateau_3F", "w")
+                posmap = open("save1/posmap/posmapchateau_3F", "w")
                 posmap.write(str(position.x) + "," + str(position.y))
                 posmap.close()
                 pygame.quit()
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:  # Echap pour quitter
-                    pospeso = open("save1\\pospeso\\pospesochateau_3F", "w")
+                    pospeso = open("save1/pospeso/pospesochateau_3F", "w")
                     pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                     pospeso.close()
-                    posmap = open("save1\\posmap\\posmapchateau_3F", "w")
+                    posmap = open("save1/posmap/posmapchateau_3F", "w")
                     posmap.write(str(position.x) + "," + str(position.y))
                     posmap.close()
                     return
                 if event.key == K_i:
-                    pygame.image.save(fenetre, "\\screenshot.jpg")
+                    pygame.image.save(fenetre, "/screenshot.jpg")
                     printinvent(fenetre)
                 if event.type == KEYUP:
                     if event.key == K_DOWN:
@@ -1508,7 +1512,7 @@ def chateau_3F(fenetre):
             else:
                 affichetext = False
 
-        goldf = open("save1\\invent\\cpic")
+        goldf = open("save1/invent/cpic")
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
@@ -1520,24 +1524,24 @@ def chateau_3F(fenetre):
 
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        listequetefi = open("quetes\\liste", "r")
+                        listequetefi = open("quetes/liste", "r")
                         listequete = listequetefi.read().split("\'")
                         listequetefi.close()
 
                         if pnjli[i] in listequete:
-                            activefich = open("quetes\\active", "r")
+                            activefich = open("quetes/active", "r")
                             activeque = activefich.read()
                             activefich.close()
                             if activeque == "":
-                                activefich = open("quetes\\active", "w")
+                                activefich = open("quetes/active", "w")
                                 activefich.write(pnjli[i])
                                 activefich.close()
 
-                        activefich = open("quetes\\pnjrencontre", "r")
+                        activefich = open("quetes/pnjrencontre", "r")
                         activeque = activefich.read()
                         activefich.close()
                         if activeque != pnjli[i]:
-                            activefich = open("quetes\\pnjrencontre", "w")
+                            activefich = open("quetes/pnjrencontre", "w")
                             activefich.write(pnjli[i])
                             activefich.close()
                         quete.quetes()
@@ -1554,18 +1558,18 @@ def chateau_3F(fenetre):
             for i in range(len(transili)):
                 if masktransi[i].overlap(perso.mask,
                                          (perso.rect.x - position.x, perso.rect.y - position.y)):
-                    maptransi = open("save1\\map", "w")
+                    maptransi = open("save1/map", "w")
                     maptransi.write(transili[i])
                     maptransi.close()
-                    pospeso = open("save1\\pospeso\\pospesochateau_3F", "w")
+                    pospeso = open("save1/pospeso/pospesochateau_3F", "w")
                     pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                     pospeso.close()
-                    posmap = open("save1\\posmap\\posmapchateau_3F", "w")
+                    posmap = open("save1/posmap/posmapchateau_3F", "w")
                     posmap.write(str(position.x) + "," + str(position.y))
                     posmap.close()
                     fenetre.blit(myfont.render("CHARGEMENT...", False, (1, 44, 166)), (500, 50))
                     pygame.display.flip()
-                    litransifi = open("quetes\\visitelieu", "w")
+                    litransifi = open("quetes/visitelieu", "w")
                     litransifi.write(transili[i])
                     litransifi.close()
                     quete.quetes()

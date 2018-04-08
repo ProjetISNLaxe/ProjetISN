@@ -53,8 +53,8 @@ def shooter(fenetre, glitch):
     perso = classes_shooter.personnage(fenetre_taille, glitch)
 
     tirennemi = classes_shooter.pygame.image.load(
-        "shooter\\ennemi\\tir_ennemi.png").convert_alpha()  # charge les images des tirs
-    tir = classes_shooter.pygame.image.load("shooter\\perso\\bullet_n-ship.png").convert_alpha()
+        "shooter/ennemi/tir_ennemi.png").convert_alpha()  # charge les images des tirs
+    tir = classes_shooter.pygame.image.load("shooter/perso/bullet_n-ship.png").convert_alpha()
     tir_mask = classes_shooter.pygame.mask.from_surface(tir)
     tirennemi_mask = classes_shooter.pygame.mask.from_surface(tirennemi)
 
@@ -63,11 +63,11 @@ def shooter(fenetre, glitch):
 
     miniboss = classes_shooter.clminiboss(fenetre_taille)
 
-    bulle = classes_shooter.pygame.image.load("shooter\\perso\\N-Ship_shield.png").convert_alpha()
+    bulle = classes_shooter.pygame.image.load("shooter/perso/N-Ship_shield.png").convert_alpha()
 
-    coeur = classes_shooter.pygame.image.load("shooter\\HUD\\heart(1).png").convert_alpha()  # charge l'image coeur)
+    coeur = classes_shooter.pygame.image.load("shooter/HUD/heart(1).png").convert_alpha()  # charge l'image coeur)
 
-    surchauffed = classes_shooter.pygame.image.load("shooter\\HUD\\overheat.png").convert_alpha()
+    surchauffed = classes_shooter.pygame.image.load("shooter/HUD/overheat.png").convert_alpha()
 
     increment = 0
 
@@ -206,7 +206,7 @@ def shooter(fenetre, glitch):
                             miniboss.perdvie()
                         else:
                             perso.tirx[g] = 10000
-                            save = open("save1\\save", "w")
+                            save = open("save1/save", "w")
                             save.write("1")
                             save.close()
                             return 1
@@ -440,8 +440,8 @@ def endless(fenetre, glitch):
     perso = classes_shooter.personnage(fenetre_taille, glitch)
 
     tirennemi = classes_shooter.pygame.image.load(
-        "shooter\\ennemi\\tir_ennemi.png").convert_alpha()  # charge les images des tirs
-    tir = classes_shooter.pygame.image.load("shooter\\perso\\bullet_n-ship.png").convert_alpha()
+        "shooter/ennemi/tir_ennemi.png").convert_alpha()  # charge les images des tirs
+    tir = classes_shooter.pygame.image.load("shooter/perso/bullet_n-ship.png").convert_alpha()
     tir_mask = classes_shooter.pygame.mask.from_surface(tir)
     tirennemi_mask = classes_shooter.pygame.mask.from_surface(tirennemi)
 
@@ -451,11 +451,11 @@ def endless(fenetre, glitch):
 
     miniboss = classes_shooter.clminiboss(fenetre_taille)
 
-    bulle = classes_shooter.pygame.image.load("shooter\\perso\\N-Ship_shield.png").convert_alpha()
+    bulle = classes_shooter.pygame.image.load("shooter/perso/N-Ship_shield.png").convert_alpha()
 
-    coeur = classes_shooter.pygame.image.load("shooter\\HUD\\heart(1).png").convert_alpha()  # charge l'image coeur)
+    coeur = classes_shooter.pygame.image.load("shooter/HUD/heart(1).png").convert_alpha()  # charge l'image coeur)
 
-    surchauffed = classes_shooter.pygame.image.load("shooter\\HUD\\overheat.png").convert_alpha()
+    surchauffed = classes_shooter.pygame.image.load("shooter/HUD/overheat.png").convert_alpha()
 
     myfont = classes_shooter.pygame.font.SysFont("monospace", 50)
     myfontdeath = classes_shooter.pygame.font.SysFont("monospace", 80)
@@ -465,7 +465,7 @@ def endless(fenetre, glitch):
     h = 0  # Variable pour la  de l'
 
     score = constantes.SCORE_BASE  # Nombre d'ennemis mort
-    highscore = open("shooter\\endless\highscore.txt", "r")
+    highscore = open("shooter/endless\highscore.txt", "r")
     highscoretxt = highscore.read()
     highscore.close()
     compteur = 0
@@ -724,7 +724,7 @@ def endless(fenetre, glitch):
                     fenetre.blit(myfontdeath.render("New Best !!!", False, (255, 255, 255)),
                                  (300, 350))
                     chaine = "New Best !!!"
-                    highscore = open("shooter\\endless\highscore.txt", "w")
+                    highscore = open("shooter/endless\highscore.txt", "w")
                     highscore.write(str(score + compteur))
                     highscore.close
                     test = False

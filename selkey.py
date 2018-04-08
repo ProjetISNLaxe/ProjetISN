@@ -1,7 +1,7 @@
 from pygame.constants import*
 import pygame
 def key(tch):
-    keys=open("option\keys\\"+tch, "r")
+    keys=open("option\keys/"+tch, "r")
     touche=keys.read()
     keys.close()
     if touche=="1":
