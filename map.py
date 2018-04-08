@@ -1161,10 +1161,7 @@ def chateau_2F(fenetre):
     clock = pygame.time.Clock()
     image = pygame.image.load("imgmap\\chateau_2F\\chateau_2F.png").convert_alpha()
     image_obstacles = pygame.image.load("imgmap\\chateau_2F\\chateau_2F_obstacle.png").convert_alpha()
-    try:
-        image_dessus = pygame.image.load("imgmap\\chateau_2F\\chateau_2F_dessus").convert_alpha()
-    except:
-        None
+    image_dessus = pygame.image.load("imgmap\\chateau_2F\\chateau_2F_dessus.png").convert_alpha()
     position = image.get_rect()
     persof = open("save1\\perso", "r")
     person = persof.read()
@@ -1296,10 +1293,8 @@ def chateau_2F(fenetre):
         except:
             None
         fenetre.blit(perso.imageperso, perso.rect)
-        try:
-            fenetre.blit(image_dessus, position)
-        except:
-            None
+        fenetre.blit(image_dessus, position)
+
 
         if tkey[K_e] and time.time() - testtime > 0.5:
             for i in range(len(transili)):

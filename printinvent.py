@@ -94,7 +94,10 @@ def printinvent(fenetre):
                 curseurrect.y=testrect.y
             if 558>curseurrect.y>145:
                 for i in range (len(objetinventairerect)):
-                    objetinventairerect[i][1]+=1.5*(savecurseur-curseurrect.y)
+                    objetinventairerect[i][1] += 1.5*(savecurseur-curseurrect.y)
+        if curseurrect.y<=145:
+            for i in range (len(objetinventairerect)):
+                objetinventairerect[i][1]=160+99*i
         if curseurrect.y>558:
             curseurrect.y=558
         if curseurrect.y<145:
@@ -104,7 +107,7 @@ def printinvent(fenetre):
         for i in range (len(inventaire)):
             objetinventaireimage[i].blit(inventaire[i][0], (10,8))
             objetinventaireimage[i].blit(police.render("Quantitée : "+str(inventaire[i][1]), False, (40, 191, 188)), (95, 10))
-
+        print(curseurrect)
         fenetre.blit(curseur, curseurrect)
         clock.tick()
         pygame.display.flip()
