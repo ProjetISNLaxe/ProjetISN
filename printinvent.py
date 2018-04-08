@@ -19,7 +19,7 @@ def printinvent(fenetre):
     inventaire=[]
     for i in range (len(inventairestr)):
         inventaire.append([inventairestr[i]])
-        for i in range (len(inventaire)):
+        for j in range (len(inventaire)):
             fi=open("save1\\objet\\"+inventaire[i][0], "r")
             inventaire[i].append(int(fi.read()))
             fi.close()
@@ -37,6 +37,10 @@ def printinvent(fenetre):
         missionfi=open("quetes\\"+queteactive+"\\toprint")
         mission=missionfi.read()
         missionfi.close()
+    orfi=open("save1\\invent\\cpic", "r")
+    stror=orfi.read()
+    orfi.close()
+    lior=list(stror)
     while 1:
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -65,14 +69,27 @@ def printinvent(fenetre):
                     if 287<=testrect.x<360:
                         for i in range (len (objetinventairerect)):
                             if testrect.colliderect(objetinventairerect[i]) and inventaire[i][1]>0:
-                                inventaire[i][1]-=1
+
                                 inventairefi = open("save1\\inventaire", "r")
                                 inventairestr = inventairefi.read().split(",")
                                 inventairefi.close()
-                                fi=open("save1\\objet\\"+inventairestr[i], "w")
-                                fi.write(str(inventaire[i][1]))
-                                fi.close()
-                                objetinventaireimage[i]=pygame.image.load("inventory\\objetinventaire.png").convert_alpha()
+                                if inventairestr[i] in consommable:
+                                    inventaire[i][1] -= 1
+                                    fi=open("save1\\objet\\"+inventairestr[i], "w")
+                                    fi.write(str(inventaire[i][1]))
+                                    fi.close()
+                                    objetinventaireimage[i]=pygame.image.load("inventory\\objetinventaire.png").convert_alpha()
+                if event.button==4:
+                    if 287<=testrect.x and 160<=testrect.y and curseurrect.y<558:
+                        curseurrect.y += (99/1.5)
+                        for i in range (len(objetinventairerect)):
+                            objetinventairerect[i][1]-=98
+                if event.button == 5 :
+                    if 287 <= testrect.x and 160<=testrect.y and  objetinventairerect[0][1]<160:
+                        curseurrect.y -= (98/1.5)
+                        for i in range(len(objetinventairerect)):
+                            objetinventairerect[i][1] +=98
+
             if event.type == MOUSEBUTTONUP:
                 follow=False
 
@@ -107,7 +124,9 @@ def printinvent(fenetre):
         for i in range (len(inventaire)):
             objetinventaireimage[i].blit(inventaire[i][0], (10,8))
             objetinventaireimage[i].blit(police.render("Quantitée : "+str(inventaire[i][1]), False, (40, 191, 188)), (95, 10))
-        print(curseurrect)
+        for i in range (len(lior)):
+            bandeauhaut.blit(listechiffre[int(lior[i])], (720-22*i, 5))
+
         fenetre.blit(curseur, curseurrect)
-        clock.tick()
+        clock.tick(60)
         pygame.display.flip()
