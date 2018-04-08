@@ -6,3 +6,4 @@ Map
 Tpt
 Inventaire
 Quetes
+Shop
