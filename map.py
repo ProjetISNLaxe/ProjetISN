@@ -7,6 +7,7 @@ from shop import *
 import quete
 import time
 from printinvent import printinvent
+from dialogue import *
 
 listequetefi = open("quetes/liste", "r")
 listequete = listequetefi.read().split("\'")
@@ -174,28 +175,7 @@ def capitale(fenetre):
                 if tkey[K_f]:
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
-
-                        listequetefi = open("quetes/liste", "r")
-                        listequete = listequetefi.read().split("\'")
-                        listequetefi.close()
-
-                        if pnjli[i] in listequete:
-                            activefich = open("quetes/active", "r")
-                            activeque = activefich.read()
-                            activefich.close()
-                            if activeque == "":
-                                activefich = open("quetes/active", "w")
-                                activefich.write(pnjli[i])
-                                activefich.close()
-                        activefich = open("quetes/pnjrencontre", "r")
-                        activeque = activefich.read()
-                        activefich.close()
-                        if activeque != pnjli[i]:
-                            activefich = open("quetes/pnjrencontre", "w")
-                            activefich.write(pnjli[i])
-                            activefich.close()
-                        quete.quetes(fenetre)
-                        break
+                        dialogue(fenetre, pnjli[i])
         except:
             None
         fenetre.blit(perso.imageperso, perso.rect)
@@ -369,33 +349,9 @@ def maison_1(fenetre):
         for i in range(len(pnjli)):
             fenetre.blit(imagepnj[i], position)
             if tkey[K_f]:
-
                 if maskpnj[i].overlap(perso.mask, (perso.rect.x - position.x, perso.rect.y - position.y)):
 
-                    listequetefi = open("quetes/liste", "r")
-                    listequete = listequetefi.read().split("\'")
-                    listequetefi.close()
-
-                    if pnjli[i] in listequete:
-
-                        activefich = open("quetes/active", "r")
-                        activeque = activefich.read()
-                        activefich.close()
-
-                        if activeque == "":
-                            activefich = open("quetes/active", "w")
-                            activefich.write(pnjli[i])
-                            activefich.close()
-
-                    activefich = open("quetes/pnjrencontre", "r")
-                    activeque = activefich.read()
-                    activefich.close()
-                    if activeque != pnjli[i]:
-                        activefich = open("quetes/pnjrencontre", "w")
-                        activefich.write(pnjli[i])
-                        activefich.close()
-                    quete.quetes(fenetre)
-                    break
+                    dialogue(fenetre,pnjli[i])
 
         fenetre.blit(perso.imageperso, perso.rect)
         try:
@@ -562,28 +518,7 @@ def maison_2(fenetre):
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
 
-                        listequetefi = open("quetes/liste", "r")
-                        listequete = listequetefi.read().split("\'")
-                        listequetefi.close()
-
-                        if pnjli[i] in listequete:
-                            activefich = open("quetes/active", "r")
-                            activeque = activefich.read()
-                            activefich.close()
-                            if activeque == "":
-                                activefich = open("quetes/active", "w")
-                                activefich.write(pnjli[i])
-                                activefich.close()
-
-                        activefich = open("quetes/pnjrencontre", "r")
-                        activeque = activefich.read()
-                        activefich.close()
-                        if activeque != pnjli[i]:
-                            activefich = open("quetes/pnjrencontre", "w")
-                            activefich.write(pnjli[i])
-                            activefich.close()
-                        quete.quetes(fenetre)
-                        break
+                        dialogue(fenetre,pnjli[i])
         except:
             None
         fenetre.blit(perso.imageperso, perso.rect)
@@ -754,28 +689,7 @@ def auberge_1F(fenetre):
 
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        listequetefi = open("quetes/liste", "r")
-                        listequete = listequetefi.read().split("\'")
-                        listequetefi.close()
-
-                        if pnjli[i] in listequete:
-                            activefich = open("quetes/active", "r")
-                            activeque = activefich.read()
-                            activefich.close()
-                            if activeque == "":
-                                activefich = open("quetes/active", "w")
-                                activefich.write(pnjli[i])
-                                activefich.close()
-
-                        activefich = open("quetes/pnjrencontre", "r")
-                        activeque = activefich.read()
-                        activefich.close()
-                        if activeque != pnjli[i]:
-                            activefich = open("quetes/pnjrencontre", "w")
-                            activefich.write(pnjli[i])
-                            activefich.close()
-                        quete.quetes(fenetre)
-                        break
+                        dialogue(fenetre,pnjli[i])
         except:
             None
         fenetre.blit(perso.imageperso, perso.rect)
@@ -951,28 +865,7 @@ def auberge_2F(fenetre):
 
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        listequetefi = open("quetes/liste", "r")
-                        listequete = listequetefi.read().split("\'")
-                        listequetefi.close()
-
-                        if pnjli[i] in listequete:
-                            activefich = open("quetes/active", "r")
-                            activeque = activefich.read()
-                            activefich.close()
-                            if activeque == "":
-                                activefich = open("quetes/active", "w")
-                                activefich.write(pnjli[i])
-                                activefich.close()
-
-                        activefich = open("quetes/pnjrencontre", "r")
-                        activeque = activefich.read()
-                        activefich.close()
-                        if activeque != pnjli[i]:
-                            activefich = open("quetes/pnjrencontre", "w")
-                            activefich.write(pnjli[i])
-                            activefich.close()
-                        quete.quetes(fenetre)
-                        break
+                        dialogue(fenetre,pnjli[i])
         except:
             None
         fenetre.blit(perso.imageperso, perso.rect)
@@ -1142,28 +1035,7 @@ def chateau_1F(fenetre):
 
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        listequetefi = open("quetes/liste", "r")
-                        listequete = listequetefi.read().split("\'")
-                        listequetefi.close()
-
-                        if pnjli[i] in listequete:
-                            activefich = open("quetes/active", "r")
-                            activeque = activefich.read()
-                            activefich.close()
-                            if activeque == "":
-                                activefich = open("quetes/active", "w")
-                                activefich.write(pnjli[i])
-                                activefich.close()
-
-                        activefich = open("quetes/pnjrencontre", "r")
-                        activeque = activefich.read()
-                        activefich.close()
-                        if activeque != pnjli[i]:
-                            activefich = open("quetes/pnjrencontre", "w")
-                            activefich.write(pnjli[i])
-                            activefich.close()
-                        quete.quetes(fenetre)
-                        break
+                        dialogue(fenetre,pnjli[i])
         except:
             None
         fenetre.blit(perso.imageperso, perso.rect)
@@ -1335,28 +1207,7 @@ def chateau_2F(fenetre):
 
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        listequetefi = open("quetes/liste", "r")
-                        listequete = listequetefi.read().split("\'")
-                        listequetefi.close()
-
-                        if pnjli[i] in listequete:
-                            activefich = open("quetes/active", "r")
-                            activeque = activefich.read()
-                            activefich.close()
-                            if activeque == "":
-                                activefich = open("quetes/active", "w")
-                                activefich.write(pnjli[i])
-                                activefich.close()
-
-                        activefich = open("quetes/pnjrencontre", "r")
-                        activeque = activefich.read()
-                        activefich.close()
-                        if activeque != pnjli[i]:
-                            activefich = open("quetes/pnjrencontre", "w")
-                            activefich.write(pnjli[i])
-                            activefich.close()
-                        quete.quetes(fenetre)
-                        break
+                        dialogue(fenetre,pnjli[i])
         except:
             None
         fenetre.blit(perso.imageperso, perso.rect)
@@ -1524,28 +1375,7 @@ def chateau_3F(fenetre):
 
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        listequetefi = open("quetes/liste", "r")
-                        listequete = listequetefi.read().split("\'")
-                        listequetefi.close()
-
-                        if pnjli[i] in listequete:
-                            activefich = open("quetes/active", "r")
-                            activeque = activefich.read()
-                            activefich.close()
-                            if activeque == "":
-                                activefich = open("quetes/active", "w")
-                                activefich.write(pnjli[i])
-                                activefich.close()
-
-                        activefich = open("quetes/pnjrencontre", "r")
-                        activeque = activefich.read()
-                        activefich.close()
-                        if activeque != pnjli[i]:
-                            activefich = open("quetes/pnjrencontre", "w")
-                            activefich.write(pnjli[i])
-                            activefich.close()
-                        quete.quetes(fenetre)
-                        break
+                        dialogue(fenetre,pnjli[i])
         except:
             None
         fenetre.blit(perso.imageperso, perso.rect)

@@ -4,7 +4,9 @@ import pygame
 interfaceinvent=pygame.image.load("inventory/interface_inventaire_objets.png").convert_alpha()
 
 emplacementperso0=pygame.image.load("inventory/emplacementperso0.png").convert_alpha()
-perso0=pygame.image.load("perso/F1.png").convert_alpha()
+emplacementperso1=pygame.image.load("inventory/emplacementperso1.png").convert_alpha()
+emplacementperso2=pygame.image.load("inventory/emplacementperso2.png").convert_alpha()
+perso0=pygame.image.load("perso/N-Ship/F1.png").convert_alpha()
 stuff_actuel=pygame.image.load("inventory/stuff_actuel.png").convert_alpha()
 curseur=pygame.image.load("inventory/curseur.png").convert_alpha()
 test = pygame.image.load("launcher\pixelgitan.png").convert_alpha()
@@ -22,3 +24,7 @@ for i in range (10):
     taillechiffre.append(listechiffre[i].get_size())
 consommable=["pomme","nbsoin", "mana", "nbresurect"]
 
+ongletli=[]
+for i in range(3):
+    ongletli.append(pygame.image.load("inventory//onglet"+str(i)+".png").convert_alpha())
+onglet=ongletli[0]
