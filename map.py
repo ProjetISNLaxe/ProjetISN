@@ -912,14 +912,12 @@ def chateau_1F(fenetre):
     global chateau_1Fload
     chateau_1Fload = True
 
+    testtime = 0
     pygame.key.set_repeat(200, 100)  # Répétition des touches
     clock = pygame.time.Clock()
     image = pygame.image.load("imgmap/chateau_1F/chateau_1F.png").convert_alpha()
     image_obstacles = pygame.image.load("imgmap/chateau_1F/chateau_1F_obstacle.png").convert_alpha()
-    try:
-        image_dessus = pygame.image.load("imgmap/chateau_1F/chateau_1F_dessus.png").convert_alpha()
-    except:
-        None
+    #image_dessus = pygame.image.load("imgmap/chateau_1F/chateau_1F_dessus.png").convert_alpha()
     position = image.get_rect()
     persof = open("save1/perso", "r")
     person = persof.read()
@@ -938,7 +936,7 @@ def chateau_1F(fenetre):
     lirect = carect.split(",")
     position.x = int(lirect[0])
     position.y = int(lirect[1])
-    testtime = 0
+
     rectpersoactif = str("save1/pospeso/pospesochateau_1F")
     rectpersof = open(rectpersoactif, "r")
     shaperso = rectpersof.read()
@@ -980,7 +978,7 @@ def chateau_1F(fenetre):
         None
     myfont = pygame.font.SysFont("monospace", 20)
     grandemap = pygame.image.load("imgmap/map.png").convert_alpha()
-    perso.eventkey(position, masque, taille)
+
     while 1:
         for event in pygame.event.get():
             if event.type == QUIT:  # quitter le jeux en cliquant sur la croix
@@ -1013,7 +1011,7 @@ def chateau_1F(fenetre):
                     perso.imageperso = perso.R1
                 if event.key == K_LEFT:
                     perso.imageperso = perso.L1
-
+        perso.eventkey(position, masque, taille)
         tkey = pygame.key.get_pressed()
 
         for i in range(len(transili)):
@@ -1040,10 +1038,7 @@ def chateau_1F(fenetre):
         except:
             None
 
-        try:
-            fenetre.blit(image_dessus, position)
-        except:
-            None
+        #fenetre.blit(image_dessus, position)
 
         if tkey[K_e] and time.time() - testtime > 0.5:
             for i in range(len(transili)):
@@ -1070,8 +1065,8 @@ def chateau_1F(fenetre):
                             return
                         else:
                             capitale(fenetre)
-                    if transili[i] == "chateau_2F":
-                        chateau_2F(fenetre)
+                    if transili[i] == "chateau_3F":
+                        chateau_3F(fenetre)
                         testtime = time.time()
                         break
         if affichetext:
