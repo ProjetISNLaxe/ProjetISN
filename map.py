@@ -128,7 +128,7 @@ def capitale(fenetre):
                 pospeso = open("save1/pospeso/pospesocapitale", "w")
                 pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
                 pospeso.close()
-                posmap = open("save1/posmap/Zposmapcapitale", "w")
+                posmap = open("save1/posmap/posmapcapitale", "w")
                 posmap.write(str(position.x) + "," + str(position.y))
                 posmap.close()
                 pygame.quit()
@@ -168,9 +168,10 @@ def capitale(fenetre):
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
-        fenetre.blit(perso.imageperso, perso.rect)
         for i in range(len(pnjli)):
             fenetre.blit(imagepnj[i], position)
+        fenetre.blit(perso.imageperso, perso.rect)
+        for i in range(len(pnjli)):
             if tkey[K_f]:
                 if maskpnj[i].overlap(perso.mask,
                                       (perso.rect.x - position.x, perso.rect.y - position.y)):
@@ -916,7 +917,7 @@ def chateau_1F(fenetre):
     image = pygame.image.load("imgmap/chateau_1F/chateau_1F.png").convert_alpha()
     image_obstacles = pygame.image.load("imgmap/chateau_1F/chateau_1F_obstacle.png").convert_alpha()
     try:
-        image_dessus = pygame.image.load("imgmap/chateau_1F/chateau_1F_dessus").convert_alpha()
+        image_dessus = pygame.image.load("imgmap/chateau_1F/chateau_1F_dessus.png").convert_alpha()
     except:
         None
     position = image.get_rect()
@@ -1026,7 +1027,7 @@ def chateau_1F(fenetre):
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
-
+        fenetre.blit(perso.imageperso, perso.rect)
         try:
             for i in range(len(pnjli)):
                 fenetre.blit(imagepnj[i], position)
@@ -1038,7 +1039,7 @@ def chateau_1F(fenetre):
                         dialogue(fenetre, pnjli[i])
         except:
             None
-        fenetre.blit(perso.imageperso, perso.rect)
+
         try:
             fenetre.blit(image_dessus, position)
         except:

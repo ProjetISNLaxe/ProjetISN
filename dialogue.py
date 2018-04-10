@@ -125,7 +125,7 @@ def affichquete(fenetre, pnj):
     quetedispof.close()
     quetefi = open("quetes/liste", "r")
     queteli=quetefi.read()
-    quetefi.close
+    quetefi.close()
     imagepnj = pygame.image.load("pnj/" + pnj + "/" + pnj + "_tall.png").convert_alpha()
     bouton1 = pygame.image.load("quetes/HUD/boutonaccepter.png").convert_alpha()
     bouton2 = pygame.image.load("quetes/HUD/boutonrefuser.png").convert_alpha()
@@ -163,12 +163,14 @@ def affichquete(fenetre, pnj):
                     if testrect.colliderect(bouton1rect):
                         quetefi = open("quetes/liste", "r")
                         queteli=quetefi.read().split(",")
-                        quetefi.close
+                        quetefi.close()
                         if pnj not in  queteli and pnj in quetedispo:
                             quetefi = open("quetes/liste", "a")
                             quetefi.write("," + pnj)
-                            quetefi.close
+                            quetefi.close()
                             return
+
+
                         if pnj not in queteactive and pnj in queteli:
                             quetefi = open("quetes/active", "w")
                             quetefi.write(pnj)
