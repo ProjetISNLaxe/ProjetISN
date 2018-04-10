@@ -155,8 +155,9 @@ def invent(fenetre):
             curseurrect.y = 558
         if curseurrect.y < 145:
             curseurrect.y = 145
+        bandeauhaut = pygame.image.load("inventory/bandeaumoney+quete.png").convert_alpha()
         if queteactive != "":
-            bandeauhaut.blit(police.render(queteactive + " : " + mission, False, (53, 255, 251)), (10, 10))
+            bandeauhaut.blit(police.render(queteactive + " : " + mission, True, (53, 255, 251)), (10, 10))
         if ongletact == "invent":
             for i in range(len(inventaire)):
                 objetinventaireimage[i].blit(inventaire[i][0], (10, 8))
@@ -180,7 +181,7 @@ def queteinv(fenetre):
     objetqueteimage = []
     objetqueterect = []
     quetestr = quetefi.read().split(",")
-    for i in range(10):
+    for i in range(len(quetestr)):
         objetqueteimage.append(pygame.image.load("inventory/objetinventaire.png").convert_alpha())
         objetqueterect.append(Rect(287, 160 + 99 * i, 461, 98))
     bandeauhaut = pygame.image.load("inventory/bandeaumoney+quete.png").convert_alpha()
@@ -298,7 +299,7 @@ def queteinv(fenetre):
             mission = missionfi.read()
             missionfi.close()
         if queteactive != "":
-            bandeauhaut.blit(police.render(queteactive + " : " + mission, False, (53, 255, 251)), (10, 10))
+            bandeauhaut.blit(police.render(queteactive + " : " + mission, True, (53, 255, 251)), (10, 10))
 
         for i in range(len(quete)):
             quetefi = open("quetes/active", "r")
@@ -310,12 +311,12 @@ def queteinv(fenetre):
             toprint = toprintfi.read()
             toprintfi.close()
             objetqueteimage[i].blit(
-                police.render(quete[i][0].capitalize(), True, (40, 191, 188)), (10, 10))
+                police.render(quete[i][0].capitalize(), True, (0,0,0)), (10, 10))
             objetqueteimage[i].blit(
-                police.render("Objectif: " + toprint, True, (40, 191, 188)), (10, 30))
+                police.render("Objectif: " + toprint, True, (0,0,0)), (10, 30))
             if quete[i][0].capitalize() == queteactive:
                 objetqueteimage[i].blit(
-                    police.render("Active", True, (0, 0, 0)), (10, 45))
+                    police.render("Active", True, (0, 0, 0)), (10, 50))
         for i in range(len(lior)):
             bandeauhaut.blit(listechiffre[int(lior[i])], (720 - 22 * i, 5))
 

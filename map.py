@@ -168,17 +168,15 @@ def capitale(fenetre):
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
-
-        try:
-            for i in range(len(pnjli)):
-                fenetre.blit(imagepnj[i], position)
-                if tkey[K_f]:
-                    if maskpnj[i].overlap(perso.mask,
-                                          (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        dialogue(fenetre, pnjli[i])
-        except:
-            None
         fenetre.blit(perso.imageperso, perso.rect)
+        for i in range(len(pnjli)):
+            fenetre.blit(imagepnj[i], position)
+            if tkey[K_f]:
+                if maskpnj[i].overlap(perso.mask,
+                                      (perso.rect.x - position.x, perso.rect.y - position.y)):
+                    quete.quetes(fenetre)
+                    dialogue(fenetre, pnjli[i])
+
         try:
             fenetre.blit(image_dessus, position)
         except:
@@ -345,15 +343,16 @@ def maison_1(fenetre):
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
-
         for i in range(len(pnjli)):
             fenetre.blit(imagepnj[i], position)
+        fenetre.blit(perso.imageperso, perso.rect)
+        for i in range(len(pnjli)):
             if tkey[K_f]:
                 if maskpnj[i].overlap(perso.mask, (perso.rect.x - position.x, perso.rect.y - position.y)):
+                    quete.quetes(fenetre)
+                    dialogue(fenetre, pnjli[i])
 
-                    dialogue(fenetre,pnjli[i])
 
-        fenetre.blit(perso.imageperso, perso.rect)
         try:
             fenetre.blit(image_dessus, position)
         except:
@@ -509,19 +508,17 @@ def maison_2(fenetre):
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
-
-        try:
-            for i in range(len(pnjli)):
-                fenetre.blit(imagepnj[i], position)
-                if tkey[K_f]:
-
-                    if maskpnj[i].overlap(perso.mask,
-                                          (perso.rect.x - position.x, perso.rect.y - position.y)):
-
-                        dialogue(fenetre,pnjli[i])
-        except:
-            None
         fenetre.blit(perso.imageperso, perso.rect)
+        for i in range(len(pnjli)):
+            fenetre.blit(imagepnj[i], position)
+            if tkey[K_f]:
+
+                if maskpnj[i].overlap(perso.mask,
+                                      (perso.rect.x - position.x, perso.rect.y - position.y)):
+                    quete.quetes(fenetre)
+                    dialogue(fenetre, pnjli[i])
+
+
         try:
             fenetre.blit(image_dessus, position)
         except:
@@ -681,7 +678,7 @@ def auberge_1F(fenetre):
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
-
+        fenetre.blit(perso.imageperso, perso.rect)
         try:
             for i in range(len(pnjli)):
                 fenetre.blit(imagepnj[i], position)
@@ -689,10 +686,11 @@ def auberge_1F(fenetre):
 
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        dialogue(fenetre,pnjli[i])
+                        quete.quetes(fenetre)
+                        dialogue(fenetre, pnjli[i])
         except:
             None
-        fenetre.blit(perso.imageperso, perso.rect)
+
         try:
             fenetre.blit(image_dessus, position)
         except:
@@ -857,7 +855,7 @@ def auberge_2F(fenetre):
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
-
+        fenetre.blit(perso.imageperso, perso.rect)
         try:
             for i in range(len(pnjli)):
                 fenetre.blit(imagepnj[i], position)
@@ -865,10 +863,11 @@ def auberge_2F(fenetre):
 
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        dialogue(fenetre,pnjli[i])
+                        quete.quetes(fenetre)
+                        dialogue(fenetre, pnjli[i])
         except:
             None
-        fenetre.blit(perso.imageperso, perso.rect)
+
         try:
             fenetre.blit(image_dessus, position)
         except:
@@ -980,7 +979,7 @@ def chateau_1F(fenetre):
         None
     myfont = pygame.font.SysFont("monospace", 20)
     grandemap = pygame.image.load("imgmap/map.png").convert_alpha()
-
+    perso.eventkey(position, masque, taille)
     while 1:
         for event in pygame.event.get():
             if event.type == QUIT:  # quitter le jeux en cliquant sur la croix
@@ -1013,7 +1012,7 @@ def chateau_1F(fenetre):
                     perso.imageperso = perso.R1
                 if event.key == K_LEFT:
                     perso.imageperso = perso.L1
-        perso.eventkey(position, masque, taille)
+
         tkey = pygame.key.get_pressed()
 
         for i in range(len(transili)):
@@ -1035,7 +1034,8 @@ def chateau_1F(fenetre):
 
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        dialogue(fenetre,pnjli[i])
+                        quete.quetes(fenetre)
+                        dialogue(fenetre, pnjli[i])
         except:
             None
         fenetre.blit(perso.imageperso, perso.rect)
@@ -1199,7 +1199,7 @@ def chateau_2F(fenetre):
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
-
+        fenetre.blit(perso.imageperso, perso.rect)
         try:
             for i in range(len(pnjli)):
                 fenetre.blit(imagepnj[i], position)
@@ -1207,10 +1207,11 @@ def chateau_2F(fenetre):
 
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        dialogue(fenetre,pnjli[i])
+                        quete.quetes(fenetre)
+                        dialogue(fenetre, pnjli[i])
         except:
             None
-        fenetre.blit(perso.imageperso, perso.rect)
+
         fenetre.blit(image_dessus, position)
 
         if tkey[K_e] and time.time() - testtime > 0.5:
@@ -1304,20 +1305,19 @@ def chateau_3F(fenetre):
         imagetransi.append(
             pygame.image.load("imgmap/chateau_3F/chateau_3F_" + transili[i] + ".png"))
         masktransi.append(pygame.mask.from_surface(imagetransi[i]))
-    try:
-        pnji = open("imgmap/chateau_3F/pnjchateau_3F", "r")
-        pnj = pnji.read()
-        pnji.close()
-        pnjli = pnj.split(",")
-        imagepnj = []
-        maskpnj = []
 
-        for i in range(len(pnjli)):
+    pnji = open("imgmap/chateau_3F/pnjchateau_3F", "r")
+    pnj = pnji.read()
+    pnji.close()
+    pnjli = pnj.split(",")
+    imagepnj = []
+    maskpnj = []
+
+    for i in range(len(pnjli)):
             imagepnj.append(
                 pygame.image.load("imgmap/chateau_3F/chateau_3F_" + pnjli[i] + ".png"))
             maskpnj.append(pygame.mask.from_surface(imagepnj[i]))
-    except:
-        None
+
     myfont = pygame.font.SysFont("monospace", 20)
     grandemap = pygame.image.load("imgmap/map.png").convert_alpha()
 
@@ -1367,18 +1367,19 @@ def chateau_3F(fenetre):
         perso.gold = int(goldf.read())
         goldf.close()
         fenetre.blit(image, position)
-
-        try:
-            for i in range(len(pnjli)):
+        for i in range(len(pnjli)):
                 fenetre.blit(imagepnj[i], position)
+        fenetre.blit(perso.imageperso, perso.rect)
+
+        for i in range(len(pnjli)):
                 if tkey[K_f]:
 
                     if maskpnj[i].overlap(perso.mask,
                                           (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        dialogue(fenetre,pnjli[i])
-        except:
-            None
-        fenetre.blit(perso.imageperso, perso.rect)
+                        quete.quetes(fenetre)
+                        dialogue(fenetre, pnjli[i])
+
+
         try:
             fenetre.blit(image_dessus, position)
         except:
