@@ -32,6 +32,7 @@ def affichage(action, tour, choix):
     if objet.menu_ == 1:
         fenetre.blit(my_font.render(str(soin.quantite), False, (255, 255, 255)), (670, 520))
         fenetre.blit(my_font.render(str(resurection.quantite), False, (255, 255, 255)), (670, 500))
+        fenetre.blit(my_font.render(str(mana.quantite), False, (255, 255, 255)), (670, 540))
     if tour == 1:
         if not sinatra.active:
             david.rect = position2  # endroit de spawn du perso
@@ -100,6 +101,7 @@ def affichageanim(d, tour, variableanim):
     fouldebeu = pygame.image.load("animation/fireball.png").convert_alpha()
     fouldebeunul = pygame.image.load("animation/fireballkitomb.png").convert_alpha()
     fleche = pygame.image.load("animation/fleche.png").convert_alpha()
+    bouclier = pygame.image.load("animation/bouclier.png").convert_alpha()
 
     i = 0
     fenetre.blit(fond, (0, 0))
@@ -147,6 +149,9 @@ def affichageanim(d, tour, variableanim):
                 fenetre.blit(fouldebeunul, (569, 250 + i * 2))
         elif variableanim==4:
             fenetre.blit(david.image, (689, 200))
+        elif variableanim == 5:
+            fenetre.blit(david.image, (689, 200))
+            fenetre.blit(bouclier, (689, 200))
 
         else:
             if i < 80:

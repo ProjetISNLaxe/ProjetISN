@@ -36,6 +36,7 @@ class perso(pygame.sprite.Sprite):
         self.ptforce = 0
         self.ptvie = 0
         self.bonus = 0
+        self. ingame=False
         if self.xp == self.difficulteniveau:
             self.xp = 0
             self.niveau += 1
@@ -60,6 +61,8 @@ class perso2(perso):
         self.vie = 200
         self.taunt = 0
         self.armure = 10
+        self.ptbouclier=0
+        self.immortal=False
 
 
 class perso3(perso):
@@ -69,6 +72,7 @@ class perso3(perso):
         self.vie = 100
         self.active = False
         self.poison = False
+        self.ptpoison=0
 
 
 class ennemi(pygame.sprite.Sprite):
@@ -95,4 +99,5 @@ attaque = menu()
 enemitipe = ennemi("imagebonhomme/ennemi/cerberus.png")
 soin = sac(1)
 resurection = sac(1)
+mana=sac(1)
 combat = bataille()

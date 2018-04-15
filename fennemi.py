@@ -46,7 +46,8 @@ def ennemiloup():
     p = cible()
     d = randint(35, 50)
     if p == 2 or david.taunt < 0:
-        david.vie -= (d - david.armure)
+        if not david.immortal:
+            david.vie -= (d - david.armure)
     elif p == 1:
         perso_joueur.vie -= (d - perso_joueur.armure)
     elif p == 3:
