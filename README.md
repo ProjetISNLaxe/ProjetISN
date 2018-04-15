@@ -7,6 +7,7 @@
 -Option pour le Shooter
 
 
+
 -RPG avec deplacement de map terminé
 
 -Inventaire sans la partie Armure
