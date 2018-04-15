@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from sys import exit
 from imageinterfacetoload import *
+import arbre
 
 
 def printinvent(fenetre):
@@ -87,6 +88,8 @@ def invent(fenetre):
                     curseurrect.y -= 98 / 1.5 / len(inventaire)  # on monte l'inventaire
                     for i in range(len(objetinventairerect)):
                         objetinventairerect[i][1] += 98 / 1.5 / len(inventaire)
+                if event.key == K_TAB:
+                    arbre.arbre_compet(fenetre)
             if event.type == MOUSEMOTION:
                 testrect.x = event.pos[0]
                 testrect.y = event.pos[1]  # on capture les positions de la souris et on l'attribut au pixel test
@@ -233,6 +236,8 @@ def queteinv(fenetre):
                     curseurrect.y -= 98 / 1.5 / len(quete)
                     for i in range(len(objetqueterect)):
                         objetqueterect[i][1] += 98 / 1.5 / len(quete)
+                if event.key == K_TAB:
+                    arbre.arbre_compet(fenetre)
             if event.type == MOUSEMOTION:
                 testrect.x = event.pos[0]
                 testrect.y = event.pos[1]
