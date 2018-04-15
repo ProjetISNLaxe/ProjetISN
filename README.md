@@ -1,6 +1,6 @@
 # Retravel 
 
--Shooter avec transition RPG
+-Shooter avec transition RPG/n
 -Endless Shooter
 -Option pour le Shooter
 
