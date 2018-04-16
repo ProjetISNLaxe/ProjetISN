@@ -1,6 +1,7 @@
 import pygame, random, sys
 from pygame.locals import *
 from imageinterfacetoload import testrect, alphabet, police
+from combatV3 import tourpartour
 
 def quetes(fenetre):
     activefich = open("quetes\\active", "r")
@@ -10,12 +11,12 @@ def quetes(fenetre):
         marie(fenetre)
     if active == "patrick":
         patrick(fenetre)
-    if active == "spawn":
-        histoire(fenetre)
+    if active == "jeanma":
+        jeanma(fenetre)
     if active == "dragon":
         dragon(fenetre)
 
-def remove(pnj):
+def deleteactive(pnj):
     todo = open("quetes\\liste", "r")
     todoli = todo.read().split(",")
     todo.close()
@@ -31,6 +32,35 @@ def remove(pnj):
     activefich = open("quetes\\active", "w")
     activefich.write("")
     activefich.close()
+
+def delete(pnj):
+    todo = open("quetes\\liste", "r")
+    todoli = todo.read().split(",")
+    todo.close()
+    todoli.remove(pnj)
+    for i in range(len(todoli) - 1):
+        todoli[i] += ","
+    todostr = ""
+    for i in range(len(todoli)):
+        todostr += todoli[i]
+    todo = open("quetes\\liste", "w")
+    todo.write(todostr)
+    todo.close()
+    activefich = open("quetes\\active", "w")
+    activefich.write("")
+    activefich.close()
+    todo = open("quetes\\quetedispo", "r")
+    todoli = todo.read().split(",")
+    todo.close()
+    todoli.remove(pnj)
+    for i in range(len(todoli) - 1):
+        todoli[i] += ","
+    todostr = ""
+    for i in range(len(todoli)):
+        todostr += todoli[i]
+    todo = open("quetes\\quetedispo", "w")
+    todo.write(todostr)
+    todo.close()
 
 def win(pnj, fenetre):
     """Fonction qui permet l'affichage des dialogues pnj perso"""
@@ -125,8 +155,6 @@ def win(pnj, fenetre):
         clock.tick(60)  # 60 FPS
         pygame.display.flip()
 
-
-
 def marie(fenetre):
     activefich = open("quetes\\pnjrencontre", "r")
     active = activefich.read()
@@ -137,7 +165,7 @@ def marie(fenetre):
         activefich = open("quetes\\pnjrencontre", "w")
         activefich.write("")
         activefich.close()
-        remove("marie")
+        delete("marie")
         win("marie", fenetre)
 
 def patrick(fenetre):
@@ -149,7 +177,7 @@ def patrick(fenetre):
     litransifi.close()
 
     if active == "marie":
-        remove("patrick")
+        delete("patrick")
         win("patrick", fenetre)
 
 def snake(fenetre):
@@ -214,29 +242,43 @@ def snake(fenetre):
         fenetre.blit(police.render(str(score), True, (0, 0, 0)), (10, 10))
         pygame.display.flip()
 
-def histoire(fenetre):
+def jeanma(fenetre):
     rencontrefi = open("quetes\\pnjrencontre", "r")
     rencontre = rencontrefi.read()
     rencontrefi.close()
     mobfi = open("quetes\\mobmort", "r")
     mob = mobfi.read()
     mobfi.close()
-    toprintfi = open("quetes\\histoire\\toprint", "w")
+    toprintfi = open("quetes\\jeanma\\toprint", "w")
     toprintfi.write("Explorez les environs")
     toprintfi.close()
-    jeanmafi = open("quetes\\pnjrencontre", "r")
+    jeanmafi = open("quetes/jeanma/jeanma", "r")
     jeanma = jeanmafi.read()
     jeanmafi.close()
-    if rencontre == "jeanma" and jeanma == "0":
-        toprintfi = open("quetes\\histoire\\toprint", "w")
+    loupfi = open("quetes/jeanma/loup", "r")
+    loup = loupfi.read()
+    loupfi.close()
+    if rencontre == "jeanma" and jeanma != "1":
+        print("jey")
+        toprintfi = open("quetes\\jeanma\\toprint", "w")
         toprintfi.write("Sauvez-le ou vous serez chatié")
         toprintfi.close()
-    if jeanma == "0" and mob == "loup":
-        jeanmafi = open("quetes\\pnjrencontre", "r")
+        jeanmafi = open("quetes/jeanma/jeanma", "w")
         jeanmafi.write("1")
         jeanmafi.close()
-    if jeanma == "1":
-        toprintfi = open("quetes\\histoire\\toprint", "w")
+    if jeanma == "1" and mob == "loup":
+        etat=tourpartour(fenetre)
+        mobfi = open("quetes\\mobmort", "w")
+        mobfi.write("")
+        mobfi.close()
+        if etat == "victoire":
+            loupfi = open("quetes/jeanma/loup", "w")
+            loupfi.write("1")
+            loupfi.close()
+
+
+    if loup == "1":
+        toprintfi = open("quetes\\jeanma\\toprint", "w")
         toprintfi.write("Cherchez un bateau sur la rive")
         toprintfi.close()
 
@@ -252,7 +294,7 @@ def dragon(fenetre):
         activefich.write("")
         activefich.close()
         if score>10:
-            remove("dragon")
+            deleteactive("dragon")
             win("dragon",fenetre)
         else:
             return

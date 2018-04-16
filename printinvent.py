@@ -25,7 +25,8 @@ def printinvent(fenetre):
 def invent(fenetre):
     """Fonction qui affiche l'inventaire du perso"""
     clock = pygame.time.Clock()
-    fond = pygame.image.load("inventory/fond.jpg").convert()#On met en fond un screen de la situation a cause de l'alpha très important
+    fond = pygame.image.load(
+        "inventory/fond.jpg").convert()  # On met en fond un screen de la situation a cause de l'alpha très important
     follow = False
     curseurrect.x = 769  # Position curseur
     curseurrect.y = 145
@@ -150,27 +151,31 @@ def invent(fenetre):
             if objetinventairerect[i][1] >= 150:
                 fenetre.blit(objetinventaireimage[i], objetinventairerect[i])
 
-        if follow == True:#Si on suis le curseur
+        if follow == True:  # Si on suis le curseur
             if 558 >= curseurrect.y >= 145:
                 savecurseur = curseurrect.y
                 curseurrect.y = testrect.y
             if 558 > curseurrect.y > 145:
                 for i in range(len(objetinventairerect)):
                     objetinventairerect[i][1] += 1.5 * (savecurseur - curseurrect.y) / len(inventaire)
-        if curseurrect.y <= 145:#On repositionne l'inventaire pour eviter les decalages si le curseur est en haut
+        if curseurrect.y <= 145:  # On repositionne l'inventaire pour eviter les decalages si le curseur est en haut
             for i in range(len(objetinventairerect)):
                 objetinventairerect[i][1] = 160 + 99 * i
         if curseurrect.y > 558:
-            curseurrect.y = 558#on repositionne le curseur si il sort de sa barre
+            curseurrect.y = 558  # on repositionne le curseur si il sort de sa barre
         if curseurrect.y < 145:
             curseurrect.y = 145
-        bandeauhaut = pygame.image.load("inventory/bandeaumoney+quete.png").convert_alpha()#On raffraichis la barre
-        if queteactive != "":#Si il y a une quete, on blit la description
-            bandeauhaut.blit(police.render(queteactive + " : " + mission, True, (53, 255, 251)), (10, 10))
+        bandeauhaut = pygame.image.load("inventory/bandeaumoney+quete.png").convert_alpha()  # On raffraichis la barre
+        if queteactive != "":  # Si il y a une quete, on blit la description
+            if queteactive != "Jeanma":
+                bandeauhaut.blit(police.render(queteactive + " : " + mission, True, (53, 255, 251)), (10, 10))
+            else:
+                bandeauhaut.blit(police.render("Histoire" + " : " + mission, True, (53, 255, 251)), (10, 10))
 
-        for i in range(len(inventaire)):#On affiche la description des objets
+        for i in range(len(inventaire)):  # On affiche la description des objets
             objetinventaireimage[i].blit(inventaire[i][0], (10, 8))
-            objetinventaireimage[i].blit(police.render("Quantitée : " + str(inventaire[i][1]), False, (0, 0, 0)), (95, 10))
+            objetinventaireimage[i].blit(police.render("Quantitée : " + str(inventaire[i][1]), False, (0, 0, 0)),
+                                         (95, 10))
         for i in range(len(lior)):
             bandeauhaut.blit(listechiffre[int(lior[i])], (720 - 22 * i, 5))
 
@@ -178,7 +183,8 @@ def invent(fenetre):
         clock.tick(60)
         pygame.display.flip()
 
-#Commentaires analogues à la fonction invent
+
+# Commentaires analogues à la fonction invent
 def queteinv(fenetre):
     """ Fonction qui affiche la liste des quêtes """
     clock = pygame.time.Clock()
@@ -310,7 +316,10 @@ def queteinv(fenetre):
             mission = missionfi.read()
             missionfi.close()
         if queteactive != "":
-            bandeauhaut.blit(police.render(queteactive + " : " + mission, True, (53, 255, 251)), (10, 10))
+            if queteactive!="Jeanma":
+                bandeauhaut.blit(police.render(queteactive + " : " + mission, True, (53, 255, 251)), (10, 10))
+            else:
+                bandeauhaut.blit(police.render("Histoire" + " : " + mission, True, (53, 255, 251)), (10, 10))
 
         for i in range(len(quete)):
             quetefi = open("quetes/active", "r")
@@ -320,7 +329,10 @@ def queteinv(fenetre):
             toprintfi = open("quetes/" + quete[i][0] + "/toprint")
             toprint = toprintfi.read()
             toprintfi.close()
-            objetqueteimage[i].blit(police.render(quete[i][0].capitalize(), True, (0, 0, 0)), (10, 10))
+            if quete[i][0]!="jeanma":
+                objetqueteimage[i].blit(police.render(quete[i][0].capitalize(), True, (0, 0, 0)), (10, 10))
+            else:
+                objetqueteimage[i].blit(police.render("Histoire", True, (0, 0, 0)), (10, 10))
             objetqueteimage[i].blit(police.render("Objectif: " + toprint, True, (0, 0, 0)), (10, 30))
             if quete[i][0].capitalize() == queteactive:
                 objetqueteimage[i].blit(

@@ -9,6 +9,7 @@ import time
 from printinvent import printinvent
 from dialogue import *
 
+
 listequetefi = open("quetes/liste", "r")
 listequete = listequetefi.read().split("\'")
 listequetefi.close()
@@ -35,6 +36,9 @@ def selecmap(fenetre):
         chateau_2F(fenetre)
     if mapactive == "chateau_3F":
         chateau_3F(fenetre)
+    if mapactive == "mapdepart":
+        mapdepart(fenetre)
+
 
 
 def chargement():
@@ -353,7 +357,6 @@ def maison_1(fenetre):
                     quete.quetes(fenetre)
                     dialogue(fenetre, pnjli[i])
 
-
         try:
             fenetre.blit(image_dessus, position)
         except:
@@ -518,7 +521,6 @@ def maison_2(fenetre):
                                       (perso.rect.x - position.x, perso.rect.y - position.y)):
                     quete.quetes(fenetre)
                     dialogue(fenetre, pnjli[i])
-
 
         try:
             fenetre.blit(image_dessus, position)
@@ -917,7 +919,7 @@ def chateau_1F(fenetre):
     clock = pygame.time.Clock()
     image = pygame.image.load("imgmap/chateau_1F/chateau_1F.png").convert_alpha()
     image_obstacles = pygame.image.load("imgmap/chateau_1F/chateau_1F_obstacle.png").convert_alpha()
-    #image_dessus = pygame.image.load("imgmap/chateau_1F/chateau_1F_dessus.png").convert_alpha()
+    # image_dessus = pygame.image.load("imgmap/chateau_1F/chateau_1F_dessus.png").convert_alpha()
     position = image.get_rect()
     persof = open("save1/perso", "r")
     person = persof.read()
@@ -1038,7 +1040,7 @@ def chateau_1F(fenetre):
         except:
             None
 
-        #fenetre.blit(image_dessus, position)
+        # fenetre.blit(image_dessus, position)
 
         if tkey[K_e] and time.time() - testtime > 0.5:
             for i in range(len(transili)):
@@ -1310,9 +1312,9 @@ def chateau_3F(fenetre):
     maskpnj = []
 
     for i in range(len(pnjli)):
-            imagepnj.append(
-                pygame.image.load("imgmap/chateau_3F/chateau_3F_" + pnjli[i] + ".png"))
-            maskpnj.append(pygame.mask.from_surface(imagepnj[i]))
+        imagepnj.append(
+            pygame.image.load("imgmap/chateau_3F/chateau_3F_" + pnjli[i] + ".png"))
+        maskpnj.append(pygame.mask.from_surface(imagepnj[i]))
 
     myfont = pygame.font.SysFont("monospace", 20)
     grandemap = pygame.image.load("imgmap/map.png").convert_alpha()
@@ -1364,17 +1366,16 @@ def chateau_3F(fenetre):
         goldf.close()
         fenetre.blit(image, position)
         for i in range(len(pnjli)):
-                fenetre.blit(imagepnj[i], position)
+            fenetre.blit(imagepnj[i], position)
         fenetre.blit(perso.imageperso, perso.rect)
 
         for i in range(len(pnjli)):
-                if tkey[K_f]:
+            if tkey[K_f]:
 
-                    if maskpnj[i].overlap(perso.mask,
-                                          (perso.rect.x - position.x, perso.rect.y - position.y)):
-                        quete.quetes(fenetre)
-                        dialogue(fenetre, pnjli[i])
-
+                if maskpnj[i].overlap(perso.mask,
+                                      (perso.rect.x - position.x, perso.rect.y - position.y)):
+                    quete.quetes(fenetre)
+                    dialogue(fenetre, pnjli[i])
 
         try:
             fenetre.blit(image_dessus, position)
@@ -1406,6 +1407,199 @@ def chateau_3F(fenetre):
                             return
                         else:
                             chateau_2F(fenetre)
+        if affichetext:
+            fenetre.blit(myfont.render("PRESS E", False, (1, 44, 166)), (perso.rect.x - 75, perso.rect.y))
+        if tkey[K_SEMICOLON]:
+            fenetre.blit(grandemap, (0, 0))
+            fenetre.blit(perso.imageperso, (192, 194))
+        pygame.display.flip()  # On raffraichis l'ecran
+        clock.tick(60)  # 60 FPS
+
+
+def mapdepart(fenetre):
+    global mapdepartload
+    mapdepartload = True
+
+    testtime = 0
+    pygame.key.set_repeat(200, 100)  # Répétition des touches
+    clock = pygame.time.Clock()
+    image = pygame.image.load("imgmap/mapdepart/mapdepart.png").convert_alpha()
+    image_obstacles = pygame.image.load("imgmap/mapdepart/mapdepart_obstacle.png").convert_alpha()
+    # image_dessus = pygame.image.load("imgmap/mapdepart/mapdepart_dessus.png").convert_alpha()
+    position = image.get_rect()
+    persof = open("save1/perso", "r")
+    person = persof.read()
+    if person == "1":
+        perso = persobase()
+    persof.close()
+    mapactives = str("save1/posmap/posmapmapdepart")
+    rectf = open(mapactives, "r")
+    carect = rectf.read()
+    rectf.close()
+    if carect == "":
+        mapactives = str("imgmap/mapdepart/spawnmapdepart")
+        rectf = open(mapactives, "r")
+        carect = rectf.read()
+        rectf.close()
+    lirect = carect.split(",")
+    position.x = int(lirect[0])
+    position.y = int(lirect[1])
+
+    rectpersoactif = str("save1/pospeso/pospesomapdepart")
+    rectpersof = open(rectpersoactif, "r")
+    shaperso = rectpersof.read()
+    rectpersof.close()
+    if shaperso == "":
+        perso.rect.x = 400 - perso.size[0] / 2
+        perso.rect.y = 300 - perso.size[1] / 2
+    else:
+        lipersorect = shaperso.split(",")
+        perso.rect.x = int(lipersorect[0])
+        perso.rect.y = int(lipersorect[1])
+
+    masque = pygame.mask.from_surface(image_obstacles)
+    taille = image.get_size()
+
+    transi = open("imgmap/mapdepart/transimapdepart", "r")
+    transition = transi.read()
+    transi.close()
+    transili = transition.split(",")
+    imagetransi = []
+    masktransi = []
+    for i in range(len(transili)):
+        imagetransi.append(
+            pygame.image.load("imgmap/mapdepart/mapdepart_" + transili[i] + ".png"))
+        masktransi.append(pygame.mask.from_surface(imagetransi[i]))
+    try:
+        pnji = open("imgmap/mapdepart/pnjmapdepart", "r")
+        pnj = pnji.read()
+        pnji.close()
+        pnjli = pnj.split(",")
+        imagepnj = []
+        maskpnj = []
+
+        for i in range(len(pnjli)):
+            imagepnj.append(
+                pygame.image.load("imgmap/mapdepart/mapdepart_" + pnjli[i] + ".png"))
+            maskpnj.append(pygame.mask.from_surface(imagepnj[i]))
+    except:
+        None
+
+    mobi = open("imgmap/mapdepart/mobmapdepart", "r")
+    mob = mobi.read()
+    mobi.close()
+    mobli = mob.split(",")
+    imagemob = []
+    maskmob = []
+
+    for i in range(len(mobli)):
+            imagemob.append(
+                pygame.image.load("imgmap/mapdepart/mapdepart_" + mobli[i] + ".png"))
+            maskmob.append(pygame.mask.from_surface(imagemob[i]))
+
+    myfont = pygame.font.SysFont("monospace", 20)
+    grandemap = pygame.image.load("imgmap/map.png").convert_alpha()
+
+    while 1:
+        for event in pygame.event.get():
+            if event.type == QUIT:  # quitter le jeux en cliquant sur la croix
+                pospeso = open("save1/pospeso/pospesomapdepart", "w")
+                pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
+                pospeso.close()
+                posmap = open("save1/posmap/posmapmapdepart", "w")
+                posmap.write(str(position.x) + "," + str(position.y))
+                posmap.close()
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:  # Echap pour quitter
+                    pospeso = open("save1/pospeso/pospesomapdepart", "w")
+                    pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
+                    pospeso.close()
+                    posmap = open("save1/posmap/posmapmapdepart", "w")
+                    posmap.write(str(position.x) + "," + str(position.y))
+                    posmap.close()
+                    return
+                if event.key == K_i:
+                    pygame.image.save(fenetre, "inventory/fond.jpg")
+                    printinvent(fenetre)
+            if event.type == KEYUP:
+                if event.key == K_DOWN:
+                    perso.imageperso = perso.F1
+                if event.key == K_UP:
+                    perso.imageperso = perso.B1
+                if event.key == K_RIGHT:
+                    perso.imageperso = perso.R1
+                if event.key == K_LEFT:
+                    perso.imageperso = perso.L1
+        perso.eventkey(position, masque, taille)
+        tkey = pygame.key.get_pressed()
+
+        transf = open("save1/histoire/transibateau", "r")
+        transitionre = bool(int(transf.read()))
+        transf.read()
+
+        for i in range(len(transili)):
+            if masktransi[i].overlap(perso.mask, (perso.rect.x - position.x, perso.rect.y - position.y)) and transitionre:
+                affichetext = True
+                break
+            else:
+                affichetext = False
+
+        fenetre.blit(image, position)
+        fenetre.blit(perso.imageperso, perso.rect)
+
+        for i in range(len(pnjli)):
+                fenetre.blit(imagepnj[i], position)
+                if tkey[K_f]:
+
+                    if maskpnj[i].overlap(perso.mask,
+                                          (perso.rect.x - position.x, perso.rect.y - position.y)):
+                        quete.quetes(fenetre)
+                        dialogue(fenetre, pnjli[i])
+
+
+
+        for i in range(len(mobli)):
+                fenetre.blit(imagemob[i], position)
+                if tkey[K_f]:
+
+                    if maskmob[i].overlap(perso.mask,
+                                          (perso.rect.x - position.x, perso.rect.y - position.y)):
+                        mobfi = open("quetes\\mobmort", "w")
+                        mobfi.write(mobli[i])
+                        mobfi.close()
+                        quete.quetes(fenetre)
+
+        # fenetre.blit(image_dessus, position)
+
+
+        if tkey[K_e] and time.time() - testtime > 0.5:
+            for i in range(len(transili)):
+                if transitionre and masktransi[i].overlap(perso.mask,
+                                         (perso.rect.x - position.x, perso.rect.y - position.y)):
+                    maptransi = open("save1/map", "w")
+                    maptransi.write(transili[i])
+                    maptransi.close()
+                    pospeso = open("save1/pospeso/pospesomapdepart", "w")
+                    pospeso.write(str(perso.rect.x) + "," + str(perso.rect.y))
+                    pospeso.close()
+                    posmap = open("save1/posmap/posmapmapdepart", "w")
+                    posmap.write(str(position.x) + "," + str(position.y))
+                    posmap.close()
+                    fenetre.blit(myfont.render("CHARGEMENT...", False, (1, 44, 166)), (500, 50))
+                    pygame.display.flip()
+                    litransifi = open("quetes/visitelieu", "w")
+                    litransifi.write(transili[i])
+                    litransifi.close()
+                    quete.quetes(fenetre)
+
+                    global capitaleload
+                    if transili[i] == "capitale":
+                        if capitaleload:
+                            return
+                        else:
+                            capitale(fenetre)
         if affichetext:
             fenetre.blit(myfont.render("PRESS E", False, (1, 44, 166)), (perso.rect.x - 75, perso.rect.y))
         if tkey[K_SEMICOLON]:
