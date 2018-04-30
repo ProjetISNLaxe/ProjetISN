@@ -110,7 +110,7 @@ class perso3(perso):
         self.vie = 100
         self.active = False
         self.poison = False
-        self.ptpoison=0
+        self.ptdodge=0
 
 class affichage():
     def __init__(self):
