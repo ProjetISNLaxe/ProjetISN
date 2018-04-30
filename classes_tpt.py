@@ -1,15 +1,17 @@
 ﻿import pygame
 from pygame.locals import *
 from random import *
-from fennemi import *
+import random
 import time
 
 pygame.init()
 fenetre = pygame.display.set_mode((800, 600))
 
+
 class attaqueennemi():
     def __init__(self):
-        self.p=0
+        self.p = 0
+
     def cible(self):
         if not sinatra.active:
             n = [1, 2]
@@ -24,7 +26,13 @@ class attaqueennemi():
         self.p = choice(n)
         while self.p == 0:
             self.p = choice(n)
+
     def verification(self):
+        if malarich.feu > 0:
+            malarich.feu -= 1
+            david.vie -= 10
+            perso_joueur.vie -= 10
+            sinatra.vie -= 10
         if david.vie <= 0:
             david.alive = False
             david.vie = 0
@@ -42,22 +50,23 @@ class attaqueennemi():
             pygame.quit()
             exit()
 
+
 class menu:
     def __init__(self):
         self.menu_ = 0
 
 
 class sac:
-    def __init__(self, q,image):
+    def __init__(self, q, image):
         self.quantite = q
-        self.imageanim= pygame.image.load(image).convert_alpha()
+        self.imageanim = pygame.image.load(image).convert_alpha()
 
 
 class bataille:
     def __init__(self):
         self.etat = "combatencour"
-        self.anim= 0
-        self.tour=1
+        self.anim = 0
+        self.tour = 1
 
 
 class perso(pygame.sprite.Sprite):
@@ -74,7 +83,7 @@ class perso(pygame.sprite.Sprite):
         self.ptforce = 0
         self.ptvie = 0
         self.bonus = 0
-        self. ingame=False
+        self.ingame = False
         if self.xp == self.difficulteniveau:
             self.xp = 0
             self.niveau += 1
@@ -99,8 +108,8 @@ class perso2(perso):
         self.vie = 200
         self.taunt = 0
         self.armure = 10
-        self.ptbouclier=0
-        self.immortal=False
+        self.ptbouclier = 0
+        self.immortal = False
 
 
 class perso3(perso):
@@ -110,12 +119,14 @@ class perso3(perso):
         self.vie = 100
         self.active = False
         self.poison = False
-        self.ptdodge=0
+        self.ptdodge = 0
+
 
 class affichage():
     def __init__(self):
         0
-    def affichageanimennemi(self,d):
+
+    def affichageanimennemi(self, d):
         fichier = open("save1/map", "r")
         map = fichier.read()
         fichier.close()
@@ -153,26 +164,27 @@ class affichage():
             fenetre.blit(bandeaubleue, (390, 200))
             fenetre.blit(bandeaurouge, (-1, 200))
             if i < 80:
-                if fennemi.p == 1:
-                    fenetre.blit(perso_joueur.image, (659, 200))
-                if fennemi.p == 2:
+                if fennemi.p == 2 or david.taunt > 0:
                     fenetre.blit(david.image, (659, 200))
-                if fennemi.p == 3:
+                elif fennemi.p == 1:
+                    fenetre.blit(perso_joueur.image, (659, 200))
+                elif fennemi.p == 3:
                     fenetre.blit(sinatra.image, (659, 200))
                 fenetre.blit(enemitipe.image, (11 + i * 4, 200))
             if i > 80:
                 fenetre.blit(my_font.render(str(d), 3, (255, 10, 10)), (659, 180))
                 fenetre.blit(enemitipe.image, (411, 200))
-                if fennemi.p == 1:
-                    fenetre.blit(perso_joueur.image, (659, 200))
-                if fennemi.p == 2:
+                if fennemi.p == 2 or david.taunt > 0:
                     fenetre.blit(david.image, (689, 200))
-                if fennemi.p == 3:
+                elif fennemi.p == 1:
+                    fenetre.blit(perso_joueur.image, (659, 200))
+                elif fennemi.p == 3:
                     fenetre.blit(sinatra.image, (659, 200))
             i += 1
             clock.tick(60)
             pygame.display.flip()
-    def affichage(self,action, choix):
+
+    def affichage(self, action, choix):
         my_font = pygame.font.SysFont("Calibri", 18)  # les different taille d'ecriture
         my_font2 = pygame.font.SysFont("Calibri", 21)
         fichier = open("save1/map", "r")
@@ -267,7 +279,8 @@ class affichage():
         elif choix == 4:
             fenetre.blit(my_font.render("-", False, (255, 255, 255)), (520, 560))
         pygame.display.flip()
-    def affichageanim(self,d):
+
+    def affichageanim(self, d):
         fichier = open("save1/map", "r")
         map = fichier.read()
         fichier.close()
@@ -377,52 +390,107 @@ class affichage():
             i += 1
 
 
-
-
 class ennemi(pygame.sprite.Sprite):
     def __init__(self, imageperso):
         self.image = pygame.image.load(imageperso).convert_alpha()
         self.rect = self.image.get_rect()
-        self.size = self.image.get_size()
         self.alive = False
 
 
 class loup(ennemi):
-    def __init__(self,imageperso):
+    def __init__(self, imageperso):
         ennemi.__init__(self, imageperso)
         self.vie = 250
-    def attaque(self):
-            fennemi.cible()
-            d = randint(35, 50)
-            if fennemi.p == 2 or david.taunt < 0:
-                if not david.immortal:
-                    david.vie -= (d - david.armure)
-            elif fennemi.p == 1:
-                perso_joueur.vie -= (d - perso_joueur.armure)
-            elif fennemi.p == 3:
-                if random() <= 0.5:
-                    sinatra.vie -= d
-            affichage.affichageanimennemi(d)
-            fennemi.verification()
 
-class soldat(ennemi):
-    def __init__(self,imageperso):
+    def attaque(self):
+        fennemi.cible()
+        d = randint(35, 50)
+        if david.taunt > 0:
+            david.vie -= (d - david.armure)
+        elif fennemi.p == 2:
+            if not david.immortal:
+                david.vie -= (d - david.armure)
+        elif fennemi.p == 1:
+            perso_joueur.vie -= (d - perso_joueur.armure)
+        elif fennemi.p == 3:
+            if random() <= 0.3 + (0.05 * sinatra.ptdodge):
+                sinatra.vie -= d
+        affichage.affichageanimennemi(d)
+        fennemi.verification()
+
+
+class soldatpt(ennemi):
+    def __init__(self, imageperso):
         ennemi.__init__(self, imageperso)
         self.vie = 200
-    def attaque(self):
-            fennemi.cible()
-            d = randint(100, 110)
-            if fennemi.p == 2 or david.taunt < 0:
-                if not david.immortal:
-                    david.vie -= (d - david.armure)
-            elif fennemi.p == 1:
-                perso_joueur.vie -= (d - perso_joueur.armure)
-            elif fennemi.p == 3:
-                if random() <= 0.5:
-                    sinatra.vie -= d
-            affichage.affichageanimennemi(d)
-            fennemi.verification()
 
+    def attaque(self):
+        fennemi.cible()
+        d = randint(200, 300)
+        if david.taunt > 0:
+            david.vie -= (d - david.armure)
+        elif fennemi.p == 2:
+            if not david.immortal:
+                david.vie -= (d - david.armure)
+        elif fennemi.p == 1:
+            perso_joueur.vie -= (d - perso_joueur.armure)
+        elif fennemi.p == 3:
+            if random() <= 0.3 + (0.05 * sinatra.ptdodge):
+                sinatra.vie -= d
+        affichage.affichageanimennemi(d)
+        fennemi.verification()
+
+
+class malarich(ennemi):
+    def __init__(self, imageperso):
+        ennemi.__init__(self, imageperso)
+        self.vie = 1000
+        self.feu = 0
+
+    def attaque(self):
+        fennemi.cible()
+        u = randint(0, 2)
+        u=2
+        if u == 1:
+            d = randint(50, 60)
+        elif u == 2:
+            d = 10
+            if fennemi.p == 2:
+                lvie = list(str(david.vie))
+            elif fennemi.p == 1:
+                lvie = list(str(perso_joueur.vie))
+            elif fennemi.p == 3:
+                lvie = list(str(sinatra.vie))
+            if len(lvie)!=0:
+                0
+            random.shuffle(lvie)
+            for i in range(2):
+                if lvie[0]=="0":
+                    del lvie[0]
+            for i in range (len(lvie)):
+                str + lvie[i]
+            if fennemi.p == 2:
+                david.vie = int(lvie)
+            elif fennemi.p == 1:
+                perso_joueur.vie = int(lvie)
+            elif fennemi.p == 3:
+                sinatra.vie = int(lvie)
+        if u == 0:
+            self.feu = 3
+            d = 0
+
+        if david.taunt > 0:
+            david.vie -= (d - david.armure)
+        elif fennemi.p == 2:
+            if not david.immortal:
+                david.vie -= (d - david.armure)
+        elif fennemi.p == 1:
+            perso_joueur.vie -= (d - perso_joueur.armure)
+        elif fennemi.p == 3:
+            if random() <= 0.3 + (0.05 * sinatra.ptdodge):
+                sinatra.vie -= d
+        affichage.affichageanimennemi(d)
+        fennemi.verification()
 
 
 fichier = open("quetes/mobmort", "r")
@@ -432,14 +500,15 @@ perso_joueur = perso1()
 david = perso2()
 sinatra = perso3()
 loup = loup("imagebonhomme/ennemi/cerberus.png")
-soldat = soldat("mob/loup_mini.png")
+soldat = soldatpt("mob/soldier.png")
+malarich = malarich("mob/darklord.png")
 base = menu()
 objet = menu()
 attaque = menu()
-soin = sac(1,"animation/nbsoin.png")
-resurection = sac(1,"animation/nbresurect.png")
-mana=sac(1,"animation/mana.png")
+soin = sac(1, "animation/nbsoin.png")
+resurection = sac(1, "animation/nbresurect.png")
+mana = sac(1, "animation/mana.png")
 combat = bataille()
-enemitipe=ennemi("imagebonhomme/ennemi/cerberus.png")
-fennemi=attaqueennemi()
-affichage=affichage()
+enemitipe = ennemi("imagebonhomme/ennemi/cerberus.png")
+fennemi = attaqueennemi()
+affichage = affichage()

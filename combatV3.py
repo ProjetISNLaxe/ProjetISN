@@ -1,7 +1,6 @@
 ﻿import pygame
 from pygame.locals import *
 from random import *
-from fennemi import *
 import time
 from classes_tpt import *
 from save import *
@@ -9,6 +8,34 @@ from save import *
 pygame.init()
 
 fenetre = pygame.display.set_mode((800, 600))
+
+def attaqued(d,nomennemie):
+    if nomennemie == "loup":
+        loup.vie -= d
+        if loup.vie <= 0:
+            perso_joueur.xp += 50
+            david.xp+=50
+            if sinatra.active==True:
+                sinatra.xp+=50
+            savetpt()
+            combat.etat = "victoire"
+    if nomennemie == "soldat":
+        if soldat.vie <= 0:
+            perso_joueur.xp += 50
+            david.xp += 50
+            if sinatra.active == True:
+                sinatra.xp += 50
+            savetpt()
+            combat.etat = "victoire"
+    if nomennemie == "malarich":
+        malarich.vie -= d
+        if malarich.vie <= 0:
+            perso_joueur.xp += 50
+            david.xp += 50
+            if sinatra.active == True:
+                sinatra.xp += 50
+            savetpt()
+            combat.etat = "victoire"
 
 
 def menubase(choix, c):
@@ -212,18 +239,7 @@ def tourpartour(fenetre): # fonction principale avec variables
                     choix, a, c = menuobjet(choix, a, c)
                 elif base.menu_ == 1:
                     choix, c = menubase(choix, c)
-            if nomennemie == "loup":
-                loup.vie -= d
-                if loup.vie <= 0:
-                    perso_joueur.xp += 50
-                    save()
-                    combat.etat = "victoire"
-            if nomennemie == "soldat":
-                soldat.vie -= d
-                if soldat.vie <= 0:
-                    perso_joueur.xp += 50
-                    save()
-                    combat.etat = "victoire"
+            attaqued(d,nomennemie)
 
             if a == 1:
                 affichage.affichageanim(d)
@@ -287,25 +303,14 @@ def tourpartour(fenetre): # fonction principale avec variables
                     choix, a, c = menuobjet(choix, a, c)
                 elif base.menu_ == 1:
                     choix, c = menubase(choix, c)
-            if nomennemie == "loup":
-                loup.vie -= d
-                if loup.vie <= 0:
-                    perso_joueur.xp += 50
-                    save()
-                    combat.etat = "victoire"
-            if nomennemie == "soldat":
-                soldat.vie -= d
-                if soldat.vie <= 0:
-                    perso_joueur.xp += 50
-                    save()
-                    combat.etat = "victoire"
+            attaqued(d, nomennemie)
             if a == 1 or david.taunt > 0:
                 if a == 1:
                     affichage.affichageanim(d)
                     d = 0
                 if sinatra.alive and sinatra.active:
                     combat.tour = 3
-                else:
+                else :
                     combat.tour = 0
                 c = False
                 a = 0
@@ -346,18 +351,7 @@ def tourpartour(fenetre): # fonction principale avec variables
                     choix, a, c = menuobjet(choix, a, c)
                 elif base.menu_ == 1:
                     choix, c = menubase(choix, c)
-            if nomennemie == "loup":
-                loup.vie -= d
-                if loup.vie <= 0:
-                    perso_joueur.xp += 50
-                    save()
-                    combat.etat = "victoire"
-            if nomennemie == "soldat":
-                soldat.vie -= d
-                if soldat.vie <= 0:
-                    perso_joueur.xp += 50
-                    save()
-                    combat.etat = "victoire"
+            attaqued(d, nomennemie)
             if a == 1:
                 affichage.affichageanim(d)
                 d = 0
@@ -378,6 +372,8 @@ def tourpartour(fenetre): # fonction principale avec variables
                 loup.attaque()
             elif nomennemie == "soldat":
                 soldat.attaque()
+            elif nomennemie == "malarich":
+                malarich.attaque()
             if not perso_joueur.alive:
                 combat.tour = 2
             elif not david.alive and sinatra.active:
@@ -392,6 +388,9 @@ def tourpartour(fenetre): # fonction principale avec variables
         if nomennemie == "soldat":
             enemitipe.vie = soldat.vie
             enemitipe.image = soldat.image
+        if nomennemie == "malarich":
+            enemitipe.vie = malarich.vie
+            enemitipe.image = malarich.image
 
 
         affichage.affichage(action, choix)
@@ -399,6 +398,7 @@ def tourpartour(fenetre): # fonction principale avec variables
         if not david.alive and not perso_joueur.alive and not sinatra.alive:
             fermeture_plus_save()
             combat.etat = "mort"
+
 
 
         clock.tick(60)
