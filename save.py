@@ -6,7 +6,7 @@ from affichage import *
 import time
 from classes_tpt import *
 
-def fermeture_plus_save():
+def savetpt():
     fichier = open("save1\\pv\\pvp1", "w")
     fichier.write(str(perso_joueur.vie))
     fichier.close()
@@ -82,8 +82,12 @@ def fermeture_plus_save():
     fichier = open("save1\\ptcompetance\\ptmana", "w")
     fichier.write(str(perso_joueur.ptmana))
     fichier.close()
-    pygame.quit()
-    exit()
+    fichier = open("save1\\ptcompetance\\ptdodge", "w")
+    fichier.write(str(sinatra.ptdodge))
+    fichier.close()
+    fichier = open("save1\\ptcompetance\\ptbouclier", "w")
+    fichier.write(str(perso_joueur.ptbouclier))
+    fichier.close()
 
 
 def chargementsauvegarde():
@@ -161,6 +165,12 @@ def chargementsauvegarde():
     fichier.close()
     fichier = open("save1\\ptcompetance\\ptmana", "r")
     perso_joueur.ptmana = int(fichier.read())
+    fichier = open("save1\\ptcompetance\\ptdodge", "r")
+    sinatra.ptdodge= int(fichier.read())
+    fichier.close()
+    fichier = open("save1\\ptcompetance\\ptbouclier", "r")
+    perso_joueur.ptbouclier= int(fichier.read())
+    fichier.close()
     fichier.close()
 
 
@@ -239,4 +249,10 @@ def resetsauvegarde():
     fichier.close()
     fichier = open("save1\\ptcompetance\\ptmana", "w")
     fichier.write(str(0))
+    fichier = open("save1\\ptcompetance\\ptdodge", "w")
+    fichier.write(str(0))
+    fichier.close()
+    fichier = open("save1\\ptcompetance\\ptbouclier", "w")
+    fichier.write(str(0))
+    fichier.close()
     fichier.close()
