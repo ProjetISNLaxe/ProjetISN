@@ -32,7 +32,7 @@
    
 -Possibilité d'accéder à un mini-jeu (simplement le Snake, à ameliorer)
 
--Arbre de compétance (TAB dans l'inventaire) (à améliorer)
+-Arbre de compétance (TAB dans l'inventaire) 
 
--Combats tour par tour présent mais non implémenté (Pas de mob pour l'instant)
+-Combats tour par tour présent 
 
