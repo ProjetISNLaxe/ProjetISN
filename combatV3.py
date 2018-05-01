@@ -11,8 +11,9 @@ fenetre = pygame.display.set_mode((800, 600))
 
 def attaqued(d,nomennemie):
     if nomennemie == "loup":
-        loup.vie -= d
+        loup.vie -= (d)
         if loup.vie <= 0:
+            loup.vie = 150
             perso_joueur.xp += 50
             david.xp+=50
             if sinatra.active==True:
@@ -20,7 +21,8 @@ def attaqued(d,nomennemie):
             savetpt()
             combat.etat = "victoire"
     if nomennemie == "soldat":
-        if soldat.vie <= 0:
+        if soldatpt.vie <= 0:
+            soldatpt.vie = 300
             perso_joueur.xp += 50
             david.xp += 50
             if sinatra.active == True:
@@ -30,12 +32,49 @@ def attaqued(d,nomennemie):
     if nomennemie == "malarich":
         malarich.vie -= d
         if malarich.vie <= 0:
+            perso_joueur.xp += 150
+            david.xp += 150
+            sinatra.xp += 150
+            savetpt()
+            combat.etat = "victoire"
+    if nomennemie == "avalogne":
+        avalogne.vie -= d
+        if avalogne.vie <= 0:
+            avalogne.vie = 200
             perso_joueur.xp += 50
             david.xp += 50
             if sinatra.active == True:
                 sinatra.xp += 50
             savetpt()
             combat.etat = "victoire"
+    if nomennemie == "voleur":
+        voleur.vie -= d
+        if voleur.vie <= 0:
+            voleur.vie = 120
+            voleur.poison = 0
+            perso_joueur.xp += 50
+            david.xp += 50
+            savetpt()
+            combat.etat = "victoire"
+    if nomennemie == "hornet":
+        hornet.vie -= d
+        if hornet.vie <= 0:
+            hornet.vie = 200
+            perso_joueur.xp += 50
+            david.xp += 50
+            if sinatra.active == True:
+                sinatra.xp += 50
+            savetpt()
+            combat.etat = "victoire"
+    if nomennemie == "goddess":
+        goddess.vie -= d
+        if goddess.vie <= 0:
+            perso_joueur.xp += 2000
+            david.xp += 2000
+            sinatra.xp += 2000
+            savetpt()
+            combat.etat = "victoire"
+
 
 
 def menubase(choix, c):
@@ -54,6 +93,12 @@ def menubase(choix, c):
 
 
 def menuobjet(choix, a, c):
+    if choix == 4 and c:
+        c = False
+        base.menu_ = 1
+        objet.menu_ = 0
+        choix=1
+
     if choix == 3 and c:
         if combat.tour == 1:
             mana.quantite -= 1
@@ -71,10 +116,16 @@ def menuobjet(choix, a, c):
     elif choix == 2 and soin.quantite > 0 and a == 0 and c:
         if david.ingame:
             david.vie += 50
+            if david.viemax<david.vie:
+                david.vie=david.viemax
         elif perso_joueur.ingame:
             perso_joueur.vie += 50
+            if perso_joueur.viemax<perso_joueur.vie:
+                perso_joueur.vie=perso_joueur.viemax
         elif sinatra.ingame:
             sinatra.vie += 50
+            if sinatra.viemax<sinatra.vie:
+                sinatra.vie=sinatra.viemax
         soin.quantite -= 1
         c = False
         base.menu_ = 1
@@ -117,14 +168,13 @@ def menuobjet(choix, a, c):
     return choix, a, c
 
 
-def tourpartour(fenetre): # fonction principale avec variables
+def tourpartour(): # fonction principale avec variables
     fichier = open("quetes/mobmort", "r")
     nomennemie = fichier.read()
     fichier.close()
 
 
     chargementsauvegarde()
-    resetsauvegarde()
     action = ["attaque", "objet", "fuite", ""]
     perso_joueur.ingame = True
 
@@ -188,14 +238,14 @@ def tourpartour(fenetre): # fonction principale avec variables
                     choix = 1
                     c = False
                 if choix == 1 and attaque.menu_ == 1 and c:
-                    d = randint(1, 5) + 10
+                    d = randint(1, 5) + 10+(perso_joueur.ptforce*2)
                     a = 1
                     c = False
                     attaque.menu_ = 0
                     base.menu_ = 1
                 if choix == 3 and attaque.menu_ == 1 and c:
                     if perso_joueur.sortdefeu == True and perso_joueur.mana > 14:
-                        d = 15 + perso_joueur.bonusmagique
+                        d = 15 + perso_joueur.bonusmagique+(perso_joueur.ptforce*1)
                         perso_joueur.mana -= 15
                         a = 1
                         c = False
@@ -221,7 +271,7 @@ def tourpartour(fenetre): # fonction principale avec variables
                         perso_joueur.mana -= 15
 
                 if choix == 2 and attaque.menu_ == 1 and c and perso_joueur.fleche > 0:
-                    d = 13
+                    d = 13+(perso_joueur.ptforce*2)
                     perso_joueur.fleche -= 1
                     a = 1
                     c = False
@@ -254,6 +304,10 @@ def tourpartour(fenetre): # fonction principale avec variables
                     combat.tour = 2
                 c = False
                 a = 0
+                if perso_joueur.empoisoner>0:
+                    perso_joueur.empoisoner-=1
+                    perso_joueur.vie-=10
+
             if attaque.menu_ == 1:
                 if perso_joueur.sortdefeu == True:
                     action = ["l'epee", "arc", "sort de feu", "retour"]
@@ -286,7 +340,7 @@ def tourpartour(fenetre): # fonction principale avec variables
                     david.immortal = True
                     combat.anim = 5
                 if choix == 1 and attaque.menu_ == 1 and c:
-                    d = randint(10, 20)
+                    d = randint(10, 20)+(david.ptforce*2)
                     a = 1
                     c = False
                     attaque.menu_ = 0
@@ -316,6 +370,9 @@ def tourpartour(fenetre): # fonction principale avec variables
                 a = 0
                 if david.taunt > 0:
                     david.taunt -= 1
+                if david.empoisoner>0:
+                    david.empoisoner-=1
+                    david.vie-=10
             if attaque.menu_ == 1:
                 action = ["tatane de faurins", "insulte", "defense", "retour"]
             elif base.menu_ == 1:
@@ -335,7 +392,7 @@ def tourpartour(fenetre): # fonction principale avec variables
                     choix = 1
                     c = False
                 if choix == 1 and attaque.menu_ == 1 and c:
-                    d = 20
+                    d = 20+(sinatra.ptforce*2)
                     a = 1
                     c = False
                     attaque.menu_ = 0
@@ -369,35 +426,80 @@ def tourpartour(fenetre): # fonction principale avec variables
 
         elif combat.tour == 0:
             if nomennemie == "loup":
+                if sinatra.poison:
+                    loup.vie -= 10
                 loup.attaque()
             elif nomennemie == "soldat":
-                soldat.attaque()
+                if sinatra.poison:
+                    soldatpt.vie -= 10
+                soldatpt.attaque()
             elif nomennemie == "malarich":
+                if sinatra.poison:
+                    malarich.vie -= 10
                 malarich.attaque()
+            elif nomennemie == "avalogne":
+                if sinatra.poison:
+                    avalogne.vie -= 10
+                avalogne.attaque()
+            elif nomennemie == "voleur":
+                if sinatra.poison:
+                    voleur.vie -= 10
+                voleur.attaque()
+            elif nomennemie == "hornet":
+                if sinatra.poison:
+                    hornet.vie -= 10
+                hornet.attaque()
+            elif nomennemie == "goddess":
+                if sinatra.poison:
+                    goddess.vie -= 10
+                goddess.attaque()
             if not perso_joueur.alive:
                 combat.tour = 2
             elif not david.alive and sinatra.active:
                 combat.tour = 3
             else:
                 combat.tour = 1
-            if sinatra.poison:
-                loup.vie -= 10
+
+            if goddess.malediction > 0:
+                perso_joueur.vie -= 10
+                david.vie -= 10
+                sinatra.vie -= 10
+                goddess.vie += 30
+                goddess.malediction -= 1
+                if perso_joueur.vie<0:
+                    perso_joueur.vie=0
+                if david.vie<0:
+                    david.vie=0
+                if sinatra.vie<0:
+                    sinatra.vie=0
+                fennemi.verification()
+
         if nomennemie == "loup":
             enemitipe.vie = loup.vie
             enemitipe.image = loup.image
         if nomennemie == "soldat":
-            enemitipe.vie = soldat.vie
-            enemitipe.image = soldat.image
+            enemitipe.vie = soldatpt.vie
+            enemitipe.image = soldatpt.image
         if nomennemie == "malarich":
             enemitipe.vie = malarich.vie
             enemitipe.image = malarich.image
+        if nomennemie == "avalogne":
+            enemitipe.vie = avalogne.vie
+            enemitipe.image = avalogne.image
+        if nomennemie == "voleur":
+            enemitipe.vie = voleur.vie
+            enemitipe.image = voleur.image
+        if nomennemie == "hornet":
+            enemitipe.vie = hornet.vie
+            enemitipe.image = hornet.image
+        if nomennemie == "goddess":
+            enemitipe.vie = goddess.vie
+            enemitipe.image = goddess.image
 
 
         affichage.affichage(action, choix)
 
-        if not david.alive and not perso_joueur.alive and not sinatra.alive:
-            fermeture_plus_save()
-            combat.etat = "mort"
+
 
 
 

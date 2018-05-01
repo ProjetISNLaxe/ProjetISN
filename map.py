@@ -53,6 +53,10 @@ def chargement():
 
 
 def capitale(fenetre):
+    fichier = open("quetes/mobmort", "w")
+    fichier.write("voleur")
+    fichier.close()
+
     global capitaleload
     capitaleload = True
 
@@ -152,12 +156,16 @@ def capitale(fenetre):
             if event.type == KEYUP:
                 if event.key == K_DOWN:
                     perso.imageperso = perso.F1
+                    print("bas")
                 if event.key == K_UP:
                     perso.imageperso = perso.B1
+                    print("haut")
                 if event.key == K_RIGHT:
                     perso.imageperso = perso.R1
+                    print("droite")
                 if event.key == K_LEFT:
                     perso.imageperso = perso.L1
+                    print("gauche")
         perso.eventkey(position, masque, taille)
         tkey = pygame.key.get_pressed()
 

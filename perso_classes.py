@@ -1,5 +1,8 @@
 import pygame
 from pygame.locals import *
+from random import *
+from combatV3 import *
+import random
 import time
 
 
@@ -34,6 +37,8 @@ class Personnage(pygame.sprite.Sprite):
         self.allowedDmap = True
 
     def moveTop(self):
+        if random.random() <= 0.005:
+            tourpartour()
         self.inc += 1
         if self.inc == 1:
             self.imageperso = self.B1
@@ -49,6 +54,8 @@ class Personnage(pygame.sprite.Sprite):
             self.moveT = False
 
     def moveRight(self):
+        if random.random() <= 0.005:
+            tourpartour()
         self.inc += 1
         if self.inc == 1:
             self.imageperso = self.R1
@@ -64,6 +71,8 @@ class Personnage(pygame.sprite.Sprite):
             self.moveR = False
 
     def moveLeft(self):
+        if random.random() <= 0.005:
+            tourpartour()
         self.inc += 1
         if self.inc == 1:
             self.imageperso = self.L1
@@ -79,6 +88,8 @@ class Personnage(pygame.sprite.Sprite):
             self.moveL = False
 
     def moveDown(self):
+        if random.random() <= 0.005:
+            tourpartour()
         self.inc += 1
         if self.inc == 1:
             self.imageperso = self.F1
@@ -94,6 +105,8 @@ class Personnage(pygame.sprite.Sprite):
             self.moveD = False
 
     def mapDown(self, position):
+        if random.random() <= 0.005:
+            tourpartour()
         self.inc += 1
         if self.inc == 1:
             self.imageperso = self.F1
@@ -109,6 +122,8 @@ class Personnage(pygame.sprite.Sprite):
             self.moveDmap = False
 
     def mapLeft(self, position):
+        if random.random() <= 0.005:
+            tourpartour()
         self.inc += 1
         if self.inc == 1:
             self.imageperso = self.L1
@@ -124,6 +139,8 @@ class Personnage(pygame.sprite.Sprite):
             self.moveLmap = False
 
     def mapRight(self, position):
+        if random.random() <= 0.005:
+            tourpartour()
         self.inc += 1
         if self.inc == 1:
             self.imageperso = self.R1
@@ -139,6 +156,8 @@ class Personnage(pygame.sprite.Sprite):
             self.moveRmap = False
 
     def mapTop(self, position):
+        if random.random() <= 0.005:
+            tourpartour()
         self.inc += 1
         if self.inc == 1:
             self.imageperso = self.B1
