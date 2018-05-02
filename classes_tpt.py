@@ -286,7 +286,8 @@ class affichage():
         if objet.menu_ == 1:
             fenetre.blit(my_font.render(str(soin.quantite), False, (255, 255, 255)), (670, 520))
             fenetre.blit(my_font.render(str(resurection.quantite), False, (255, 255, 255)), (670, 500))
-            fenetre.blit(my_font.render(str(mana.quantite), False, (255, 255, 255)), (670, 540))
+            if combat.tour==1:
+                fenetre.blit(my_font.render(str(mana.quantite), False, (255, 255, 255)), (670, 540))
         if combat.tour == 1:
             if not sinatra.active:
                 david.rect = position2  # endroit de spawn du perso
