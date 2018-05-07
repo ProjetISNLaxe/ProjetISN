@@ -69,7 +69,8 @@ class bataille:
 
 
 class perso(pygame.sprite.Sprite):
-    def __init__(self, imageperso, imageperso2):
+    def __init__(self, imageperso, imageperso2, *groups):
+        super().__init__(*groups)
         self.image = pygame.image.load(imageperso).convert_alpha()
         self.image2 = pygame.image.load(imageperso2).convert_alpha()
         self.rect = self.image.get_rect()
@@ -286,8 +287,7 @@ class affichage():
         if objet.menu_ == 1:
             fenetre.blit(my_font.render(str(soin.quantite), False, (255, 255, 255)), (670, 520))
             fenetre.blit(my_font.render(str(resurection.quantite), False, (255, 255, 255)), (670, 500))
-            if combat.tour==1:
-                fenetre.blit(my_font.render(str(mana.quantite), False, (255, 255, 255)), (670, 540))
+            fenetre.blit(my_font.render(str(mana.quantite), False, (255, 255, 255)), (670, 540))
         if combat.tour == 1:
             if not sinatra.active:
                 david.rect = position2  # endroit de spawn du perso
@@ -474,7 +474,8 @@ class affichage():
 
 
 class ennemi(pygame.sprite.Sprite):
-    def __init__(self, imageperso):
+    def __init__(self, imageperso, *groups):
+        super().__init__(*groups)
         self.image = pygame.image.load(imageperso).convert_alpha()
         self.rect = self.image.get_rect()
         self.alive = False
@@ -483,7 +484,7 @@ class ennemi(pygame.sprite.Sprite):
 class loup(ennemi):
     def __init__(self):
         ennemi.__init__(self, "imagebonhomme/ennemi/cerberus.png")
-        self.vie = 250
+        self.vie = 50
 
     def attaque(self):
         fennemi.cible()
@@ -646,7 +647,7 @@ class voleur(ennemi):
                 perso_joueur.vie -= (d - perso_joueur.armure)
         else:
             d = 0
-            varanim=5
+            varanim=1
             if david.taunt > 0:
                 david.empoisonner = 3
             elif fennemi.p == 2:
@@ -656,7 +657,44 @@ class voleur(ennemi):
         affichage.affichageanimennemi(d, varanim)
         fennemi.verification()
 
+class sinatramechante(ennemi):
+    def __init__(self):
+        ennemi.__init__(self, "imagebonhomme/perso3/perso3armurebase.png")
+        self.vie = 150
+        self.poison = False
+        self.esquive=False
 
+    def attaque(self):
+        fennemi.cible()
+        u = randint(0, 1)
+        varanim = 0
+        if u == 0:
+            d = randint(45, 55)
+            if david.taunt > 0:
+                david.vie -= (d - david.armure)
+            elif fennemi.p == 2:
+                if not david.immortal:
+                    david.vie -= (d - david.armure)
+            elif fennemi.p == 1:
+                perso_joueur.vie -= (d - perso_joueur.armure)
+        else:
+            d = 0
+            varanim=1
+            if self.poison==False:
+                self.poison=True
+            else:
+                d=45
+                varanim = 0
+                if david.taunt > 0:
+                    david.vie -= (d - david.armure)
+                elif fennemi.p == 2:
+                    if not david.immortal:
+                        david.vie -= (d - david.armure)
+                elif fennemi.p == 1:
+                    perso_joueur.vie -= (d - perso_joueur.armure)
+
+        affichage.affichageanimennemi(d, varanim)
+        fennemi.verification()
 class hornet(ennemi):
     def __init__(self):
         ennemi.__init__(self, "mob/Hornet.png")
@@ -685,15 +723,17 @@ class goddess(ennemi):
         ennemi.__init__(self, "mob/Goddess.png")
         self.vie = 3000
         self.malediction=0
+        self.soin=1
 
     def attaque(self):
         varanim=0
         fennemi.cible()
-        if self.vie<=1000:
+        if self.vie<=1000 and self.soin>0:
             self.vie+=1000
             d=0
             varanim = 5
             sinatra.poison=False
+            self.soin-=1
         elif self.malediction==0:
             self.malediction=5
             d=0
@@ -746,6 +786,7 @@ avalogne = avalogne()
 voleur = voleur()
 hornet = hornet()
 goddess=goddess()
+sinatramechante=sinatramechante()
 base = menu()
 objet = menu()
 attaque = menu()

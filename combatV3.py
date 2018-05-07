@@ -12,26 +12,26 @@ fenetre = pygame.display.set_mode((800, 600))
 def attaqued(d,nomennemie):
     if nomennemie == "loup":
         loup.vie -= (d)
-        if loup.vie <= 0:
+        if loup.vie <= 0 or combat.etat == "fuite":
             loup.vie = 150
             perso_joueur.xp += 50
             david.xp+=50
-            if sinatra.active==True:
+            if sinatra.active:
                 sinatra.xp+=50
             savetpt()
             combat.etat = "victoire"
     if nomennemie == "soldat":
-        if soldatpt.vie <= 0:
+        if soldatpt.vie <= 0 or combat.etat == "fuite":
             soldatpt.vie = 300
             perso_joueur.xp += 50
             david.xp += 50
-            if sinatra.active == True:
+            if sinatra.active:
                 sinatra.xp += 50
             savetpt()
             combat.etat = "victoire"
     if nomennemie == "malarich":
         malarich.vie -= d
-        if malarich.vie <= 0:
+        if malarich.vie <= 0 or combat.etat == "fuite":
             perso_joueur.xp += 150
             david.xp += 150
             sinatra.xp += 150
@@ -39,45 +39,64 @@ def attaqued(d,nomennemie):
             combat.etat = "victoire"
     if nomennemie == "avalogne":
         avalogne.vie -= d
-        if avalogne.vie <= 0:
+        if avalogne.vie <= 0 or combat.etat == "fuite":
             avalogne.vie = 200
             perso_joueur.xp += 50
             david.xp += 50
-            if sinatra.active == True:
+            if sinatra.active:
                 sinatra.xp += 50
             savetpt()
             combat.etat = "victoire"
     if nomennemie == "voleur":
         voleur.vie -= d
-        if voleur.vie <= 0:
+        if voleur.poison>0:
+            voleur.poison-=1
+            david.vie-=10
+            perso_joueur.vie-=10
+        if voleur.vie <= 0 or combat.etat == "fuite":
             voleur.vie = 120
             voleur.poison = 0
             perso_joueur.xp += 50
             david.xp += 50
             savetpt()
             combat.etat = "victoire"
+    if nomennemie == "sinatramechante":
+        if random.random() <= 0.5:
+            d=0
+        sinatramechante.vie -= d
+        if sinatramechante.poison==True:
+            david.vie-=10
+            perso_joueur.vie-=10
+        if sinatramechante.vie <= 0 or combat.etat == "fuite":
+            sinatramechante.vie = 150
+            sinatramechante.poison = False
+            perso_joueur.xp += 50
+            david.xp += 50
+            savetpt()
+            combat.etat = "victoire"
     if nomennemie == "hornet":
         hornet.vie -= d
-        if hornet.vie <= 0:
+        if hornet.vie <= 0 or combat.etat == "fuite":
             hornet.vie = 200
             perso_joueur.xp += 50
             david.xp += 50
-            if sinatra.active == True:
+            if sinatra.active:
                 sinatra.xp += 50
             savetpt()
             combat.etat = "victoire"
     if nomennemie == "goddess":
         goddess.vie -= d
-        if goddess.vie <= 0:
+        if goddess.vie <= 0 or combat.etat == "fuite":
             perso_joueur.xp += 2000
             david.xp += 2000
             sinatra.xp += 2000
             savetpt()
             combat.etat = "victoire"
+    return d
 
 
 
-def menubase(choix, c):
+def menubase(choix, c,nomennemie):
     if choix == 1 and c:
         attaque.menu_ = 1
         base.menu_ = 0
@@ -88,7 +107,13 @@ def menubase(choix, c):
         c = False
         choix = 1
     elif choix == 3 and c:
-        combat.etat = "fuite"
+        if random.random() <= 0.5:
+            combat.etat = "fuite"
+            d=0
+            d=attaqued(d, nomennemie)
+            combat.etat = "fuite"
+        else:
+            combat.tour=0
     return choix, c
 
 
@@ -172,7 +197,8 @@ def tourpartour(): # fonction principale avec variables
     fichier = open("quetes/mobmort", "r")
     nomennemie = fichier.read()
     fichier.close()
-
+    if nomennemie=="":
+        return
 
     chargementsauvegarde()
     action = ["attaque", "objet", "fuite", ""]
@@ -288,7 +314,7 @@ def tourpartour(): # fonction principale avec variables
                 if objet.menu_ == 1:
                     choix, a, c = menuobjet(choix, a, c)
                 elif base.menu_ == 1:
-                    choix, c = menubase(choix, c)
+                    choix, c = menubase(choix, c,nomennemie)
             attaqued(d,nomennemie)
 
             if a == 1:
@@ -309,7 +335,7 @@ def tourpartour(): # fonction principale avec variables
                     perso_joueur.vie-=10
 
             if attaque.menu_ == 1:
-                if perso_joueur.sortdefeu == True:
+                if perso_joueur.sortdefeu:
                     action = ["l'epee", "arc", "sort de feu", "retour"]
                 else:
                     action = ["l'epee", "arc", "Vous ne savez pas lancer de sort", "retour"]
@@ -356,8 +382,8 @@ def tourpartour(): # fonction principale avec variables
                 if objet.menu_ == 1:
                     choix, a, c = menuobjet(choix, a, c)
                 elif base.menu_ == 1:
-                    choix, c = menubase(choix, c)
-            attaqued(d, nomennemie)
+                    choix, c = menubase(choix, c,nomennemie)
+            d=attaqued(d, nomennemie)
             if a == 1 or david.taunt > 0:
                 if a == 1:
                     affichage.affichageanim(d)
@@ -407,8 +433,8 @@ def tourpartour(): # fonction principale avec variables
                 if objet.menu_ == 1:
                     choix, a, c = menuobjet(choix, a, c)
                 elif base.menu_ == 1:
-                    choix, c = menubase(choix, c)
-            attaqued(d, nomennemie)
+                    choix, c = menubase(choix, c,nomennemie)
+            d=attaqued(d, nomennemie)
             if a == 1:
                 affichage.affichageanim(d)
                 d = 0
@@ -442,23 +468,23 @@ def tourpartour(): # fonction principale avec variables
                     avalogne.vie -= 10
                 avalogne.attaque()
             elif nomennemie == "voleur":
-                if sinatra.poison:
-                    voleur.vie -= 10
                 voleur.attaque()
             elif nomennemie == "hornet":
                 if sinatra.poison:
                     hornet.vie -= 10
                 hornet.attaque()
+            elif nomennemie == "sinatramechante":
+                sinatramechante.attaque()
             elif nomennemie == "goddess":
                 if sinatra.poison:
                     goddess.vie -= 10
                 goddess.attaque()
-            if not perso_joueur.alive:
-                combat.tour = 2
-            elif not david.alive and sinatra.active:
-                combat.tour = 3
-            else:
+            if perso_joueur.alive:
                 combat.tour = 1
+            elif not perso_joueur.alive and david.alive:
+                combat.tour = 2
+            else:
+                combat.tour = 3
 
             if goddess.malediction > 0:
                 perso_joueur.vie -= 10
@@ -492,6 +518,9 @@ def tourpartour(): # fonction principale avec variables
         if nomennemie == "hornet":
             enemitipe.vie = hornet.vie
             enemitipe.image = hornet.image
+        if nomennemie == "sinatramechante":
+            enemitipe.vie = sinatramechante.vie
+            enemitipe.image = sinatramechante.image
         if nomennemie == "goddess":
             enemitipe.vie = goddess.vie
             enemitipe.image = goddess.image
